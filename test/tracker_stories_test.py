@@ -1,7 +1,9 @@
 import unittest
 
 
-from github_tracker_cli import TrackerStories
+from pivotal_tracker_integration import TrackerStories
+
+from github_tracker_domain import Story
 
 
 class StubTrackerApi():

@@ -2,7 +2,8 @@
 import unittest
 
 
-from github_tracker_cli import GithubIssues
+from github_integration import GithubIssues
+from github_tracker_domain import Issue
 
 
 class StubGithubApi():

@@ -2,6 +2,16 @@
 
 A tool to help link issues and stories between Github and Pivotal Tracker.
 
+## Development
+
+```
+export PIVOTAL_TRACKER_TOKEN='SOME_TOKEN'
+
+./scripts/build.sh
+```
+
+Note: the integration test suite needs a pivotal tracker api token to query tracker for project information
+
 Goal:
 
 ./github-tracker-cli --show-missing-issues
