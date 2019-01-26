@@ -24,13 +24,15 @@ class App():
         self._tracker_stories = tracker_stories
         self._github_issues = github_issues
     
-    def issues_not_in_tracker(self):
+    def issues_not_in_tracker(self, project_id, label):
         tracker_external_ids = [
             story.external_id()
             for story
-            in self._tracker_stories.fetch_by_label()]
+            in self._tracker_stories.fetch_by_label(project_id=project_id, label=label)]
         
         def not_in_tracker(issue):
+            print issue.number()
+            
             if str(issue.number()) in tracker_external_ids:
                 return False
 

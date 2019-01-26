@@ -1,32 +1,36 @@
-
 import requests
 
-DONE = 'DONE'
 
 from github_tracker_domain import Issue
 
+
 class GithubApi():
+    @staticmethod
+    def _make_url(path, current_page):
+        base_url = "https://api.github.com"
+        return "%s%s?page=%s" % (base_url, path, current_page)
+        
     def get(self, path):
         results = []
         current_page = 1
 
-        while current_page != DONE:
-            base_url = "https://api.github.com"
-            api_url = "%s%s?page=%s" % (base_url, path, current_page)
-            api_response = requests.get(api_url)
-
+        while True:
+            api_response = requests.get(self._make_url(path, current_page))
+            
             if api_response.status_code == 200:
                 values = api_response.json()
                 results.extend(values)
                 current_page += 1
             
                 if (len(values) == 0):
-                    current_page = DONE
+                    break;
             else:
-                current_page = DONE
+                raise RuntimeError('unable to fetch from github: %s, %s' % (api_response.status_code, api_response.text))
+
                     
         return results
 
+    
 def json_to_issue(json):
     return Issue(
         number = json['number']
