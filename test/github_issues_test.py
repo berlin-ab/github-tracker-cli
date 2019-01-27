@@ -22,12 +22,13 @@ class StubGithubApi():
 class GithubIssuesTest(unittest.TestCase):
     def test_it_can_fetch_github_issues(self):
         github_api = StubGithubApi()
+        github_repo = 'some/repo'
 
         github_api.stub_get([
             {'number': 45678, 'html_url': 'http://example.com'}
         ])
         
-        issues = GithubIssues(github_api).fetch()
+        issues = GithubIssues(github_api, github_repo).fetch()
         
         self.assertEqual(issues[0].number(), 45678)
         self.assertEqual(issues[0].url(), 'http://example.com')        
@@ -37,11 +38,11 @@ class GithubIssuesTest(unittest.TestCase):
         
         issues = GithubIssues(
             github_api,
-            '/github-issues-path'
+            'berlin-ab/some-repo'
         ).fetch()
         
         self.assertEqual(
             github_api.used_path,
-            '/github-issues-path'
+            '/repos/berlin-ab/some-repo/issues'
             )
         

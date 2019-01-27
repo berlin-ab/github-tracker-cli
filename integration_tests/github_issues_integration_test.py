@@ -12,7 +12,7 @@ class GithubIssuesIntegrationTest(unittest.TestCase):
 
         issues = GithubIssues(
             real_github_api,
-            '/repos/greenplum-db/gpdb/issues'
+            'greenplum-db/gpdb'
         ).fetch()
         
         numbers = [issue.number() for issue in issues]
@@ -25,7 +25,7 @@ class GithubIssuesIntegrationTest(unittest.TestCase):
         
         issues = GithubIssues(
             real_github_api,
-            '/repos/berlin-ab/gpdb/issues'
+            'berlin-ab/gpdb'
         ).fetch()
 
         numbers = [issue.number() for issue in issues]

@@ -39,9 +39,9 @@ def json_to_issue(json):
 
 
 class GithubIssues():
-    def __init__(self, github_api, path='/'):
+    def __init__(self, github_api, github_repo):
         self._github_api = github_api
-        self._path = path
+        self._path = "/repos/%s/issues" % github_repo
 
     def fetch(self):
         list_of_json = self._github_api.get(
