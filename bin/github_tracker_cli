@@ -11,22 +11,38 @@ def print_issue(issue):
     print "issue=%s : url=%s" % (issue.number(), issue.url())
 
     
+def display_issues(app, tracker_project_id, tracker_label):
+    map(print_issue,  app.issues_not_in_tracker(
+        project_id=tracker_project_id,
+        label=tracker_label,
+    ))
+    
+    
 def main():
-    tracker_api = PivotalTrackerApi(os.environ['PIVOTAL_TRACKER_TOKEN'])
+    pivotal_tracker_token = os.environ['PIVOTAL_TRACKER_TOKEN']
+    tracker_project_id = os.environ['PIVOTAL_TRACKER_PROJECT_ID']
+    tracker_label = os.environ['PIVOTAL_TRACKER_LABEL']
+    github_repo = 'berlin-ab/gpdb'
+    github_path = '/repos/%s/issues' % github_repo
+
+    tracker_api = PivotalTrackerApi(
+        api_token=pivotal_tracker_token
+    )
+    
     github_api = GithubApi()
 
     app = App(
-        tracker_stories = TrackerStories(tracker_api=tracker_api),
+        tracker_stories = TrackerStories(
+            tracker_api=tracker_api
+        ),
         github_issues = GithubIssues(
             github_api=github_api,
-            path='/repos/berlin-ab/gpdb/issues'
+            path=github_path
         )
     )
 
-    map(print_issue,  app.issues_not_in_tracker(
-        project_id=os.environ['PIVOTAL_TRACKER_PROJECT_ID'],
-        label=os.environ['PIVOTAL_TRACKER_LABEL'],
-    ))
-
+    display_issues(app, tracker_project_id, tracker_label)
+    
     
 main()
+
