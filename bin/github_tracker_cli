@@ -8,7 +8,7 @@ from github_tracker_domain import App
 
 
 def print_issue(issue):
-    print "issue=%s : url=%s" % (issue.number(), issue.url())
+    print "issue=%s : url=%s : story-title=[Github Issue #%s] " % (issue.number(), issue.url(), issue.number())
 
     
 def display_issues(app, tracker_project_id, tracker_label):
