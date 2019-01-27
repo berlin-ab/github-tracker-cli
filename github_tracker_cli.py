@@ -20,7 +20,7 @@ def display_issues(app, tracker_project_id, tracker_label):
     
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(prog='github_tracker_cli')
+    parser = argparse.ArgumentParser(prog='./bin/github_tracker_cli')
     parser.add_argument('--pivotal-tracker-token', required=True)
     parser.add_argument('--pivotal-tracker-project-id', required=True)
     parser.add_argument('--pivotal-tracker-label', required=True)
