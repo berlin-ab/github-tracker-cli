@@ -22,7 +22,7 @@ def main():
     pivotal_tracker_token = os.environ['PIVOTAL_TRACKER_TOKEN']
     tracker_project_id = os.environ['PIVOTAL_TRACKER_PROJECT_ID']
     tracker_label = os.environ['PIVOTAL_TRACKER_LABEL']
-    github_repo = 'berlin-ab/gpdb'
+    github_repo = os.environ['GITHUB_REPO']
     github_path = '/repos/%s/issues' % github_repo
 
     tracker_api = PivotalTrackerApi(
