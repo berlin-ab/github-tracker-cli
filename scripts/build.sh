@@ -7,3 +7,5 @@ pip install -r requirements.txt
 ./scripts/unit-test.sh
 
 ./scripts/integration-test.sh
+
+./scripts/example.bash
