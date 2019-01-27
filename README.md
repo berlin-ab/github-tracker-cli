@@ -26,6 +26,8 @@ issue=2 : url=https://github.com/berlin-ab/gpdb/issues/2 : story-title=[Github I
 
 ### Development
 
+#### Running the full test suite
+
 ```bash
 export PIVOTAL_TRACKER_TOKEN='SOME_TOKEN'
 
