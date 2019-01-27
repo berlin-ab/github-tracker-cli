@@ -1,3 +1,4 @@
+
 import unittest
 
 from github_tracker_domain import (Story, Issue, App)
@@ -22,7 +23,6 @@ class StubGithubIssues():
     def __init__(self):
         self._issues = []
 
-        
     def stub(self, issues):
         self._issues = issues
 
@@ -36,9 +36,9 @@ class IssuesNotInTrackerTest(unittest.TestCase):
         github_issues = StubGithubIssues()
 
         tracker_stories.stub([
-            Story(external_id='123'),
-            Story(external_id='789'),
-            Story(external_id=None)
+            Story(external_id='unimportant', title='[Github Issue #123] Some title.'),
+            Story(external_id='something', title='[Github Issue #789] Some other title.'),
+            Story(external_id=None, title='Non-github issue title')
         ])
         
         github_issues.stub([

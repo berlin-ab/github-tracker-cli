@@ -29,7 +29,8 @@ class PivotalTrackerApi():
 def transform_json_to_story(json):
     return Story(
         story_id=json.get('id', None),
-        external_id=json.get('external_id', None)
+        external_id=json.get('external_id', None),
+        title=json.get('name', None)
     )
     
 

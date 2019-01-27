@@ -8,11 +8,13 @@ class Issue():
 
     def url(self):
         return self._url
-        
+
+    
 class Story():
-    def __init__(self, story_id = None, external_id = None):
+    def __init__(self, story_id = None, external_id = None, title=''):
         self._story_id = story_id
         self._external_id = external_id
+        self._title = title
 
     def external_id(self):
         return self._external_id
@@ -20,6 +22,9 @@ class Story():
     def story_id(self):
         return self._story_id
 
+    def title(self):
+        return self._title
+    
     
 class App():
     
@@ -28,14 +33,15 @@ class App():
         self._github_issues = github_issues
     
     def issues_not_in_tracker(self, project_id, label):
-        tracker_external_ids = [
-            story.external_id()
+        tracker_titles = [
+            story.title()
             for story
             in self._tracker_stories.fetch_by_label(project_id=project_id, label=label)]
         
         def not_in_tracker(issue):
-            if str(issue.number()) in tracker_external_ids:
-                return False
+            for tracker_title in tracker_titles:
+                if ("Github Issue #%s" % issue.number()) in tracker_title:
+                    return False
 
             return True
 
