@@ -5,10 +5,29 @@ A tool to help link issues and stories between Github and Pivotal Tracker.
 * Look through all Pivotal Tracker stories and find ones marked with a 'github-issue' label and with a title starting with "[Github Issue #123] Some title".  If there are open issues that do not have a corresponding story, display a url to the issue so that a story can be created for the issue.
 
 ```bash
-usage: ./bin/github_tracker_cli [-h] --pivotal-tracker-token PIVOTAL_TRACKER_TOKEN
-                          --pivotal-tracker-project-id
-                          PIVOTAL_TRACKER_PROJECT_ID --pivotal-tracker-label
-                          PIVOTAL_TRACKER_LABEL --github-repo GITHUB_REPO
+usage: ./bin/github_tracker_cli [-h] --pivotal-tracker-token
+                                PIVOTAL_TRACKER_TOKEN
+                                --pivotal-tracker-project-id
+                                PIVOTAL_TRACKER_PROJECT_ID
+                                --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
+                                --github-repo GITHUB_REPO
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --pivotal-tracker-token PIVOTAL_TRACKER_TOKEN
+                        Your personal pivotal tracker api token. See https://w
+                        ww.pivotaltracker.com/help/articles/api_token/
+  --pivotal-tracker-project-id PIVOTAL_TRACKER_PROJECT_ID
+                        Pivotal Tracker project id.
+                        https://www.pivotaltracker.com/n/projects/[PROJECTID]
+  --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
+                        A label used to categorize stories in Pivotal Tracker.
+                        For example: some-label
+  --github-repo GITHUB_REPO
+                        The organization/username and repository name as a
+                        string. For example: https://github.com/berlin-ab
+                        /github-tracker-cli would use --github-repo='berlin-ab
+                        /github-tracker-cli'						  
 ```
 
 ### Example
