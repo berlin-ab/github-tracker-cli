@@ -4,6 +4,13 @@ A tool to help link issues and stories between Github and Pivotal Tracker.
 
 * Look through all Pivotal Tracker stories and find ones marked with a 'github-issue' label and with a title starting with "[Github Issue #123] Some title".  If there are open issues that do not have a corresponding story, display a url to the issue so that a story can be created for the issue.
 
+```bash
+usage: github_tracker_cli [-h] --pivotal-tracker-token PIVOTAL_TRACKER_TOKEN
+                          --pivotal-tracker-project-id
+                          PIVOTAL_TRACKER_PROJECT_ID --pivotal-tracker-label
+                          PIVOTAL_TRACKER_LABEL --github-repo GITHUB_REPO
+```
+
 ### Example
 
 Shows all Github issues that do not have a corresponding Pivotal Tracker story.
