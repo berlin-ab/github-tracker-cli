@@ -42,15 +42,16 @@ class IssuesNotInTrackerTest(unittest.TestCase):
         ])
         
         github_issues.stub([
-            Issue(number=123),
-            Issue(number=456),
-            Issue(number=789)
+            Issue(number=123, url='http://example.com/foo'),
+            Issue(number=456, url='http://example.com/bar'),
+            Issue(number=789, url='http://example.com/baz'),
         ])
 
         app = App(tracker_stories, github_issues)
         issues = app.issues_not_in_tracker(project_id=123, label='something')
 
         self.assertEqual([456], [issue.number() for issue in issues])
+        self.assertIn('http://example.com/bar', [issue.url() for issue in issues])
 
     def test_tracker_stories_are_filtered_by_project_id_and_label(self):
         tracker_stories = StubTrackerStories()
@@ -60,5 +61,4 @@ class IssuesNotInTrackerTest(unittest.TestCase):
 
         self.assertEqual(123, tracker_stories.used_project_id)
         self.assertEqual('foobar', tracker_stories.used_label)
-
         

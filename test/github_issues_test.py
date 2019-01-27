@@ -24,12 +24,13 @@ class GithubIssuesTest(unittest.TestCase):
         github_api = StubGithubApi()
 
         github_api.stub_get([
-            {'number': 45678}
+            {'number': 45678, 'html_url': 'http://example.com'}
         ])
         
         issues = GithubIssues(github_api).fetch()
         
         self.assertEqual(issues[0].number(), 45678)
+        self.assertEqual(issues[0].url(), 'http://example.com')        
 
     def test_it_receives_the_github_issues_api_path_when_fetching(self):
         github_api = StubGithubApi()
@@ -43,3 +44,4 @@ class GithubIssuesTest(unittest.TestCase):
             github_api.used_path,
             '/github-issues-path'
             )
+        

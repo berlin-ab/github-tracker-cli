@@ -33,7 +33,8 @@ class GithubApi():
     
 def json_to_issue(json):
     return Issue(
-        number = json['number']
+        number = json['number'],
+        url = json['html_url'],
     )
 
 

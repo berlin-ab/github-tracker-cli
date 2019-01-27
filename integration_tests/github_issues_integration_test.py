@@ -9,7 +9,6 @@ from github_integration import (
 class GithubIssuesIntegrationTest(unittest.TestCase):
     def test_it_returns_real_issues(self):
         real_github_api = GithubApi()
-        
 
         issues = GithubIssues(
             real_github_api,

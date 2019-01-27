@@ -1,10 +1,13 @@
 class Issue():
-    def __init__(self, number):
+    def __init__(self, number, url):
         self._number = number
+        self._url = url
 
     def number(self):
         return self._number
 
+    def url(self):
+        return self._url
         
 class Story():
     def __init__(self, story_id = None, external_id = None):
