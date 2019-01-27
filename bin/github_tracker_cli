@@ -6,18 +6,27 @@ from github_integration import (GithubApi, GithubIssues)
 from pivotal_tracker_integration import (PivotalTrackerApi, TrackerStories)
 from github_tracker_domain import App
 
-tracker_api = PivotalTrackerApi(os.environ['PIVOTAL_TRACKER_TOKEN'])
-github_api = GithubApi()
 
-app = App(
-	tracker_stories = TrackerStories(tracker_api=tracker_api),
-	github_issues = GithubIssues(
+def print_issue(issue):
+    print "issue=%s" % issue.number()
+
+    
+def main():
+    tracker_api = PivotalTrackerApi(os.environ['PIVOTAL_TRACKER_TOKEN'])
+    github_api = GithubApi()
+
+    app = App(
+        tracker_stories = TrackerStories(tracker_api=tracker_api),
+        github_issues = GithubIssues(
             github_api=github_api,
             path='/repos/berlin-ab/gpdb/issues'
         )
-)
+    )
 
-print app.issues_not_in_tracker(
-    project_id=os.environ['PIVOTAL_TRACKER_PROJECT_ID'],
-    label=os.environ['PIVOTAL_TRACKER_LABEL'],
-)
+    map(print_issue,  app.issues_not_in_tracker(
+        project_id=os.environ['PIVOTAL_TRACKER_PROJECT_ID'],
+        label=os.environ['PIVOTAL_TRACKER_LABEL'],
+    ))
+
+    
+main()

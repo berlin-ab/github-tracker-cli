@@ -31,8 +31,6 @@ class App():
             in self._tracker_stories.fetch_by_label(project_id=project_id, label=label)]
         
         def not_in_tracker(issue):
-            print issue.number()
-            
             if str(issue.number()) in tracker_external_ids:
                 return False
 
