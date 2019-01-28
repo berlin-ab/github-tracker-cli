@@ -10,12 +10,12 @@ from github_tracker_domain import App
 
 def format_issue(issue):
     try:
-        title = "[Github Issue #%s] %s" % (issue.number(), issue.title())
+        title = u'[Github Issue #%s] %s' % (issue.number(), issue.title())
         labels = "github-issue"
         description = issue.url()
 
         return (
-            "{title},{labels},{description}".format(
+            u'{title},{labels},{description}'.format(
                 title=title,
                 labels=labels,
                 description=description
