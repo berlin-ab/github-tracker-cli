@@ -14,7 +14,7 @@ def format_issue(issue):
     description = issue.url()
 
     return (
-        "%{title},%{labels},%{description}".format(
+        "{title},{labels},{description}".format(
             title=title,
             labels=labels,
             description=description
