@@ -6,7 +6,7 @@ As of 2019, there's no good way to automatically link Issues from Github to Stor
 
 `github-tracker-cli` is an attempt to make the management of an open source project that has external and internal priorities easier. 
 
-Commands:
+### Commands:
 
 `missing-stories`: 
 
