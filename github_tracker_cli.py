@@ -9,17 +9,24 @@ from github_tracker_domain import App
 
 
 def format_issue(issue):
-    title = "[Github Issue #%s] %s" % (issue.number(), issue.title())
-    labels = "github-issue"
-    description = issue.url()
+    try:
+        title = "[Github Issue #%s] %s" % (issue.number(), issue.title())
+        labels = "github-issue"
+        description = issue.url()
 
-    return (
-        "{title},{labels},{description}".format(
-            title=title,
-            labels=labels,
-            description=description
+        return (
+            "{title},{labels},{description}".format(
+                title=title,
+                labels=labels,
+                description=description
+            )
         )
-    )
+    except Exception as error:
+        print "Failed to format issue:"
+        print issue.number()
+        print issue.title()
+        print issue.url()
+        raise error
 
 
 def print_issue(formatted_issue):
