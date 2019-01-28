@@ -3,6 +3,7 @@
 set -e
 
 pip install -r requirements.txt
+pip install -r requirements-development.txt
 
 ./scripts/unit-test.sh
 
