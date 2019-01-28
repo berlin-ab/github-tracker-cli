@@ -10,7 +10,7 @@ from github_tracker_domain import App
 
 def format_issue(issue):
     return (
-        "issue=%s : url=%s : story-title=[Github Issue #%s] %s" % (
+        "%s : %s : [Github Issue #%s] %s" % (
             issue.number(),
             issue.url(),
             issue.number(),

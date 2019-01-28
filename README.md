@@ -59,8 +59,8 @@ $ ./bin/github_tracker_cli --pivotal-tracker-token $PIVOTAL_TRACKER_TOKEN \
 			 --pivotal-tracker-label example-issue \
 			 --pivotal-tracker-project-id 2230629 \
 			 --github-repo berlin-ab/gpdb
-			 
-issue=2 : url=https://github.com/berlin-ab/gpdb/issues/2 : story-title=[Github Issue #2]
+
+2 : https://github.com/berlin-ab/gpdb/issues/2 : [Github Issue #2] Stub issue for integration test
 
 ```
 
