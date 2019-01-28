@@ -1,13 +1,17 @@
 class Issue():
-    def __init__(self, number, url):
+    def __init__(self, number, url, title):
         self._number = number
         self._url = url
+        self._title = title
 
     def number(self):
         return self._number
 
     def url(self):
         return self._url
+
+    def title(self):
+        return self._title
 
     
 class Story():

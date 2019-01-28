@@ -42,9 +42,9 @@ class IssuesNotInTrackerTest(unittest.TestCase):
         ])
         
         github_issues.stub([
-            Issue(number=123, url='http://example.com/foo'),
-            Issue(number=456, url='http://example.com/bar'),
-            Issue(number=789, url='http://example.com/baz'),
+            Issue(number=123, url='http://example.com/foo', title="A title"),
+            Issue(number=456, url='http://example.com/bar', title="B title"),
+            Issue(number=789, url='http://example.com/baz', title="C title"),
         ])
 
         app = App(tracker_stories, github_issues)

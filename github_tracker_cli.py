@@ -8,15 +8,26 @@ from pivotal_tracker_integration import (PivotalTrackerApi, TrackerStories)
 from github_tracker_domain import App
 
 
-def print_issue(issue):
-    print "issue=%s : url=%s : story-title=[Github Issue #%s] " % (issue.number(), issue.url(), issue.number())
+def format_issue(issue):
+    return (
+        "issue=%s : url=%s : story-title=[Github Issue #%s] %s" % (
+            issue.number(),
+            issue.url(),
+            issue.number(),
+            issue.title(),
+        )
+    )
+
+
+def print_issue(formatted_issue):
+    print formatted_issue
 
     
 def display_issues(app, tracker_project_id, tracker_label):
-    map(print_issue,  app.issues_not_in_tracker(
+    map(print_issue, map(format_issue,  app.issues_not_in_tracker(
         project_id=tracker_project_id,
         label=tracker_label,
-    ))
+    )))
     
 
 def parse_arguments():
@@ -28,7 +39,10 @@ def parse_arguments():
     return parser.parse_args()
 
     
-def main(arguments=parse_arguments()):
+def main(arguments=None):
+    if arguments is None:
+        arguments = parse_arguments()
+        
     pivotal_tracker_token = arguments.pivotal_tracker_token
     tracker_project_id = arguments.pivotal_tracker_project_id
     tracker_label = arguments.pivotal_tracker_label

@@ -25,7 +25,11 @@ class GithubIssuesTest(unittest.TestCase):
         github_repo = 'some/repo'
 
         github_api.stub_get([
-            {'number': 45678, 'html_url': 'http://example.com'}
+            {
+                'number': 45678,
+                'html_url': 'http://example.com',
+                'title': 'Some title'
+            }
         ])
         
         issues = GithubIssues(github_api, github_repo).fetch()

@@ -35,6 +35,7 @@ def json_to_issue(json):
     return Issue(
         number = json['number'],
         url = json['html_url'],
+        title = json['title'],
     )
 
 
