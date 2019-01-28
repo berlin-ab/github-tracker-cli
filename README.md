@@ -6,12 +6,6 @@ As of 2019, there's no good way to automatically link Issues from Github to Stor
 
 `github-tracker-cli` is an attempt to make the management of an open source project that has external and internal priorities easier. 
 
-### Commands:
-
-`missing-stories`: 
-
-Look through all Pivotal Tracker stories and find ones marked with a 'github-issue' label (by default) and with a title starting with "[Github Issue #123] Some title".  If there are open issues that do not have a corresponding story, display a url to the issue so that a story can be created for the issue.
-
 
 ## Installation
 
@@ -25,6 +19,13 @@ Note: Assumes `pip` is installed.
 
 
 ## Usage
+
+### Commands:
+
+`missing-stories`: 
+
+Look through all Pivotal Tracker stories and find ones marked with a 'github-issue' label (by default) and with a title starting with "[Github Issue #123] Some title".  If there are open issues that do not have a corresponding story, display a url to the issue so that a story can be created for the issue.
+
 
 ```bash
 usage: ./bin/github_tracker_cli [-h] missing-stories 
