@@ -44,7 +44,7 @@ class App():
         
         def not_in_tracker(issue):
             for tracker_title in tracker_titles:
-                if ("Github Issue #%s" % issue.number()) in tracker_title:
+                if ("#%s" % issue.number()) in tracker_title:
                     return False
 
             return True
