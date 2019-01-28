@@ -9,12 +9,15 @@ from github_tracker_domain import App
 
 
 def format_issue(issue):
+    title = "[Github Issue #%s] %" % (issue.number(), issue.title())
+    labels = "github-issue"
+    description = issue.url()
+
     return (
-        "%s : %s : [Github Issue #%s] %s" % (
-            issue.number(),
-            issue.url(),
-            issue.number(),
-            issue.title(),
+        "%{title},%{labels},%{description}".format(
+            title=title,
+            labels=labels,
+            description=description
         )
     )
 
@@ -24,6 +27,8 @@ def print_issue(formatted_issue):
 
     
 def display_issues(app, tracker_project_id, tracker_label):
+    print("Title,Labels,Description")
+    
     map(print_issue, map(format_issue,  app.issues_not_in_tracker(
         project_id=tracker_project_id,
         label=tracker_label,
