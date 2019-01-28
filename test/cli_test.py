@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 import unittest
 
 
@@ -16,4 +17,10 @@ class TestCli(unittest.TestCase):
         formatted_issue = format_issue(issue)
 
         self.assertIn("[Github Issue #123] Some title", formatted_issue)
+
+    def test_formatting_can_handle_unicode_characters(self):
+        title = u"-错误的版本"
+        issue = Issue(number=123, title=title, url="http://example.com/")
+        formatted_issue = format_issue(issue)
+        self.assertIn(title, formatted_issue)
 
