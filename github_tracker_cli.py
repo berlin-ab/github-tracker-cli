@@ -7,20 +7,18 @@ from github_integration import (GithubApi, GithubIssues)
 from pivotal_tracker_integration import (PivotalTrackerApi, TrackerStories)
 from github_tracker_domain import App
 
-
+       
 def format_issue(issue):
     try:
         title = u'[Github Issue #%s] %s' % (issue.number(), issue.title())
         labels = "github-issue"
         description = issue.url()
 
-        return (
-            u'{title},{labels},{description}'.format(
-                title=title,
-                labels=labels,
-                description=description
-            )
-        )
+        return {
+            'Title': title,
+            'Labels': labels,
+            'Description': description
+        }
     except Exception as error:
         print "Failed to format issue:"
         print issue.number()
@@ -29,17 +27,24 @@ def format_issue(issue):
         raise error
 
 
-def print_issue(formatted_issue):
-    print formatted_issue
-
-    
 def display_issues(app, tracker_project_id, tracker_label):
-    print("Title,Labels,Description")
+    import unicodecsv as csv
+    import StringIO
     
-    map(print_issue, map(format_issue,  app.issues_not_in_tracker(
+    csv_file = StringIO.StringIO()
+    writer = csv.DictWriter(
+        csv_file,
+        ['Title', 'Labels', 'Description'],
+        quoting=csv.QUOTE_ALL
+    )
+
+    writer.writeheader()
+    writer.writerows(map(format_issue,  app.issues_not_in_tracker(
         project_id=tracker_project_id,
         label=tracker_label,
     )))
+
+    print csv_file.getvalue()
     
 
 def parse_arguments():

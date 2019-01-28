@@ -2,3 +2,4 @@ requests
 pyflakes
 rednose
 nose
+unicodecsv
