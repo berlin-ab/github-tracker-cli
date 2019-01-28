@@ -58,8 +58,6 @@ Shows all Github issues that do not have a corresponding Pivotal Tracker story.
 
 ```bash
 
-$ export PYTHONPATH=$PWD:$PYTHONPATH
-
 # https://www.pivotaltracker.com/help/articles/api_token/
 $ export PIVOTAL_TRACKER_TOKEN=[YOUR-TOKEN]
 
