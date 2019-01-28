@@ -2,7 +2,11 @@
 
 A tool to help link issues and stories between Github and Pivotal Tracker.
 
-* Look through all Pivotal Tracker stories and find ones marked with a 'github-issue' label and with a title starting with "[Github Issue #123] Some title".  If there are open issues that do not have a corresponding story, display a url to the issue so that a story can be created for the issue.
+Commands:
+
+`missing-stories`: 
+
+Look through all Pivotal Tracker stories and find ones marked with a 'github-issue' label (by default) and with a title starting with "[Github Issue #123] Some title".  If there are open issues that do not have a corresponding story, display a url to the issue so that a story can be created for the issue.
 
 
 ## Installation
@@ -33,14 +37,14 @@ optional arguments:
   --pivotal-tracker-project-id PIVOTAL_TRACKER_PROJECT_ID
                         Pivotal Tracker project id.
                         https://www.pivotaltracker.com/n/projects/[PROJECTID]
-  --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
-                        A label used to categorize stories in Pivotal Tracker.
-                        For example: some-label
   --github-repo GITHUB_REPO
                         The organization/username and repository name as a
                         string. For example: https://github.com/berlin-ab
                         /github-tracker-cli would use --github-repo='berlin-ab
                         /github-tracker-cli'						  
+  --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
+                        A label used to categorize stories in Pivotal Tracker.
+                        Default: github-issue
 ```
 
 ### Example
