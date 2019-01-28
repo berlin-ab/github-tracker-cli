@@ -35,7 +35,30 @@ class GithubIssuesTest(unittest.TestCase):
         issues = GithubIssues(github_api, github_repo).fetch()
         
         self.assertEqual(issues[0].number(), 45678)
-        self.assertEqual(issues[0].url(), 'http://example.com')        
+        self.assertEqual(issues[0].url(), 'http://example.com')
+
+    def test_it_discards_issues_that_have_pull_requests(self):
+        github_api = StubGithubApi()
+        github_repo = 'some/repo'
+
+        github_api.stub_get([
+            {
+                'number': 45678,
+                'html_url': 'http://example.com',
+                'title': 'Some title'
+            },
+            {
+                'number': 123,
+                'html_url': 'http://example.com/pr',
+                'title': 'Some pr',
+                'pull_request': {'url': 'http://example.com/some-pr-url'}
+            }
+        ])
+        
+        issues = GithubIssues(github_api, github_repo).fetch()
+        self.assertEqual(1, len(issues))
+        self.assertEqual(issues[0].number(), 45678)
+        self.assertEqual(issues[0].url(), 'http://example.com')
 
     def test_it_receives_the_github_issues_api_path_when_fetching(self):
         github_api = StubGithubApi()

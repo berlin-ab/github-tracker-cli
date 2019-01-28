@@ -38,6 +38,12 @@ def json_to_issue(json):
         title = json['title'],
     )
 
+def non_pull_requests(json):
+    if 'pull_request' in json:
+        return False
+
+    return True
+
 
 class GithubIssues():
     def __init__(self, github_api, github_repo):
@@ -49,4 +55,5 @@ class GithubIssues():
             self._path
         )
         
-        return map(json_to_issue, list_of_json)
+        return map(json_to_issue,
+                   filter(non_pull_requests, list_of_json))
