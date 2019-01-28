@@ -4,6 +4,20 @@ A tool to help link issues and stories between Github and Pivotal Tracker.
 
 * Look through all Pivotal Tracker stories and find ones marked with a 'github-issue' label and with a title starting with "[Github Issue #123] Some title".  If there are open issues that do not have a corresponding story, display a url to the issue so that a story can be created for the issue.
 
+
+## Installation
+
+Installs all necessary dependencies.
+
+Note: Assumes `pip` is installed.
+
+```bash
+./bin/install_dependencies
+```
+
+
+## Usage
+
 ```bash
 usage: ./bin/github_tracker_cli [-h] --pivotal-tracker-token
                                 PIVOTAL_TRACKER_TOKEN
