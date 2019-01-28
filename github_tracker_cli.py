@@ -32,10 +32,12 @@ def display_issues(app, tracker_project_id, tracker_label):
 
 def parse_arguments():
     parser = argparse.ArgumentParser(prog='./bin/github_tracker_cli')
-    parser.add_argument('--pivotal-tracker-token', required=True, help="Your personal pivotal tracker api token. See https://www.pivotaltracker.com/help/articles/api_token/")
-    parser.add_argument('--pivotal-tracker-project-id', required=True, help="Pivotal Tracker project id. https://www.pivotaltracker.com/n/projects/[PROJECTID]")
-    parser.add_argument('--pivotal-tracker-label', required=True, help="A label used to categorize stories in Pivotal Tracker. For example: some-label")
-    parser.add_argument('--github-repo', required=True, help="The organization/username and repository name as a string. For example: https://github.com/berlin-ab/github-tracker-cli would use --github-repo='berlin-ab/github-tracker-cli'")
+    subparsers = parser.add_subparsers()
+    missing_stories_parser = subparsers.add_parser('missing-stories')
+    missing_stories_parser.add_argument('--pivotal-tracker-token', required=True, help="Your personal pivotal tracker api token. See https://www.pivotaltracker.com/help/articles/api_token/")
+    missing_stories_parser.add_argument('--pivotal-tracker-project-id', required=True, help="Pivotal Tracker project id. https://www.pivotaltracker.com/n/projects/[PROJECTID]")
+    missing_stories_parser.add_argument('--pivotal-tracker-label', required=True, help="A label used to categorize stories in Pivotal Tracker. For example: some-label")
+    missing_stories_parser.add_argument('--github-repo', required=True, help="The organization/username and repository name as a string. For example: https://github.com/berlin-ab/github-tracker-cli would use --github-repo='berlin-ab/github-tracker-cli'")
     return parser.parse_args()
 
     

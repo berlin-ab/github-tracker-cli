@@ -19,10 +19,9 @@ Note: Assumes `pip` is installed.
 ## Usage
 
 ```bash
-usage: ./bin/github_tracker_cli [-h] --pivotal-tracker-token
-                                PIVOTAL_TRACKER_TOKEN
-                                --pivotal-tracker-project-id
-                                PIVOTAL_TRACKER_PROJECT_ID
+usage: ./bin/github_tracker_cli [-h] missing-stories 
+	                            --pivotal-tracker-token PIVOTAL_TRACKER_TOKEN
+                                --pivotal-tracker-project-id PIVOTAL_TRACKER_PROJECT_ID
                                 --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
                                 --github-repo GITHUB_REPO
 
@@ -55,7 +54,8 @@ $ export PYTHONPATH=$PWD:$PYTHONPATH
 # https://www.pivotaltracker.com/help/articles/api_token/
 $ export PIVOTAL_TRACKER_TOKEN=[YOUR-TOKEN]
 
-$ ./bin/github_tracker_cli --pivotal-tracker-token $PIVOTAL_TRACKER_TOKEN \
+$ ./bin/github_tracker_cli missing-stories \
+	         --pivotal-tracker-token $PIVOTAL_TRACKER_TOKEN \
 			 --pivotal-tracker-label example-issue \
 			 --pivotal-tracker-project-id 2230629 \
 			 --github-repo berlin-ab/gpdb
