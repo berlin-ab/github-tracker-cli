@@ -17,6 +17,11 @@ class Issue():
     def labels(self):
         return self._labels
 
+    def labels_contain_with_insensitive_match(self, other_label):
+        lower_case_labels = [label.lower() for label in self.labels()]
+
+        return other_label.lower() in lower_case_labels
+
     
 class Story():
     def __init__(self, story_id = None, external_id = None, title=''):
@@ -62,7 +67,7 @@ class MissingStories():
         def matches_github_label(issue):
             return (
                 github_label is None or
-                github_label in issue.labels()
+                issue.labels_contain_with_insensitive_match(github_label)
             )
 
         return [

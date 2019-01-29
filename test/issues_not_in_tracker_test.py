@@ -115,3 +115,25 @@ class IssuesNotInTrackerTest(unittest.TestCase):
         
         self.assertEqual(
             [2], [issue.number() for issue in issues])
+
+    def test_issue_are_filtered_by_github_label_case_insensitive(self):
+        tracker_stories = StubTrackerStories()
+        github_issues = StubGithubIssues()
+        app = MissingStories(
+            tracker_stories,
+            github_issues
+        )
+
+        github_issues.stub([
+            valid_issue(number=2, labels=["matching"]),
+            valid_issue(number=3, labels=["not-matching"]),
+        ])
+
+        issues = app.issues_not_in_tracker(
+            project_id=123,
+            label='foobar',
+            github_label='Matching',
+        )
+        
+        self.assertEqual(
+            [2], [issue.number() for issue in issues])
