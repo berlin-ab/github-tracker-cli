@@ -50,7 +50,13 @@ optional arguments:
   --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
                         A label used to categorize stories in Pivotal Tracker.
                         Default: github-issue
+  --csv
+	                    Output github issues in Pivotal Tracker CSV format.
+						(default: false)
 ```
+
+`--csv` option:
+
 The output format is the CSV import format of Pivotal Tracker. 
 
 * output the stories into a csv file using output redirection:
