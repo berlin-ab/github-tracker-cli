@@ -5,7 +5,7 @@ import argparse
 
 from github.integration import (GithubApi, GithubIssues)
 from pivotal_tracker.integration import (PivotalTrackerApi, TrackerStories)
-from github_tracker_cli.domain import App
+from github_tracker.domain import App
 
        
 def format_issue(issue):

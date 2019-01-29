@@ -92,6 +92,13 @@ export PIVOTAL_TRACKER_TOKEN='SOME_TOKEN'
 ./scripts/build.sh
 ```
 
+#### Project Structure
+
+
+Module dependency structure:
+
+    github_tracker_cli -> (github -> github_tracker <- pivotal_tracker)
+	
 
 ### Notes: 
 

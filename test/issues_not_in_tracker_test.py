@@ -1,7 +1,7 @@
 
 import unittest
 
-from github_tracker_cli.domain import (Story, Issue, App)
+from github_tracker.domain import (Story, Issue, App)
 
 
 class StubTrackerStories():

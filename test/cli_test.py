@@ -3,7 +3,7 @@ import unittest
 
 
 from github_tracker_cli.cli import format_issue
-from github_tracker_cli.domain import Issue
+from github_tracker.domain import Issue
 
 
 class TestCli(unittest.TestCase):
