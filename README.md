@@ -14,11 +14,20 @@ Installs all necessary dependencies.
 Note: Assumes `pip` is installed.
 
 ```bash
-git clone https://github.com/berlin-ab/github-tracker-cli.git
+$ git clone https://github.com/berlin-ab/github-tracker-cli.git
+Cloning into 'github-tracker-cli'...
+remote: Enumerating objects: 307, done.
+remote: Counting objects: 100% (307/307), done.
+remote: Compressing objects: 100% (197/197), done.
+remote: Total 307 (delta 175), reused 219 (delta 89), pack-reused 0
+Receiving objects: 100% (307/307), 38.55 KiB | 5.51 MiB/s, done.
+Resolving deltas: 100% (175/175), done.
 
-cd github-tracker-cli
+$ cd github-tracker-cli
 
-./bin/install_dependencies
+$ ./bin/install_dependencies
+Collecting requests (from -r requirements.txt (line 1))
+...
 ```
 
 
