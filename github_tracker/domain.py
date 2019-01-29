@@ -30,7 +30,7 @@ class Story():
         return self._title
     
     
-class App():
+class MissingStories():
     
     def __init__(self, tracker_stories, github_issues):
         self._tracker_stories = tracker_stories

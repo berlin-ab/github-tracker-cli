@@ -4,7 +4,14 @@ import sys
 
 sys.path.append('.')
 
-from github_tracker_cli import main
+from github_tracker_cli.cli import main
 
 main()
+
+
+
+
+
+
+
 

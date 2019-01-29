@@ -1,7 +1,12 @@
 
 import unittest
 
-from github_tracker.domain import (Story, Issue, App)
+from github_tracker.domain import (
+    Story,
+    Issue,
+    MissingStories
+)
+
 
 
 class StubTrackerStories():
@@ -47,7 +52,7 @@ class IssuesNotInTrackerTest(unittest.TestCase):
             Issue(number=789, url='http://example.com/baz', title="C title"),
         ])
 
-        app = App(tracker_stories, github_issues)
+        app = MissingStories(tracker_stories, github_issues)
         issues = app.issues_not_in_tracker(project_id=123, label='something')
 
         self.assertEqual([456], [issue.number() for issue in issues])
@@ -56,7 +61,7 @@ class IssuesNotInTrackerTest(unittest.TestCase):
     def test_tracker_stories_are_filtered_by_project_id_and_label(self):
         tracker_stories = StubTrackerStories()
         github_issues = StubGithubIssues()
-        app = App(tracker_stories, github_issues)
+        app = MissingStories(tracker_stories, github_issues)
         issues = app.issues_not_in_tracker(project_id=123, label='foobar')
 
         self.assertEqual(123, tracker_stories.used_project_id)

@@ -5,7 +5,7 @@ import argparse
 
 from github.integration import (GithubApi, GithubIssues)
 from pivotal_tracker.integration import (PivotalTrackerApi, TrackerStories)
-from github_tracker.domain import App
+from github_tracker.domain import MissingStories
 
        
 def format_issue(issue):
@@ -27,7 +27,7 @@ def format_issue(issue):
         raise error
 
 
-def display_issues(app, tracker_project_id, tracker_label):
+def display_issues_as_csv(issues):
     import unicodecsv as csv
     import StringIO
     
@@ -39,13 +39,20 @@ def display_issues(app, tracker_project_id, tracker_label):
     )
 
     writer.writeheader()
-    writer.writerows(map(format_issue,  app.issues_not_in_tracker(
-        project_id=tracker_project_id,
-        label=tracker_label,
-    )))
+    writer.writerows(map(format_issue,  issues))
 
     print csv_file.getvalue()
-    
+
+
+def display_issues_as_rows(issues):
+    for issue in issues:
+        formatted_issue = format_issue(issue)
+        print u'{id} | {title} | {url}'.format(
+            id=issue.number(),
+            title=issue.title(),
+            url=issue.url(),
+        )
+
 
 def parse_arguments():
     default_tracker_label = 'github-issue'
@@ -53,7 +60,7 @@ def parse_arguments():
     tracker_project_id_help_text = "Pivotal Tracker project id. https://www.pivotaltracker.com/n/projects/[PROJECTID]"
     tracker_label_help_text = "A label used to categorize stories in Pivotal Tracker. Default: --pivotal-tracker-label=%s" % default_tracker_label
     github_repo_help_text = "The organization/username and repository name as a string. For example: https://github.com/berlin-ab/github-tracker-cli would use --github-repo='berlin-ab/github-tracker-cli'"
-
+    csv_help_text = "Display output in Pivotal Tracker csv format. (default: false)"
     
     parser = argparse.ArgumentParser(
         prog='./bin/github_tracker_cli',
@@ -76,34 +83,56 @@ def parse_arguments():
     missing_stories_parser.add_argument('--pivotal-tracker-label',
                                         help=tracker_label_help_text,
                                         default=default_tracker_label)
+
+    missing_stories_parser.add_argument('--csv',
+                                        help=csv_help_text,
+                                        action='store_true')
     
     return parser.parse_args()
 
-    
+
+def get_display_style(arguments):
+    if arguments.csv:
+        return display_issues_as_csv
+
+    return display_issues_as_rows
+
+
 def main(arguments=None):
     if arguments is None:
         arguments = parse_arguments()
-        
-    pivotal_tracker_token = arguments.pivotal_tracker_token
-    tracker_project_id = arguments.pivotal_tracker_project_id
-    tracker_label = arguments.pivotal_tracker_label
-    github_repo = arguments.github_repo
-    
+
+    #
+    # Components
+    #
     tracker_api = PivotalTrackerApi(
-        api_token=pivotal_tracker_token
+        api_token=arguments.pivotal_tracker_token
     )
     
     github_api = GithubApi()
 
-    app = App(
-        tracker_stories = TrackerStories(
-            tracker_api=tracker_api
-        ),
-        github_issues = GithubIssues(
-            github_api=github_api,
-            github_repo=github_repo
-        )
+    github_issues = GithubIssues(
+        github_api=github_api,
+        github_repo=arguments.github_repo
     )
 
-    display_issues(app, tracker_project_id, tracker_label)
-    
+    tracker_stories = TrackerStories(
+        tracker_api=tracker_api
+    )
+
+    missing_stories = MissingStories(
+        tracker_stories = tracker_stories,
+        github_issues = github_issues
+    )
+
+    #
+    # Query and display issues
+    #
+    get_display_style(arguments)(
+        issues=missing_stories.issues_not_in_tracker(
+            project_id=arguments.pivotal_tracker_project_id,
+            label=arguments.pivotal_tracker_label,
+        )
+    )
+   
+

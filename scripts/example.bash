@@ -6,5 +6,5 @@ export PYTHONPATH=$PWD:$PYTHONPATH
 			 --pivotal-tracker-token $PIVOTAL_TRACKER_TOKEN \
 			 --pivotal-tracker-label example-issue \
 			 --pivotal-tracker-project-id 2230629 \
-			 --github-repo berlin-ab/gpdb
+			 --github-repo berlin-ab/gpdb "$@"
 
