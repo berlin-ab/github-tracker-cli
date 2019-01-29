@@ -37,7 +37,22 @@ class TrackerStoriesTest(unittest.TestCase):
             stories[0].external_id()
         )
 
+    def test_it_filters_out_stories_that_do_not_match_the_given_label_case_insensitive(self):
+        stub_tracker_api = StubTrackerApi()
         
+        stub_tracker_api.stub_get([
+            {'external_id': '456', 'labels': [{'name': 'github-issue'}]},
+            {'external_id': '789', 'labels': [{'name': 'github-issue'}]},
+            {'external_id': '123', 'labels': [{'name': 'other-issue'}]}
+        ])
+        
+        stories = TrackerStories(stub_tracker_api).fetch_by_label(
+            project_id=123,
+            label='Github-Issue'
+        )
+
+        self.assertEqual(['456', '789'], [story.external_id() for story in stories])
+
     def test_it_filters_out_stories_that_do_not_match_the_given_label(self):
         stub_tracker_api = StubTrackerApi()
         

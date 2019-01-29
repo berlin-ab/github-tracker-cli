@@ -31,7 +31,15 @@ def transform_json_to_story(json):
         external_id=json.get('external_id', None),
         title=json.get('name', None)
     )
-    
+
+
+def labels_in_lower_case(json):
+    return [
+        label_json['name'].lower()
+          for label_json
+          in json['labels']
+    ]
+
 
 class TrackerStories():
     def __init__(self, tracker_api):
@@ -39,10 +47,10 @@ class TrackerStories():
             
     def fetch_by_label(self, project_id, label):
         stories_as_json = self._tracker_api.get('/projects/%s/stories' % project_id)
-        
+
         def remove_not_matching_label(json):
-            for label_json in json['labels']:
-                if label_json['name'] == label:
+            for lower_label in labels_in_lower_case(json):
+                if lower_label == label.lower():
                     return True
         
         return map(
