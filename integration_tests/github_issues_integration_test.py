@@ -30,7 +30,8 @@ class GithubIssuesIntegrationTest(unittest.TestCase):
         ).fetch()
         
         self.assertEqual(2, issues[0].number())
-        self.assertEqual(['testing', 'stub'], issues[0].labels())
+        self.assertIn('testing', issues[0].labels())
+        self.assertIn('stub', issues[0].labels())
         
     def test_it_returns_results_for_a_different_repo(self):
         real_github_api = GithubApi()
