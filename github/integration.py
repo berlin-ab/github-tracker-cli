@@ -1,7 +1,7 @@
 import requests
 
 
-from github_tracker_domain import Issue
+from github_tracker_cli.domain import Issue
 
 
 class GithubApi():

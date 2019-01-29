@@ -1,7 +1,7 @@
 import unittest
 
 
-from pivotal_tracker_integration import (
+from pivotal_tracker.integration import (
     TrackerStories,
     PivotalTrackerApi,
     MissingPivotalTrackerApiTokenError

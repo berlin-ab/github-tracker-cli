@@ -1,7 +1,6 @@
 import requests
 
-from github_tracker_domain import Story
-
+from github_tracker_cli.domain import Story
 
 class MissingPivotalTrackerApiTokenError(RuntimeError):
     pass
