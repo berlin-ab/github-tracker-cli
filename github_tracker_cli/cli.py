@@ -59,10 +59,10 @@ def parse_arguments():
     default_tracker_label = 'github-issue'
     tracker_token_help_text = "Your personal pivotal tracker api token. See https://www.pivotaltracker.com/help/articles/api_token/"
     tracker_project_id_help_text = "Pivotal Tracker project id. https://www.pivotaltracker.com/n/projects/[PROJECTID]"
-    tracker_label_help_text = "A label used to categorize stories in Pivotal Tracker. Default: --pivotal-tracker-label=%s" % default_tracker_label
+    tracker_label_help_text = "Filter (case-insensitive) by a label used to categorize stories in Pivotal Tracker. Default: --pivotal-tracker-label=%s" % default_tracker_label
     github_repo_help_text = "The organization/username and repository name as a string. For example: https://github.com/berlin-ab/github-tracker-cli would use --github-repo='berlin-ab/github-tracker-cli'"
     csv_help_text = "Display output in Pivotal Tracker csv format. (default: false)"
-    github_label_help_text = "Return Github Issues matching the given label. (optional)"
+    github_label_help_text = "Return Github Issues matching the given label (case insensitive). (optional)"
     
     parser = argparse.ArgumentParser(
         prog='./bin/github_tracker_cli',
