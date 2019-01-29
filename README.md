@@ -14,6 +14,10 @@ Installs all necessary dependencies.
 Note: Assumes `pip` is installed.
 
 ```bash
+git clone https://github.com/berlin-ab/github-tracker-cli.git
+
+cd github-tracker-cli
+
 ./bin/install_dependencies
 ```
 
@@ -72,17 +76,17 @@ The output format is the CSV import format of Pivotal Tracker.
 
 Shows all Github issues that do not have a corresponding Pivotal Tracker story.
 
-```bash
+```
 
 # https://www.pivotaltracker.com/help/articles/api_token/
-$ export PIVOTAL_TRACKER_TOKEN=[YOUR-TOKEN]
+export PIVOTAL_TRACKER_TOKEN=[YOUR-TOKEN]
 
-$ ./bin/github_tracker_cli missing-stories \
-	         --pivotal-tracker-token $PIVOTAL_TRACKER_TOKEN \
-			 --pivotal-tracker-label example-issue \
-			 --pivotal-tracker-project-id 2230629 \
-			 --github-repo berlin-ab/gpdb \
-			 --csv
+./bin/github_tracker_cli missing-stories \
+    --pivotal-tracker-token $PIVOTAL_TRACKER_TOKEN \
+    --pivotal-tracker-label example-issue \
+    --pivotal-tracker-project-id 2230629 \
+    --github-repo berlin-ab/gpdb \
+    --csv
 
 "Title","Labels","Description"
 "[Github Issue #2] Stub issue for integration test","github-issue","https://github.com/berlin-ab/gpdb/issues/2"
@@ -96,6 +100,20 @@ $ ./bin/github_tracker_cli missing-stories \
 export PIVOTAL_TRACKER_TOKEN='SOME_TOKEN'
 
 ./scripts/build.sh
+```
+
+#### Running the integration test suite
+
+```bash
+export PIVOTAL_TRACKER_TOKEN='SOME_TOKEN'
+
+./scripts/integration-test.sh
+```
+
+#### Running the unit test suite
+
+```bash
+./scripts/unit-test.sh
 ```
 
 #### Project Structure
