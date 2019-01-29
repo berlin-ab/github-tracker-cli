@@ -2,7 +2,7 @@
 
 A tool to help link issues and stories between Github and Pivotal Tracker.
 
-As of 2019, there's no good way to automatically link Issues from Github to Stories in Pivotal Tracker.  For some open source projects, Github Issues is a great way to interact with the community of developers that want to contribute to the project. Also, those projects may also have a team that wants to keep a portion of the project discussion private.
+For some open source projects, Github Issues is a great way to interact with the community of developers that want to contribute to the project. Also, those projects may want to track the priority of the Issues using Pivotal Tracker.
 
 `github-tracker-cli` is an attempt to make the management of an open source project that has external and internal priorities easier. 
 
