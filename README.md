@@ -41,11 +41,13 @@ Look through all Pivotal Tracker stories and find ones marked with a 'github-iss
 
 
 ```bash
-usage: ./bin/github_tracker_cli [-h] missing-stories 
-	                            --pivotal-tracker-token PIVOTAL_TRACKER_TOKEN
-                                --pivotal-tracker-project-id PIVOTAL_TRACKER_PROJECT_ID
-                                --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
-                                --github-repo GITHUB_REPO
+usage: ./bin/github_tracker_cli missing-stories [-h] 
+    --pivotal-tracker-token PIVOTAL_TRACKER_TOKEN
+    --pivotal-tracker-project-id PIVOTAL_TRACKER_PROJECT_ID
+    --github-repo GITHUB_REPO
+    [--pivotal-tracker-label PIVOTAL_TRACKER_LABEL]
+    [--csv]
+    [--github-label GITHUB_LABEL]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -59,13 +61,15 @@ optional arguments:
                         The organization/username and repository name as a
                         string. For example: https://github.com/berlin-ab
                         /github-tracker-cli would use --github-repo='berlin-ab
-                        /github-tracker-cli'						  
+                        /github-tracker-cli'
   --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
                         A label used to categorize stories in Pivotal Tracker.
-                        Default: github-issue
-  --csv
-	                    Output github issues in Pivotal Tracker CSV format.
-						(default: false)
+                        Default: --pivotal-tracker-label=github-issue
+  --csv                 Display output in Pivotal Tracker csv format.
+                        (default: false)
+  --github-label GITHUB_LABEL
+                        Return Github Issues matching the given label.
+                        (optional)
 ```
 
 `--csv` option:
@@ -83,7 +87,7 @@ The output format is the CSV import format of Pivotal Tracker.
 
 ### Example
 
-Shows all Github issues that do not have a corresponding Pivotal Tracker story.
+Shows all Github issues matching a Github label that do not have a corresponding Pivotal Tracker story output in Pivotal Tracker CSV format.
 
 ```
 
@@ -95,6 +99,7 @@ export PIVOTAL_TRACKER_TOKEN=[YOUR-TOKEN]
     --pivotal-tracker-label example-issue \
     --pivotal-tracker-project-id 2230629 \
     --github-repo berlin-ab/gpdb \
+	--github-label version-1.0 \
     --csv
 
 "Title","Labels","Description"
