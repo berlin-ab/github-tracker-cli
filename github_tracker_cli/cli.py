@@ -11,13 +11,13 @@ from github_tracker.domain import MissingStories
 def format_issue(issue):
     try:
         title = u'[Github Issue #%s] %s' % (issue.number(), issue.title())
-        labels = "github-issue"
+        labels = u"github-issue"
         description = issue.url()
 
         return {
-            'Title': title,
-            'Labels': labels,
-            'Description': description
+            u'Title': title,
+            u'Labels': labels,
+            u'Description': description
         }
     except Exception as error:
         print "Failed to format issue:"
@@ -28,29 +28,27 @@ def format_issue(issue):
 
 
 def display_issues_as_csv(issues):
-    import unicodecsv as csv
-    import StringIO
-    
-    csv_file = StringIO.StringIO()
+    from backports import csv
+    import sys
+
     writer = csv.DictWriter(
-        csv_file,
-        ['Title', 'Labels', 'Description'],
+        sys.stdout,
+        [u'Title', u'Labels', u'Description'],
         quoting=csv.QUOTE_ALL
     )
 
     writer.writeheader()
     writer.writerows(map(format_issue,  issues))
 
-    print csv_file.getvalue()
-
 
 def display_issues_as_rows(issues):
     for issue in issues:
         formatted_issue = format_issue(issue)
+        
         print u'{id} | {title} | {url}'.format(
-            id=issue.number(),
-            title=issue.title(),
-            url=issue.url(),
+            id=unicode(issue.number()),
+            title=unicode(issue.title()),
+            url=unicode(issue.url()),
         )
 
 
@@ -61,6 +59,7 @@ def parse_arguments():
     tracker_label_help_text = "A label used to categorize stories in Pivotal Tracker. Default: --pivotal-tracker-label=%s" % default_tracker_label
     github_repo_help_text = "The organization/username and repository name as a string. For example: https://github.com/berlin-ab/github-tracker-cli would use --github-repo='berlin-ab/github-tracker-cli'"
     csv_help_text = "Display output in Pivotal Tracker csv format. (default: false)"
+    github_label_help_text = "Return Github Issues matching the given label. (optional)"
     
     parser = argparse.ArgumentParser(
         prog='./bin/github_tracker_cli',
@@ -87,6 +86,10 @@ def parse_arguments():
     missing_stories_parser.add_argument('--csv',
                                         help=csv_help_text,
                                         action='store_true')
+
+    missing_stories_parser.add_argument('--github-label',
+                                       help=github_label_help_text,
+                                       default=None)
     
     return parser.parse_args()
 
@@ -132,7 +135,14 @@ def main(arguments=None):
         issues=missing_stories.issues_not_in_tracker(
             project_id=arguments.pivotal_tracker_project_id,
             label=arguments.pivotal_tracker_label,
+            github_label=arguments.github_label,
         )
     )
    
+
+
+
+
+
+
 

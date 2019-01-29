@@ -1,4 +1,3 @@
-
 import unittest
 
 from github_tracker.domain import (
@@ -6,7 +5,6 @@ from github_tracker.domain import (
     Issue,
     MissingStories
 )
-
 
 
 class StubTrackerStories():
@@ -35,6 +33,19 @@ class StubGithubIssues():
         return self._issues
 
 
+def valid_issue(
+        number=123,
+        url='http://example.com/foo',
+        title="A title",
+        labels=[]):
+
+    return Issue(
+        number=number,
+        url=url,
+        title=title,
+        labels=labels
+    )
+
 class IssuesNotInTrackerTest(unittest.TestCase):
     def test_list_issues_that_are_not_in_tracker(self):
         tracker_stories = StubTrackerStories()
@@ -47,9 +58,24 @@ class IssuesNotInTrackerTest(unittest.TestCase):
         ])
         
         github_issues.stub([
-            Issue(number=123, url='http://example.com/foo', title="A title"),
-            Issue(number=456, url='http://example.com/bar', title="B title"),
-            Issue(number=789, url='http://example.com/baz', title="C title"),
+            Issue(
+                number=123,
+                url='http://example.com/foo',
+                title="A title",
+                labels=[],
+            ),
+            Issue(
+                number=456,
+                url='http://example.com/bar',
+                title="B title",
+                labels=[],
+            ),
+            Issue(
+                number=789,
+                url='http://example.com/baz',
+                title="C title",
+                labels=[],
+            ),
         ])
 
         app = MissingStories(tracker_stories, github_issues)
@@ -66,4 +92,26 @@ class IssuesNotInTrackerTest(unittest.TestCase):
 
         self.assertEqual(123, tracker_stories.used_project_id)
         self.assertEqual('foobar', tracker_stories.used_label)
+
+    def test_issue_are_filtered_by_github_label(self):
+        tracker_stories = StubTrackerStories()
+        github_issues = StubGithubIssues()
+        app = MissingStories(
+            tracker_stories,
+            github_issues
+        )
+
+        github_issues.stub([
+            valid_issue(number=1, labels=[]),
+            valid_issue(number=2, labels=["matching"]),
+            valid_issue(number=3, labels=["not-matching"]),
+        ])
+
+        issues = app.issues_not_in_tracker(
+            project_id=123,
+            label='foobar',
+            github_label='matching',
+        )
         
+        self.assertEqual(
+            [2], [issue.number() for issue in issues])

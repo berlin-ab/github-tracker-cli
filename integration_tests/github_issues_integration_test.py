@@ -26,12 +26,11 @@ class GithubIssuesIntegrationTest(unittest.TestCase):
 
         issues = GithubIssues(
             real_github_api,
-            'greenplum-db/gpdb'
+            'berlin-ab/gpdb'
         ).fetch()
         
-        numbers = [issue.number() for issue in issues]
-
-        self.assertIn(6796, numbers)
+        self.assertEqual(2, issues[0].number())
+        self.assertEqual(['testing', 'stub'], issues[0].labels())
         
     def test_it_returns_results_for_a_different_repo(self):
         real_github_api = GithubApi()

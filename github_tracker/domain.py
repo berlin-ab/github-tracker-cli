@@ -1,8 +1,9 @@
 class Issue():
-    def __init__(self, number, url, title):
+    def __init__(self, number, url, title, labels):
         self._number = number
         self._url = url
         self._title = title
+        self._labels = labels
 
     def number(self):
         return self._number
@@ -12,6 +13,9 @@ class Issue():
 
     def title(self):
         return self._title
+
+    def labels(self):
+        return self._labels
 
     
 class Story():
@@ -36,11 +40,17 @@ class MissingStories():
         self._tracker_stories = tracker_stories
         self._github_issues = github_issues
     
-    def issues_not_in_tracker(self, project_id, label):
+    def issues_not_in_tracker(self,
+                              project_id,
+                              label,
+                              github_label=None):
         tracker_titles = [
             story.title()
-            for story
-            in self._tracker_stories.fetch_by_label(project_id=project_id, label=label)]
+            for story in self._tracker_stories.fetch_by_label(
+                  project_id=project_id,
+                  label=label
+              )
+        ]
         
         def not_in_tracker(issue):
             for tracker_title in tracker_titles:
@@ -49,7 +59,17 @@ class MissingStories():
 
             return True
 
-        
-        return filter(not_in_tracker, self._github_issues.fetch())
-    
+        def matches_github_label(issue):
+            return (
+                github_label is None or
+                github_label in issue.labels()
+            )
+
+        return [
+            issue
+              for issue
+              in self._github_issues.fetch()
+              if matches_github_label(issue)
+              and not_in_tracker(issue)
+        ]
 

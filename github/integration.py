@@ -35,10 +35,16 @@ class GithubApi():
 
     
 def json_to_issue(json):
+    labels = [
+        label_json['name']
+        for label_json in json.get('labels', [])
+    ]
+
     return Issue(
         number = json['number'],
         url = json['html_url'],
         title = json['title'],
+        labels = labels,
     )
 
 def non_pull_requests(json):

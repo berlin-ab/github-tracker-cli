@@ -71,4 +71,25 @@ class GithubIssuesTest(unittest.TestCase):
             github_api.used_path,
             '/repos/berlin-ab/some-repo/issues'
             )
+
+    def test_it_populates_the_issue_with_labels(self):
+        github_api = StubGithubApi()
+        github_repo = 'some/repo'
+
+        github_api.stub_get([
+            {
+                'number': 45678,
+                'html_url': 'http://example.com',
+                'title': 'Some title',
+                'labels': [
+                    {
+                        'name': 'some-label'
+                    }
+                ]
+            }
+        ])
+
+        issues = GithubIssues(github_api, github_repo).fetch()
+        self.assertEqual(1, len(issues))
+        self.assertEqual(['some-label'], issues[0].labels())
         
