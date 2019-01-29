@@ -1,6 +1,10 @@
 import os
 import sys
 import argparse
+import sys
+import codecs
+from backports import csv
+
 
 
 from github.integration import (GithubApi, GithubIssues)
@@ -12,7 +16,7 @@ def format_issue(issue):
     try:
         title = u'[Github Issue #%s] %s' % (issue.number(), issue.title())
         labels = u"github-issue"
-        description = issue.url()
+        description = unicode(issue.url())
 
         return {
             u'Title': title,
@@ -28,8 +32,7 @@ def format_issue(issue):
 
 
 def display_issues_as_csv(issues):
-    from backports import csv
-    import sys
+
 
     writer = csv.DictWriter(
         sys.stdout,
@@ -102,6 +105,9 @@ def get_display_style(arguments):
 
 
 def main(arguments=None):
+    # Ensure that writing to standard out and to a pipe is via utf8
+    sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+    
     if arguments is None:
         arguments = parse_arguments()
 
