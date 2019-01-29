@@ -97,13 +97,13 @@ export PIVOTAL_TRACKER_TOKEN=[YOUR-TOKEN]
 ./bin/github_tracker_cli missing-stories \
     --pivotal-tracker-token $PIVOTAL_TRACKER_TOKEN \
     --pivotal-tracker-label example-issue \
-    --pivotal-tracker-project-id 2230629 \
-    --github-repo berlin-ab/gpdb \
+    --pivotal-tracker-project-id 2241335 \
+    --github-repo berlin-ab/github-tracker-cli \
 	--github-label version-1.0 \
     --csv
 
 "Title","Labels","Description"
-"[Github Issue #2] Stub issue for integration test","github-issue","https://github.com/berlin-ab/gpdb/issues/2"
+"[Github Issue #2] Stub issue for integration test","github-issue","https://github.com/berlin-ab/github-tracker-cli/issues/2"
 ```
 
 ### Development
