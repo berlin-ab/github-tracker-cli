@@ -18,12 +18,12 @@ class TrackerStoriesIntegrationTest(unittest.TestCase):
         tracker_api = PivotalTrackerApi(api_token=get_api_token())
         
         stories = TrackerStories(tracker_api).fetch_by_label(
-            project_id=2230629,
+            project_id=2241335,
             label='example-label'
             )
 
-        self.assertIn(162506314, [story.story_id() for story in stories])
-        self.assertIn('English auction', [story.title() for story in stories])
+        self.assertIn(163577442, [story.story_id() for story in stories])
+        self.assertIn('Example backlog story', [story.title() for story in stories])
         
     def test_api_throws_missing_api_token_error(self):
         with self.assertRaises(MissingPivotalTrackerApiTokenError):
@@ -33,7 +33,7 @@ class TrackerStoriesIntegrationTest(unittest.TestCase):
         tracker_api = PivotalTrackerApi(api_token=get_api_token())
         
         stories = TrackerStories(tracker_api).fetch_by_label(
-            project_id=2230629,
+            project_id=2241335,
             label='example-label'
             )
 
