@@ -26,6 +26,16 @@ Note: Assumes `pip` is installed.
 
 Look through all Pivotal Tracker stories and find ones marked with a 'github-issue' label (by default) and with a title starting with "[Github Issue #123] Some title".  If there are open issues that do not have a corresponding story, display a url to the issue so that a story can be created for the issue.
 
+The output format is the CSV import format of Pivotal Tracker. 
+
+* output the stories into a csv file using output redirection:
+
+`$ ./bin/github_tracker_cli [OPTIONS] > github-issues.csv`
+
+* Transform `github-issues.csv` into stories by visiting `https://www.pivotaltracker.com/projects/[PROJECT_ID]/settings` and navigating to 'Import CSV' from the left sidebar.
+
+(note: you might need to remove a trailing newline from the csv file)
+
 
 ```bash
 usage: ./bin/github_tracker_cli [-h] missing-stories 
