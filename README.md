@@ -36,6 +36,7 @@ Collecting requests (from -r requirements.txt (line 1))
 **Step 1:** Label Github Issues you'd like to import into your Pivotal Tracker backlog.
 
 **Step 2:** Prepare Github Issues you've already entered into Pivotal Tracker:
+
 	- Label the stories with 'github-issue'
 	- Put the story number in the title (including a #) For example, "[Github #1234] Some github issue title"
 	
