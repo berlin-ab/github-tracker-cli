@@ -41,7 +41,11 @@ class Story():
 
     def title(self):
         return self._title
+
     
+def formatted_issue_number(issue):
+    return "#{number}".format(number=issue.number())
+        
     
 class MissingStories():
     
@@ -63,7 +67,7 @@ class MissingStories():
         
         def not_in_tracker(issue):
             for tracker_title in tracker_titles:
-                if ("#%s" % issue.number()) in tracker_title:
+                if formatted_issue_number(issue) in tracker_title:
                     return False
 
             return True
@@ -82,3 +86,25 @@ class MissingStories():
               and not_in_tracker(issue)
         ]
 
+    
+class ClosedIssues():
+    def __init__(self, github_issues, tracker_stories):
+        self._github_issues = github_issues
+        self._tracker_stories = tracker_stories
+    
+    def fetch(self, project_id, tracker_label):
+        closed_issues = self._github_issues.fetch_closed()
+        
+        stories = self._tracker_stories.fetch_by_label(
+            project_id=project_id,
+            label=tracker_label,
+        )
+
+        def closed_issues_match(story):
+            for issue in closed_issues:
+                if formatted_issue_number(issue) in story.title():
+                    return True
+
+        return [story for story
+                in stories
+                if closed_issues_match(story)]

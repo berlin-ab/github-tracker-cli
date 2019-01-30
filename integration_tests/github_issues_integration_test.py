@@ -45,3 +45,14 @@ class GithubIssuesIntegrationTest(unittest.TestCase):
 
         self.assertIn(2, numbers)
 
+    def test_it_returns_results_closed_issues(self):
+        real_github_api = GithubApi()
+        
+        issues = GithubIssues(
+            real_github_api,
+            'berlin-ab/github-tracker-cli'
+        ).fetch_closed()
+
+        self.assertIn(29, [issue.number() for issue in issues])
+        self.assertIn('Example closed issue.', [issue.title() for issue in issues])        
+

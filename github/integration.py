@@ -8,7 +8,7 @@ class GithubApi():
     @staticmethod
     def _make_url(path, current_page):
         base_url = "https://api.github.com"
-        return "%s%s?page=%s" % (base_url, path, current_page)
+        return "%s%s&page=%s" % (base_url, path, current_page)
         
     def get(self, path):
         results = []
@@ -61,9 +61,16 @@ class GithubIssues():
         self._path = "/repos/%s/issues" % github_repo
 
     def fetch(self):
+        return self._fetch(state='open')
+        
+    def fetch_closed(self):
+        return self._fetch(state='closed')
+
+    def _fetch(self, state):
         list_of_json = self._github_api.get(
-            self._path
+            self._path + '?state={state}'.format(state=state)
         )
         
         return map(json_to_issue,
                    filter(non_pull_requests, list_of_json))
+        

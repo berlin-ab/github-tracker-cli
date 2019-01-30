@@ -18,7 +18,7 @@ class StubGithubApi():
         return self.stubbed_response
     
 
-class GithubIssuesTest(unittest.TestCase):
+class BaseGithubIssuesTest():
     def test_it_can_fetch_github_issues(self):
         github_api = StubGithubApi()
         github_repo = 'some/repo'
@@ -32,8 +32,8 @@ class GithubIssuesTest(unittest.TestCase):
             }
         ])
         
-        issues = GithubIssues(github_api, github_repo).fetch()
-        
+        issues = self.get_issues(github_api, github_repo)
+
         self.assertEqual(issues[0].number(), 45678)
         self.assertEqual(issues[0].url(), 'http://example.com')
         self.assertEqual(issues[0].description(), 'Some description')
@@ -58,23 +58,10 @@ class GithubIssuesTest(unittest.TestCase):
             }
         ])
         
-        issues = GithubIssues(github_api, github_repo).fetch()
+        issues = self.get_issues(github_api, github_repo)
         self.assertEqual(1, len(issues))
         self.assertEqual(issues[0].number(), 45678)
         self.assertEqual(issues[0].url(), 'http://example.com')
-
-    def test_it_receives_the_github_issues_api_path_when_fetching(self):
-        github_api = StubGithubApi()
-        
-        issues = GithubIssues(
-            github_api,
-            'berlin-ab/some-repo'
-        ).fetch()
-        
-        self.assertEqual(
-            github_api.used_path,
-            '/repos/berlin-ab/some-repo/issues'
-            )
 
     def test_it_populates_the_issue_with_labels(self):
         github_api = StubGithubApi()
@@ -94,7 +81,45 @@ class GithubIssuesTest(unittest.TestCase):
             }
         ])
 
-        issues = GithubIssues(github_api, github_repo).fetch()
+        issues = self.get_issues(github_api, github_repo)
         self.assertEqual(1, len(issues))
         self.assertEqual(['some-label'], issues[0].labels())
+
         
+class OpenGithubIssuesTest(BaseGithubIssuesTest, unittest.TestCase):
+    def get_issues(self, github_api, github_repo):
+        return GithubIssues(
+            github_api=github_api,
+            github_repo=github_repo,
+        ).fetch()
+
+    def test_it_receives_the_github_issues_api_path_when_fetching(self):
+        github_api = StubGithubApi()
+        github_repo = 'berlin-ab/some-repo'
+        
+        issues = self.get_issues(github_api, github_repo)
+        
+        self.assertEqual(
+            github_api.used_path,
+            '/repos/berlin-ab/some-repo/issues?state=open'
+            )
+
+    
+class ClosedGithubIssuesTest(BaseGithubIssuesTest, unittest.TestCase):
+    def get_issues(self, github_api, github_repo):
+        return GithubIssues(
+            github_api=github_api,
+            github_repo=github_repo,
+        ).fetch_closed()
+
+    def test_it_receives_the_github_issues_api_path_when_fetching(self):
+        github_api = StubGithubApi()
+        github_repo = 'berlin-ab/some-repo'
+        
+        issues = self.get_issues(github_api, github_repo)
+        
+        self.assertEqual(
+            github_api.used_path,
+            '/repos/berlin-ab/some-repo/issues?state=closed'
+        )
+
