@@ -7,8 +7,8 @@ from backports import csv
 
 
 from github_tracker_cli.github.integration import (GithubApi, GithubIssues)
-from pivotal_tracker.integration import (PivotalTrackerApi, TrackerStories)
-from github_tracker.domain import (MissingStories, ClosedIssues)
+from github_tracker_cli.pivotal_tracker.integration import (PivotalTrackerApi, TrackerStories)
+from github_tracker_cli.github_tracker.domain import (MissingStories, ClosedIssues)
 
 
 default_tracker_label = 'github-issue'
