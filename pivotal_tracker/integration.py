@@ -12,7 +12,6 @@ class PivotalTrackerApi():
 
         if self._api_token  is None or self._api_token is '':
             raise MissingPivotalTrackerApiTokenError()
-
         
     def get(self, path):
         url = "https://www.pivotaltracker.com/services/v5%s" % path
@@ -29,7 +28,8 @@ def transform_json_to_story(json):
     return Story(
         story_id=json.get('id', None),
         external_id=json.get('external_id', None),
-        title=json.get('name', None)
+        title=json.get('name', None),
+        url=json.get('url', None)
     )
 
 
@@ -37,7 +37,7 @@ def labels_in_lower_case(json):
     return [
         label_json['name'].lower()
           for label_json
-          in json['labels']
+          in json.get('labels', [])
     ]
 
 

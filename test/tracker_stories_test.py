@@ -24,7 +24,10 @@ class TrackerStoriesTest(unittest.TestCase):
     def test_fetching_a_list_of_tracker_stories(self):
         stub_tracker_api = StubTrackerApi()
         stub_tracker_api.stub_get([
-            {'external_id': '456', 'labels': [{'name': 'github-issue'}]}
+            {
+                'external_id': '456',
+                'labels': [{'name': 'github-issue'}]
+            }
         ])
         
         stories = TrackerStories(stub_tracker_api).fetch_by_label(
@@ -98,3 +101,26 @@ class TrackerStoriesTest(unittest.TestCase):
 
         self.assertEqual('/projects/456/stories', stub_tracker_api.get_was_called_with)
         
+    def test_fetching_stories_returns_the_story_url(self):
+        stub_tracker_api = StubTrackerApi()
+        tracker_stories = TrackerStories(
+            tracker_api=stub_tracker_api
+        )
+
+        stub_tracker_api.stub_get([
+            {
+                'url': 'http://example.com/some-story-url',
+                'labels': [{
+                    'name': 'foo',
+                }]
+            }
+        ])
+        
+        stories = tracker_stories.fetch_by_label(
+            project_id=456,
+            label='foo',
+        )
+
+        self.assertEqual(['http://example.com/some-story-url'],
+                         [story.url() for story in stories])
+

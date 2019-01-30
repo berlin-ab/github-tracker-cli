@@ -28,10 +28,11 @@ class Issue():
 
     
 class Story():
-    def __init__(self, story_id = None, external_id = None, title=''):
+    def __init__(self, story_id = None, external_id = None, title='', url=''):
         self._story_id = story_id
         self._external_id = external_id
         self._title = title
+        self._url = url
 
     def external_id(self):
         return self._external_id
@@ -41,6 +42,9 @@ class Story():
 
     def title(self):
         return self._title
+
+    def url(self):
+        return self._url
 
     
 def formatted_issue_number(issue):

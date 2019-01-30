@@ -44,4 +44,3 @@ class TestCli(unittest.TestCase):
         self.assertIn("Something else", formatted_issue['Description'])
         self.assertIn("http://example.com/foobar", formatted_issue['Description'])
 
-

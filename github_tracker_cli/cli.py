@@ -67,7 +67,11 @@ def display_issues_as_rows(issues):
 
 def display_stories_as_rows(stories):
     for story in stories:
-        print story.title()
+        print u"{id} | {url} | {title}".format(
+            id=story.story_id(),
+            title=story.title(),
+            url=story.url(),
+        )
         
 
 def add_shared_arguments(parser):
