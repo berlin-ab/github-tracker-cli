@@ -39,9 +39,13 @@ class Components():
         )
 
 
+def format_issue_title(issue):
+    return u'[Github Issue #%s] %s' % (issue.number(), issue.title())
+
+
 def format_issue(issue):
     try:
-        title = u'[Github Issue #%s] %s' % (issue.number(), issue.title())
+        title = format_issue_title(issue)
         labels = u"github-issue"
 
         description = u'{url}\n\n{description}'.format(
@@ -79,8 +83,8 @@ def display_issues_as_rows(issues):
         
         print u'{id} | {url} | {title}'.format(
             id=unicode(issue.number()),
-            title=unicode(issue.title()),
             url=unicode(issue.url()),
+            title=format_issue_title(issue),
         )
 
 
