@@ -133,9 +133,10 @@ export PIVOTAL_TRACKER_TOKEN='SOME_TOKEN'
 ./scripts/unit-test.sh
 ```
 
-#### Tracker backlog
+#### Planned work and issues
 
-https://www.pivotaltracker.com/n/projects/2241335
+* https://www.pivotaltracker.com/n/projects/2241335
+* https://github.com/berlin-ab/github-tracker-cli/issues
 
 #### Project Structure
 
