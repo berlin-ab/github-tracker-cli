@@ -1,6 +1,6 @@
 import unittest
 
-from github.integration import (
+from github_tracker_cli.github.integration import (
     GithubIssues,
     GithubApi
 )

@@ -6,7 +6,7 @@ import codecs
 from backports import csv
 
 
-from github.integration import (GithubApi, GithubIssues)
+from github_tracker_cli.github.integration import (GithubApi, GithubIssues)
 from pivotal_tracker.integration import (PivotalTrackerApi, TrackerStories)
 from github_tracker.domain import (MissingStories, ClosedIssues)
 
