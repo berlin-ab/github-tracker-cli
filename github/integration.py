@@ -8,7 +8,14 @@ class GithubApi():
     @staticmethod
     def _make_url(path, current_page):
         base_url = "https://api.github.com"
-        return "%s%s&page=%s" % (base_url, path, current_page)
+        per_page = 100
+
+        return "{base_url}{path}&page={page}&per_page={per_page}".format(
+            base_url=base_url,
+            path=path,
+            page=current_page,
+            per_page=per_page,
+        )
         
     def get(self, path):
         results = []
