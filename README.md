@@ -84,6 +84,9 @@ The output format is the CSV import format of Pivotal Tracker.
 
 (note: you might need to remove a trailing newline from the csv file)
 
+`closed-issues`: 
+
+Display Tracker stories whose Github Issues have been closed.
 
 ### Example
 
