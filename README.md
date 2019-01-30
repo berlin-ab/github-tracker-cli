@@ -31,7 +31,7 @@ Collecting requests (from -r requirements.txt (line 1))
 ```
 
 
-## Usage
+## Setting up your project
 
 **Step 1:** Label Github Issues you'd like to import into your Pivotal Tracker backlog.
 
@@ -44,6 +44,8 @@ Collecting requests (from -r requirements.txt (line 1))
 
 **Step 4:** Import the CSV file into your Pivotal Tracker backlog. 
 
+
+## Usage
 
 ### Commands:
 
