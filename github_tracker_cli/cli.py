@@ -77,7 +77,7 @@ def display_issues_as_rows(issues):
     for issue in issues:
         formatted_issue = format_issue(issue)
         
-        print u'{id} | {title} | {url}'.format(
+        print u'{id} | {url} | {title}'.format(
             id=unicode(issue.number()),
             title=unicode(issue.title()),
             url=unicode(issue.url()),
