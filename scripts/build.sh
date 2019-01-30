@@ -6,6 +6,7 @@ pip install -r requirements.txt
 pip install -r requirements-development.txt
 
 ./scripts/unit-test.sh
+./scripts/code-quality-check.bash
 
 ./scripts/integration-test.sh
 
