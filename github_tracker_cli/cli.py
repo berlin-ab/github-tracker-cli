@@ -19,6 +19,26 @@ csv_help_text = "Display output in Pivotal Tracker csv format. (default: false)"
 github_label_help_text = "Return Github Issues matching the given label (case insensitive). (optional)"
 
 
+class Components():
+    def __init__(self, arguments):
+        self.arguments = arguments
+        
+        self.tracker_api = PivotalTrackerApi(
+            api_token=arguments.pivotal_tracker_token
+        )
+        
+        self.github_api = GithubApi()
+        
+        self.github_issues = GithubIssues(
+            github_api=self.github_api,
+            github_repo=arguments.github_repo
+        )
+        
+        self.tracker_stories = TrackerStories(
+            tracker_api=self.tracker_api
+        )
+
+
 def format_issue(issue):
     try:
         title = u'[Github Issue #%s] %s' % (issue.number(), issue.title())
@@ -119,67 +139,69 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def get_display_style(arguments):
+def get_issues_display_style(arguments):
     if arguments.csv:
         return display_issues_as_csv
 
     return display_issues_as_rows
+        
 
+def missing_stories_runner(components):
+    arguments = components.arguments
+    
+    missing_stories = MissingStories(
+        tracker_stories=components.tracker_stories,
+        github_issues=components.github_issues
+    )
 
-def main(arguments=None):
+    issues = missing_stories.issues_not_in_tracker(
+        project_id=arguments.pivotal_tracker_project_id,
+        label=arguments.pivotal_tracker_label,
+        github_label=arguments.github_label,
+    )
+    
+    display_style = get_issues_display_style(arguments)
+    display_style(issues)
+ 
+
+def closed_issues_runner(components):
+    arguments = components.arguments
+    
+    closed_issues = ClosedIssues(
+        tracker_stories=components.tracker_stories,
+        github_issues=components.github_issues
+    )
+
+    display_stories_as_rows(
+        closed_issues.fetch(
+            project_id=arguments.pivotal_tracker_project_id,
+            tracker_label=arguments.pivotal_tracker_label,
+        )
+    )
+ 
+
+def unknown_subcommand_runner(components):
+    print "Unknown command."
+
+        
+def discover_subcommand(arguments):
+    if arguments.chosen_command == 'missing-stories':
+        return missing_stories_runner
+
+    elif arguments.chosen_command == 'closed-issues':
+        return closed_issues_runner
+
+    else:
+        return unknown_subcommand_runner
+    
+            
+def main():
     # Ensure that writing to standard out and to a pipe is via utf8
     sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-    
-    if arguments is None:
-        arguments = parse_arguments()
 
-    #
-    # Components
-    #
-    tracker_api = PivotalTrackerApi(
-        api_token=arguments.pivotal_tracker_token
-    )
-    
-    github_api = GithubApi()
-
-    github_issues = GithubIssues(
-        github_api=github_api,
-        github_repo=arguments.github_repo
-    )
-
-    tracker_stories = TrackerStories(
-        tracker_api=tracker_api
-    )
-
-    if arguments.chosen_command == 'missing-stories':
-        missing_stories = MissingStories(
-            tracker_stories = tracker_stories,
-            github_issues = github_issues
-        )
-
-        #
-        # Query and display issues
-        #
-        get_display_style(arguments)(
-            issues=missing_stories.issues_not_in_tracker(
-                project_id=arguments.pivotal_tracker_project_id,
-                label=arguments.pivotal_tracker_label,
-                github_label=arguments.github_label,
-            )
-        )
-    elif arguments.chosen_command == 'closed-issues':
-        closed_issues = ClosedIssues(
-            tracker_stories = tracker_stories,
-            github_issues = github_issues
-        )
-
-        display_stories_as_rows(
-            closed_issues.fetch(
-                project_id=arguments.pivotal_tracker_project_id,
-                tracker_label=arguments.pivotal_tracker_label,
-            )
-        )
-    else:
-        print "Unknown command."
+    arguments = parse_arguments()
+    components = Components(arguments)
+    subcommand = discover_subcommand(arguments)
+    subcommand(components)
 
 
