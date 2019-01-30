@@ -4,6 +4,12 @@ import requests
 from github_tracker_cli.github_tracker.domain import Issue
 
 
+def log(message):
+    import os
+    if os.environ.get('DEBUG'):
+        print message
+        
+
 class GithubApi():
     @staticmethod
     def _make_url(path, current_page):
@@ -22,9 +28,14 @@ class GithubApi():
         current_page = 1
 
         while True:
-            api_response = requests.get(self._make_url(path, current_page))
+            log("current page: %s" % current_page)
+            url = self._make_url(path, current_page)
+            log("url: %s" % url)
+            api_response = requests.get(url)
             
             if api_response.status_code == 200:
+                log("api response status code: %s" % 200)
+                log("data: %s" % api_response.json())
                 values = api_response.json()
                 results.extend(values)
                 current_page += 1
