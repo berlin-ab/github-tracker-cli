@@ -1,7 +1,7 @@
 import unittest
 
 
-from github_tracker.domain import (
+from github_tracker_cli.github_tracker.domain import (
     ClosedIssues,
     Issue,
     Story,
