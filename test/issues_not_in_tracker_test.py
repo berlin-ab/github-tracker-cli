@@ -37,12 +37,14 @@ def valid_issue(
         number=123,
         url='http://example.com/foo',
         title="A title",
+        description='Some description',
         labels=[]):
 
     return Issue(
         number=number,
         url=url,
         title=title,
+        description=description,
         labels=labels
     )
 
@@ -58,28 +60,16 @@ class IssuesNotInTrackerTest(unittest.TestCase):
         ])
         
         github_issues.stub([
-            Issue(
-                number=123,
-                url='http://example.com/foo',
-                title="A title",
-                labels=[],
-            ),
-            Issue(
-                number=456,
-                url='http://example.com/bar',
-                title="B title",
-                labels=[],
-            ),
-            Issue(
-                number=789,
-                url='http://example.com/baz',
-                title="C title",
-                labels=[],
-            ),
+            valid_issue(number=123, url='http://example.com/foo'),
+            valid_issue(number=456, url='http://example.com/bar'),
+            valid_issue(number=789, url='http://example.com/baz'),
         ])
 
         app = MissingStories(tracker_stories, github_issues)
-        issues = app.issues_not_in_tracker(project_id=123, label='something')
+        issues = app.issues_not_in_tracker(
+            project_id=123,
+            label='something'
+        )
 
         self.assertEqual([456], [issue.number() for issue in issues])
         self.assertIn('http://example.com/bar', [issue.url() for issue in issues])

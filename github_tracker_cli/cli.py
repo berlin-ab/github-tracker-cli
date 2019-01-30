@@ -16,7 +16,11 @@ def format_issue(issue):
     try:
         title = u'[Github Issue #%s] %s' % (issue.number(), issue.title())
         labels = u"github-issue"
-        description = unicode(issue.url())
+
+        description = u'{url}\n{description}'.format(
+            url=issue.url(),
+            description=issue.description()
+        )
 
         return {
             u'Title': title,

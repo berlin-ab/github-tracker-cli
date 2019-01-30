@@ -27,7 +27,8 @@ class GithubIssuesTest(unittest.TestCase):
             {
                 'number': 45678,
                 'html_url': 'http://example.com',
-                'title': 'Some title'
+                'title': 'Some title',
+                'body': 'Some description',
             }
         ])
         
@@ -35,6 +36,7 @@ class GithubIssuesTest(unittest.TestCase):
         
         self.assertEqual(issues[0].number(), 45678)
         self.assertEqual(issues[0].url(), 'http://example.com')
+        self.assertEqual(issues[0].description(), 'Some description')
 
     def test_it_discards_issues_that_have_pull_requests(self):
         github_api = StubGithubApi()
@@ -44,12 +46,14 @@ class GithubIssuesTest(unittest.TestCase):
             {
                 'number': 45678,
                 'html_url': 'http://example.com',
-                'title': 'Some title'
+                'title': 'Some title',
+                'body': '',
             },
             {
                 'number': 123,
                 'html_url': 'http://example.com/pr',
                 'title': 'Some pr',
+                'body': '',
                 'pull_request': {'url': 'http://example.com/some-pr-url'}
             }
         ])
@@ -81,6 +85,7 @@ class GithubIssuesTest(unittest.TestCase):
                 'number': 45678,
                 'html_url': 'http://example.com',
                 'title': 'Some title',
+                'body': '',
                 'labels': [
                     {
                         'name': 'some-label'

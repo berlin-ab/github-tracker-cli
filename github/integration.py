@@ -44,6 +44,7 @@ def json_to_issue(json):
         number = json['number'],
         url = json['html_url'],
         title = json['title'],
+        description = json['body'],
         labels = labels,
     )
 
