@@ -140,6 +140,13 @@ export PIVOTAL_TRACKER_TOKEN='SOME_TOKEN'
 
 #### Project Structure
 
+`bin/`: user-facing runnable applications
+`scripts/`: developer-facing utilities
+`github_tracker_cli`: core namespace
+`github_tracker_cli/cli.py`: argument parsing and output formatting
+`github_tracker_cli/github_tracker`: dependency-free logic and domain definition
+`github_tracker_cli/pivotal_tracker`: adapting layer between Pivotal Tracker API and `github_tracker`
+`github_tracker_cli/github`: adapting layer between Github API and `github_tracker`
 
 Module dependency structure:
 
