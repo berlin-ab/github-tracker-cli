@@ -81,9 +81,6 @@ class GithubIssues():
     def fetch(self):
         return self._fetch(state='open')
         
-    def fetch_closed(self):
-        return self._fetch(state='closed')
-
     def _fetch(self, state):
         list_of_json = self._github_api.get(
             self._path + '?state={state}'.format(state=state)

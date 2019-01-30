@@ -38,7 +38,7 @@ class StubGithubIssues():
     def stub(self, stubbed_issues):
         self._stubbed_issues = stubbed_issues
 
-    def fetch_closed(self):
+    def fetch(self):
         return self._stubbed_issues
     
 
@@ -73,12 +73,12 @@ class ClosedIssuesTest(unittest.TestCase):
             tracker_label='',
         ))
 
-    def test_shows_issue_with_story_matches_issue_number(self):
+    def test_shows_issue_with_story_not_in_issue_numbers(self):
         github_issues = StubGithubIssues()
         tracker_stories = StubTrackerStories()
 
         github_issues.stub([
-            make_issue(number=111),
+            make_issue(number=222),
         ])
         
         tracker_stories.stub([

@@ -97,18 +97,20 @@ class ClosedIssues():
         self._tracker_stories = tracker_stories
     
     def fetch(self, project_id, tracker_label):
-        closed_issues = self._github_issues.fetch_closed()
+        open_issues = self._github_issues.fetch()
         
         stories = self._tracker_stories.fetch_by_label(
             project_id=project_id,
             label=tracker_label,
         )
 
-        def closed_issues_match(story):
-            for issue in closed_issues:
+        def open_issues_match(story):
+            for issue in open_issues:
                 if formatted_issue_number(issue) in story.title():
-                    return True
+                    return False
+
+            return True
 
         return [story for story
                 in stories
-                if closed_issues_match(story)]
+                if open_issues_match(story)]

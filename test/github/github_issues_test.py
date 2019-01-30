@@ -103,23 +103,3 @@ class OpenGithubIssuesTest(BaseGithubIssuesTest, unittest.TestCase):
             github_api.used_path,
             '/repos/berlin-ab/some-repo/issues?state=open'
             )
-
-    
-class ClosedGithubIssuesTest(BaseGithubIssuesTest, unittest.TestCase):
-    def get_issues(self, github_api, github_repo):
-        return GithubIssues(
-            github_api=github_api,
-            github_repo=github_repo,
-        ).fetch_closed()
-
-    def test_it_receives_the_github_issues_api_path_when_fetching(self):
-        github_api = StubGithubApi()
-        github_repo = 'berlin-ab/some-repo'
-        
-        issues = self.get_issues(github_api, github_repo)
-        
-        self.assertEqual(
-            github_api.used_path,
-            '/repos/berlin-ab/some-repo/issues?state=closed'
-        )
-
