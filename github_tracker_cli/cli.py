@@ -1,7 +1,6 @@
 import os
 import sys
 import argparse
-import sys
 import codecs
 from backports import csv
 
