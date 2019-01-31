@@ -11,4 +11,5 @@ pip install -r requirements-development.txt
 ./scripts/integration-test.sh
 
 ./scripts/example-missing-stories.bash
+./scripts/example-missing-stories-csv.bash
 ./scripts/example-closed-issues.bash
