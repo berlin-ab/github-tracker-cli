@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-radon cc --show-complexity --average github_tracker_cli/
+radon cc --min B --show-complexity --average github_tracker_cli/
