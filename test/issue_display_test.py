@@ -2,7 +2,9 @@
 import unittest
 
 
-from github_tracker_cli.cli import format_issue
+from github_tracker_cli.issue_display import (
+    format_issue
+)
 from github_tracker_cli.github_tracker.domain import Issue
 
 
@@ -19,8 +21,7 @@ def make_issue(number=123,
     )
 
 
-class TestCli(unittest.TestCase):
-    
+class IssueDisplayTest(unittest.TestCase):
     def test_printout_includes_github_issue_title(self):
         issue = make_issue(number=123, title="Some title")
         formatted_issue = format_issue(issue)

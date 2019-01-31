@@ -5,9 +5,14 @@ import codecs
 from backports import csv
 
 
-from github_tracker_cli.github.integration import (GithubApi, GithubIssues)
-from github_tracker_cli.pivotal_tracker.integration import (PivotalTrackerApi, TrackerStories)
-from github_tracker_cli.github_tracker.domain import (MissingStories, ClosedIssues)
+from github_tracker_cli.github_tracker.domain import (
+    MissingStories,
+    ClosedIssues
+)
+
+from github_tracker_cli.components import Components
+from github_tracker_cli.issue_display import get_issues_display_style
+from github_tracker_cli.story_display import display_stories_as_rows
 
 
 default_tracker_label = 'github-issue'
@@ -19,83 +24,6 @@ csv_help_text = "Display output in Pivotal Tracker csv format. (default: false)"
 github_label_help_text = "Return Github Issues matching the given label (case insensitive). (optional)"
 
 
-class Components():
-    def __init__(self, arguments):
-        self.arguments = arguments
-        
-        self.tracker_api = PivotalTrackerApi(
-            api_token=arguments.pivotal_tracker_token
-        )
-        
-        self.github_api = GithubApi()
-        
-        self.github_issues = GithubIssues(
-            github_api=self.github_api,
-            github_repo=arguments.github_repo
-        )
-        
-        self.tracker_stories = TrackerStories(
-            tracker_api=self.tracker_api
-        )
-
-
-def format_issue_title(issue):
-    return u'[Github Issue #%s] %s' % (issue.number(), issue.title())
-
-
-def format_issue(issue):
-    try:
-        title = format_issue_title(issue)
-        labels = u"github-issue"
-
-        description = u'{url}\n\n{description}'.format(
-            url=issue.url(),
-            description=issue.description()
-        )
-
-        return {
-            u'Title': title,
-            u'Labels': labels,
-            u'Description': description
-        }
-    except Exception as error:
-        print "Failed to format issue:"
-        print issue.number()
-        print issue.title()
-        print issue.url()
-        raise error
-
-
-def display_issues_as_csv(issues):
-    writer = csv.DictWriter(
-        sys.stdout,
-        [u'Title', u'Labels', u'Description'],
-        quoting=csv.QUOTE_ALL
-    )
-
-    writer.writeheader()
-    writer.writerows(map(format_issue,  issues))
-
-
-def display_issues_as_rows(issues):
-    for issue in issues:
-        formatted_issue = format_issue(issue)
-        
-        print u'{id} | {url} | {title}'.format(
-            id=unicode(issue.number()),
-            url=unicode(issue.url()),
-            title=format_issue_title(issue),
-        )
-
-
-def display_stories_as_rows(stories):
-    for story in stories:
-        print u"{id} | {url} | {title}".format(
-            id=story.story_id(),
-            title=story.title(),
-            url=story.url(),
-        )
-        
 
 def add_shared_arguments(parser):
     parser.add_argument('--pivotal-tracker-token',
@@ -142,13 +70,6 @@ def parse_arguments():
     add_closed_issues_parser(subparsers)
     return parser.parse_args()
 
-
-def get_issues_display_style(arguments):
-    if arguments.csv:
-        return display_issues_as_csv
-
-    return display_issues_as_rows
-        
 
 def missing_stories_runner(components):
     arguments = components.arguments
