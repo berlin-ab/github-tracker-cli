@@ -2,7 +2,7 @@ import os
 import sys
 import argparse
 import codecs
-from backports import csv
+
 
 
 from github_tracker_cli.github_tracker.domain import (

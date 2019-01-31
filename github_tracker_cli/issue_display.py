@@ -1,3 +1,7 @@
+from backports import csv
+import sys
+
+
 def _format_issue_title(issue):
     return u'[Github Issue #%s] %s' % (issue.number(), issue.title())
 
