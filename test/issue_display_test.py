@@ -35,13 +35,11 @@ class IssueDisplayTest(unittest.TestCase):
         formatted_issue = format_issue(issue)
         self.assertIn(title, formatted_issue['Title'])
 
-    def test_formatted_description_includes_issue_description_and_url(self):
+    def test_formatted_description_includes_issue_url(self):
         issue = make_issue(
             url="http://example.com/foobar",
-            description="Something else"
         )
 
         formatted_issue = format_issue(issue)
-        self.assertIn("Something else", formatted_issue['Description'])
         self.assertIn("http://example.com/foobar", formatted_issue['Description'])
 
