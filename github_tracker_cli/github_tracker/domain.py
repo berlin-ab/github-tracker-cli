@@ -1,3 +1,22 @@
+class PullRequest():
+    def __init__(self, number, url, title, last_updated_at):
+        self._number = number
+        self._url = url
+        self._title = title
+        self._last_updated_at = last_updated_at
+
+    def number(self):
+        return self._number
+
+    def url(self):
+        return self._url
+
+    def title(self):
+        return self._title
+
+    def last_updated_at(self):
+        return self._last_updated_at
+
 class Issue():
     def __init__(self, number, url, title, description, labels):
         self._number = number

@@ -24,8 +24,12 @@ csv_help_text = "Display output in Pivotal Tracker csv format. (default: false)"
 github_label_help_text = "Return Github Issues matching the given label (case insensitive). (optional)"
 
 
+def add_github_arguments(parser):
+    parser.add_argument('--github-repo',
+                                        required=True,
+                                        help=github_repo_help_text)
 
-def add_shared_arguments(parser):
+def add_pivotal_tracker_arguments(parser):
     parser.add_argument('--pivotal-tracker-token',
                                         required=True,
                                         help=tracker_token_help_text)
@@ -34,13 +38,14 @@ def add_shared_arguments(parser):
                                         required=True,
                                         help=tracker_project_id_help_text)
 
-    parser.add_argument('--github-repo',
-                                        required=True,
-                                        help=github_repo_help_text)
-
     parser.add_argument('--pivotal-tracker-label',
                                         help=tracker_label_help_text,
                                         default=default_tracker_label)
+
+    
+def add_shared_arguments(parser):
+    add_pivotal_tracker_arguments(parser)
+    add_github_arguments(parser)
 
 
 def add_missing_stories_parser(subparsers):
@@ -59,6 +64,11 @@ def add_closed_issues_parser(subparsers):
     parser = subparsers.add_parser('closed-issues')
     add_shared_arguments(parser)
 
+    
+def add_pull_requests_parser(subparsers):
+    parser = subparsers.add_parser('pull-requests')
+    add_github_arguments(parser)
+    
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -68,6 +78,7 @@ def parse_arguments():
         
     add_missing_stories_parser(subparsers)
     add_closed_issues_parser(subparsers)
+    add_pull_requests_parser(subparsers)
     return parser.parse_args()
 
 
@@ -75,8 +86,8 @@ def missing_stories_runner(components):
     arguments = components.arguments
     
     missing_stories = MissingStories(
-        tracker_stories=components.tracker_stories,
-        github_issues=components.github_issues
+        tracker_stories=components.tracker_stories(),
+        github_issues=components.github_issues()
     )
 
     issues = missing_stories.issues_not_in_tracker(
@@ -93,8 +104,8 @@ def closed_issues_runner(components):
     arguments = components.arguments
     
     closed_issues = ClosedIssues(
-        tracker_stories=components.tracker_stories,
-        github_issues=components.github_issues
+        tracker_stories=components.tracker_stories(),
+        github_issues=components.github_issues()
     )
 
     display_stories_as_rows(
@@ -103,7 +114,27 @@ def closed_issues_runner(components):
             tracker_label=arguments.pivotal_tracker_label,
         )
     )
- 
+
+
+class OpenPullRequests():
+    def __init__(self, pull_requests):
+        self._pull_requests = pull_requests
+
+    def fetch(self):
+        return self._pull_requests.fetch()
+    
+
+def pull_requests_runner(components):
+    command = OpenPullRequests(components.pull_requests())
+
+    for pull_request in command.fetch():
+       print u"{number} | {url} | {last_updated_at} | {title}".format(
+           number=pull_request.number(),
+           url=pull_request.url(),
+           title=pull_request.title(),
+           last_updated_at=pull_request.last_updated_at(),
+       )
+    
 
 def unknown_subcommand_runner(components):
     print "Unknown command."
@@ -116,6 +147,9 @@ def discover_subcommand(arguments):
     elif arguments.chosen_command == 'closed-issues':
         return closed_issues_runner
 
+    elif arguments.chosen_command == 'pull-requests':
+        return pull_requests_runner
+    
     else:
         return unknown_subcommand_runner
     

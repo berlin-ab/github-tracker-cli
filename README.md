@@ -102,6 +102,10 @@ The output format is the CSV import format of Pivotal Tracker.
 
 Display Tracker stories whose Github Issues have been closed.
 
+`pull-requests`:
+
+List pull requests from a Github Repository
+
 ### Example
 
 Shows all Github issues matching a Github label that do not have a corresponding Pivotal Tracker story output in Pivotal Tracker CSV format.
@@ -173,6 +177,15 @@ export PIVOTAL_TRACKER_TOKEN='SOME_TOKEN'
 Module dependency structure:
 
     cli -> (github -> github_tracker <- pivotal_tracker)
+
+#### Debugging environment variables:
+
+    # enable verbose logging
+	export DEBUG=true 
+	
+	# enable github authentication
+	export GITHUB_USERNAME=[some value]
+	export GITHUB_PASSWORD=[some personal access token]
 	
 
 ### Notes: 

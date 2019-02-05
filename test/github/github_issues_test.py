@@ -1,8 +1,8 @@
 import unittest
 
 
-from github_tracker_cli.github.integration import GithubIssues
-from github_tracker_cli.github_tracker.domain import Issue
+from github_tracker_cli.github.integration import GithubIssues, PullRequests
+from github_tracker_cli.github_tracker.domain import Issue, PullRequest
 
 
 class StubGithubApi():
@@ -103,3 +103,45 @@ class OpenGithubIssuesTest(BaseGithubIssuesTest, unittest.TestCase):
             github_api.used_path,
             '/repos/berlin-ab/some-repo/issues?state=open'
             )
+
+
+class PullRequestsTest(unittest.TestCase):
+    def get_pull_requests(self, github_api, github_repo):
+        return PullRequests(
+            github_api=github_api,
+            github_repo=github_repo,
+        ).fetch()
+
+    def test_it_returns_pull_requests(self):
+        github_api = StubGithubApi()
+        github_api.stub_get([
+            {
+                'number': 45678,
+                'html_url': 'http://example.com/abc',
+                'title': 'Some title abc',
+                'body': '',
+                'updated_at': '9999-99-99',                
+                'pull_request': {
+                    'url': 'http://example.com/some-pr-api-url',
+                    'html_url': 'http://example.com/some-pr-url'
+                },
+            },
+            {
+                'number': 12345,
+                'html_url': 'http://example.com/def',
+                'title': 'Some title def',
+                'updated_at': '9999-99-99',
+                'body': '',
+            },
+        ])
+        github_repo = 'berlin-ab/some-repo'
+        
+        pull_requests = self.get_pull_requests(github_api, github_repo)
+
+        self.assertEqual(1, len(pull_requests))
+        pull_request = pull_requests[0]
+        self.assertEqual(45678, pull_request.number())
+        self.assertEqual('http://example.com/some-pr-url', pull_request.url())
+        self.assertEqual('Some title abc', pull_request.title())
+        self.assertEqual('9999-99-99', pull_request.last_updated_at())
+

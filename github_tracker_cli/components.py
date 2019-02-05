@@ -1,23 +1,39 @@
-from github_tracker_cli.github.integration import (GithubApi, GithubIssues)
+from github_tracker_cli.github.integration import (
+    GithubApi,
+    GithubIssues,
+    PullRequests,
+)
+
 from github_tracker_cli.pivotal_tracker.integration import (PivotalTrackerApi, TrackerStories)
 
 
 class Components():
     def __init__(self, arguments):
         self.arguments = arguments
-        
-        self.tracker_api = PivotalTrackerApi(
-            api_token=arguments.pivotal_tracker_token
+
+    def tracker_api(self):
+        return PivotalTrackerApi(
+            api_token=self.arguments.pivotal_tracker_token
         )
-        
-        self.github_api = GithubApi()
-        
-        self.github_issues = GithubIssues(
-            github_api=self.github_api,
-            github_repo=arguments.github_repo
+
+    def github_api(self):
+        return GithubApi()
+
+    def github_issues(self):
+        return  GithubIssues(
+            github_api=self.github_api(),
+            github_repo=self.arguments.github_repo
         )
-        
-        self.tracker_stories = TrackerStories(
-            tracker_api=self.tracker_api
+
+    def tracker_stories(self):
+        return TrackerStories(
+            tracker_api=self.tracker_api()
         )
+
+    def pull_requests(self):
+        return PullRequests(
+            github_api=self.github_api(),
+            github_repo=self.arguments.github_repo,
+        )
+
 

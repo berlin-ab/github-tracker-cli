@@ -1,11 +1,13 @@
 import requests
+import os
 
-
-from github_tracker_cli.github_tracker.domain import Issue
+from github_tracker_cli.github_tracker.domain import (
+    Issue,
+    PullRequest
+)
 
 
 def log(message):
-    import os
     if os.environ.get('DEBUG'):
         print message
         
@@ -27,11 +29,18 @@ class GithubApi():
         results = []
         current_page = 1
 
+        github_username = os.environ.get('GITHUB_USERNAME', None)
+        github_password = os.environ.get('GITHUB_PASSWORD', None)
+        auth = ()
+        
+        if github_username and github_password:
+            auth = (github_username, github_password)
+
         while True:
             log("current page: %s" % current_page)
             url = self._make_url(path, current_page)
             log("url: %s" % url)
-            api_response = requests.get(url)
+            api_response = requests.get(url, auth=auth)
             
             if api_response.status_code == 200:
                 log("api response status code: %s" % 200)
@@ -66,11 +75,23 @@ def json_to_issue(json):
         labels = labels,
     )
 
-def non_pull_requests(json):
-    if 'pull_request' in json:
-        return False
 
-    return True
+def json_to_pull_request(json):
+    log(json)
+    return PullRequest(
+        number = json['number'],
+        url = json.get('pull_request', {}).get('html_url', None),
+        title = json['title'],
+        last_updated_at = json.get('updated_at', None),
+    )
+
+
+def non_pull_requests(json):
+    return not only_pull_requests(json)
+
+
+def only_pull_requests(json):
+    return 'pull_request' in json
 
 
 class GithubIssues():
@@ -88,4 +109,21 @@ class GithubIssues():
         
         return map(json_to_issue,
                    filter(non_pull_requests, list_of_json))
+
+    
+class PullRequests():
+    def __init__(self, github_api, github_repo):
+        self._github_api = github_api
+        self._path = "/repos/%s/issues" % github_repo
+
+    def fetch(self):
+        return self._fetch(state='open')
         
+    def _fetch(self, state):
+        list_of_json = self._github_api.get(
+            self._path + '?state={state}'.format(state=state)
+        )
+        
+        return map(json_to_pull_request,
+                   filter(only_pull_requests, list_of_json))
+    

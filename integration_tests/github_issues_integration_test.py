@@ -2,7 +2,8 @@ import unittest
 
 from github_tracker_cli.github.integration import (
     GithubIssues,
-    GithubApi
+    GithubApi,
+    PullRequests
 )
 
     
@@ -44,3 +45,22 @@ class GithubIssuesIntegrationTest(unittest.TestCase):
         numbers = [issue.number() for issue in issues]
 
         self.assertIn(2, numbers)
+
+        
+class PullRequestsTest(unittest.TestCase):
+    def test_it_returns_pull_requests(self):
+        github_repo = 'berlin-ab/github-tracker-cli'
+        github_api = GithubApi()
+        pull_requests_service = PullRequests(
+            github_api=github_api,
+            github_repo=github_repo,
+        )
+
+
+        pull_requests = pull_requests_service.fetch()
+        self.assertEqual(1, len(pull_requests))
+        pull_request = pull_requests[0]
+        self.assertEqual(18, pull_request.number())
+        self.assertEqual('https://github.com/berlin-ab/github-tracker-cli/pull/18', pull_request.url())
+        self.assertEqual('Fake pull request', pull_request.title())
+
