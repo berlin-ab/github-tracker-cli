@@ -106,6 +106,18 @@ Display Tracker stories whose Github Issues have been closed.
 
 List pull requests from a Github Repository
 
+```
+usage: ./bin/github_tracker_cli pull-requests [-h] --github-repo GITHUB_REPO
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --github-repo GITHUB_REPO
+                        The organization/username and repository name as a
+                        string. For example: https://github.com/berlin-ab
+                        /github-tracker-cli would use --github-repo='berlin-ab
+                        /github-tracker-cli'
+```
+
 ### Example
 
 Shows all Github issues matching a Github label that do not have a corresponding Pivotal Tracker story output in Pivotal Tracker CSV format.
