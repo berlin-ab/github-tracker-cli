@@ -125,6 +125,9 @@ class PullRequestsTest(unittest.TestCase):
                     'url': 'http://example.com/some-pr-api-url',
                     'html_url': 'http://example.com/some-pr-url'
                 },
+                'user': {
+                    'login': 'some-github-author'
+                }
             },
             {
                 'number': 12345,
@@ -144,4 +147,5 @@ class PullRequestsTest(unittest.TestCase):
         self.assertEqual('http://example.com/some-pr-url', pull_request.url())
         self.assertEqual('Some title abc', pull_request.title())
         self.assertEqual('9999-99-99', pull_request.last_updated_at())
+        self.assertEqual('some-github-author', pull_request.author())
 

@@ -4,15 +4,16 @@ import argparse
 import codecs
 
 
-
 from github_tracker_cli.github_tracker.domain import (
     MissingStories,
-    ClosedIssues
+    ClosedIssues,
+    OpenPullRequests,
 )
 
 from github_tracker_cli.components import Components
 from github_tracker_cli.issue_display import get_issues_display_style
 from github_tracker_cli.story_display import display_stories_as_rows
+from github_tracker_cli.pull_request_display import print_pull_requests_as_rows
 
 
 default_tracker_label = 'github-issue'
@@ -22,6 +23,10 @@ tracker_label_help_text = "Filter (case-insensitive) by a label used to categori
 github_repo_help_text = "The organization/username and repository name as a string. For example: https://github.com/berlin-ab/github-tracker-cli would use --github-repo='berlin-ab/github-tracker-cli'"
 csv_help_text = "Display output in Pivotal Tracker csv format. (default: false)"
 github_label_help_text = "Return Github Issues matching the given label (case insensitive). (optional)"
+
+
+def printer(string):
+    print string
 
 
 def add_github_arguments(parser):
@@ -116,24 +121,9 @@ def closed_issues_runner(components):
     )
 
 
-class OpenPullRequests():
-    def __init__(self, pull_requests):
-        self._pull_requests = pull_requests
-
-    def fetch(self):
-        return self._pull_requests.fetch()
-    
-
 def pull_requests_runner(components):
     command = OpenPullRequests(components.pull_requests())
-
-    for pull_request in command.fetch():
-       print u"{number} | {url} | {last_updated_at} | {title}".format(
-           number=pull_request.number(),
-           url=pull_request.url(),
-           title=pull_request.title(),
-           last_updated_at=pull_request.last_updated_at(),
-       )
+    print_pull_requests_as_rows(command.fetch(), printer)
     
 
 def unknown_subcommand_runner(components):

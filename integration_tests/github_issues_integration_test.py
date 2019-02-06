@@ -63,4 +63,5 @@ class PullRequestsTest(unittest.TestCase):
         self.assertEqual(18, pull_request.number())
         self.assertEqual('https://github.com/berlin-ab/github-tracker-cli/pull/18', pull_request.url())
         self.assertEqual('Fake pull request', pull_request.title())
+        self.assertEqual('berlin-ab', pull_request.author())
 

@@ -1,9 +1,10 @@
 class PullRequest():
-    def __init__(self, number, url, title, last_updated_at):
+    def __init__(self, number, url, title, last_updated_at, author):
         self._number = number
         self._url = url
         self._title = title
         self._last_updated_at = last_updated_at
+        self._author = author
 
     def number(self):
         return self._number
@@ -16,6 +17,10 @@ class PullRequest():
 
     def last_updated_at(self):
         return self._last_updated_at
+
+    def author(self):
+        return self._author
+
 
 class Issue():
     def __init__(self, number, url, title, description, labels):
@@ -133,3 +138,12 @@ class ClosedIssues():
         return [story for story
                 in stories
                 if open_issues_match(story)]
+
+
+class OpenPullRequests():
+    def __init__(self, pull_requests):
+        self._pull_requests = pull_requests
+
+    def fetch(self):
+        return self._pull_requests.fetch()
+
