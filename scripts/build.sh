@@ -16,8 +16,8 @@ rm -f $LOG_FILE # cleanup previous run
 
 
 log "install dependencies"
-pip install -r requirements.txt
-pip install -r requirements-development.txt
+pip install -r requirements.txt >> $LOG_FILE && echo "Success." || (echo "Failed to install dependencies" && false)
+pip install -r requirements-development.txt >> $LOG_FILE && echo "Success." || (echo "Failed to install dev dependencies" && false)
 
 
 log "run test suites"
