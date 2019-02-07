@@ -49,7 +49,7 @@ Collecting requests (from -r requirements.txt (line 1))
 
 ### Commands:
 
-`missing-stories`: 
+#### `missing-stories`: 
 
 Look through all Pivotal Tracker stories and find ones marked with a 'github-issue' label (by default) and with a title starting with "[Github Issue #123] Some title".  If there are open issues that do not have a corresponding story, display a url to the issue so that a story can be created for the issue.
 
@@ -98,11 +98,38 @@ The output format is the CSV import format of Pivotal Tracker.
 
 (note: you might need to remove a trailing newline from the csv file)
 
-`closed-issues`: 
+#### `closed-issues`: 
 
 Display Tracker stories whose Github Issues have been closed.
 
-`pull-requests`:
+```
+usage: ./bin/github_tracker_cli closed-issues [-h] --pivotal-tracker-token
+                                              PIVOTAL_TRACKER_TOKEN
+                                              --pivotal-tracker-project-id
+                                              PIVOTAL_TRACKER_PROJECT_ID
+                                              [--pivotal-tracker-label PIVOTAL_TRACKER_LABEL]
+                                              --github-repo GITHUB_REPO
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --pivotal-tracker-token PIVOTAL_TRACKER_TOKEN
+                        Your personal pivotal tracker api token. See https://w
+                        ww.pivotaltracker.com/help/articles/api_token/
+  --pivotal-tracker-project-id PIVOTAL_TRACKER_PROJECT_ID
+                        Pivotal Tracker project id.
+                        https://www.pivotaltracker.com/n/projects/[PROJECTID]
+  --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
+                        Filter (case-insensitive) by a label used to
+                        categorize stories in Pivotal Tracker. Default:
+                        --pivotal-tracker-label=github-issue
+  --github-repo GITHUB_REPO
+                        The organization/username and repository name as a
+                        string. For example: https://github.com/berlin-ab
+                        /github-tracker-cli would use --github-repo='berlin-ab
+                        /github-tracker-cli'
+```
+
+#### `pull-requests`:
 
 List pull requests from a Github Repository
 
