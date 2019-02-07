@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 import unittest
 
 
@@ -34,10 +35,10 @@ class DisplayPullRequestsTest(unittest.TestCase):
         self.pull_requests = [
             PullRequest(
                 number=1234,
-                title='Some cool title',
-                url='http://example.com/some-printable-url',
-                author='me',
-                last_updated_at='some-timestamp'
+                title=u'Some cool title 错误',
+                url=u'http://example.com/some-printable-url',
+                author=u'me',
+                last_updated_at=u'some-timestamp'
             )
         ]
 
