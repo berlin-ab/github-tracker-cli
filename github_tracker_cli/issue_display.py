@@ -10,7 +10,7 @@ def _format_issue_title(issue):
 
 
 def printer(string):
-    print_function(string)
+    print(string)
 
 
 def format_issue(issue):
