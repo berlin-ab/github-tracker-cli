@@ -109,10 +109,10 @@ class OpenGithubIssuesTest(BaseGithubIssuesTest, unittest.TestCase):
 
 class PullRequestsTest(unittest.TestCase):
     def get_pull_requests(self, github_api, github_repo):
-        return PullRequests(
+        return [pull_request for pull_request in PullRequests(
             github_api=github_api,
             github_repo=github_repo,
-        ).fetch()
+        ).fetch()]
 
     def test_it_returns_pull_requests(self):
         github_api = StubGithubApi()
