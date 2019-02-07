@@ -51,7 +51,7 @@ def _display_issues_as_rows(issues):
         formatted_issue = format_issue(issue)
         
         printer(u'{id} | {url} | {title}'.format(
-            id=issue.number(),
+            id=str(issue.number()).ljust(5),
             url=issue.url(),
             title=_format_issue_title(issue),
         ))
