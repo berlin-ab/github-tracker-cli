@@ -90,10 +90,10 @@ class BaseGithubIssuesTest():
         
 class OpenGithubIssuesTest(BaseGithubIssuesTest, unittest.TestCase):
     def get_issues(self, github_api, github_repo):
-        return GithubIssues(
+        return [issue for issue in GithubIssues(
             github_api=github_api,
             github_repo=github_repo,
-        ).fetch()
+        ).fetch()]
 
     def test_it_receives_the_github_issues_api_path_when_fetching(self):
         github_api = StubGithubApi()
