@@ -10,7 +10,7 @@ def _format_issue_title(issue):
 
 
 def printer(string):
-    print(string)
+    print(string.decode('UTF-8'))
 
 
 def format_issue(issue):

@@ -29,7 +29,7 @@ github_label_help_text = "Return Github Issues matching the given label (case in
 
 
 def printer(string):
-    print(string)
+    print(string.decode('UTF-8'))
 
 
 def add_github_arguments(parser):
