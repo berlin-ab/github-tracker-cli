@@ -7,7 +7,7 @@ def _format_issue_title(issue):
 
 
 def printer(string):
-    sys.stdout.write(string + "\n")
+    sys.stdout.write(str(string) + "\n")
 
 
 def format_issue(issue):

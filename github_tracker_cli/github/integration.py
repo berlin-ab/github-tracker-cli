@@ -11,7 +11,7 @@ from github_tracker_cli.github_tracker.domain import (
 )
 
 def printer(string):
-    sys.stdout.write(string + "\n")
+    sys.stdout.write(str(string) + "\n")
 
 
 def log(message):
