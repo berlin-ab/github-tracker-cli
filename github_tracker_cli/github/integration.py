@@ -26,23 +26,25 @@ class GithubApi():
             page=current_page,
             per_page=per_page,
         )
+
+    def _auth(self):
+        github_username = os.environ.get('GITHUB_USERNAME', None)
+        github_password = os.environ.get('GITHUB_PASSWORD', None)
         
+        if github_username and github_password:
+            return (github_username, github_password)
+
+        return ()
+                
     def get(self, path):
         results = []
         current_page = 1
-
-        github_username = os.environ.get('GITHUB_USERNAME', None)
-        github_password = os.environ.get('GITHUB_PASSWORD', None)
-        auth = ()
-        
-        if github_username and github_password:
-            auth = (github_username, github_password)
 
         while True:
             log("current page: %s" % current_page)
             url = self._make_url(path, current_page)
             log("url: %s" % url)
-            api_response = requests.get(url, auth=auth)
+            api_response = requests.get(url, auth=self._auth())
             
             if api_response.status_code == 200:
                 log("api response status code: %s" % 200)
