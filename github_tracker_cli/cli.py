@@ -117,7 +117,8 @@ def closed_issues_runner(components):
         closed_issues.fetch(
             project_id=arguments.pivotal_tracker_project_id,
             tracker_label=arguments.pivotal_tracker_label,
-        )
+        ),
+        printer
     )
 
 

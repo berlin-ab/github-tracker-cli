@@ -1,8 +1,4 @@
-def printer(string):
-    sys.stdout.write(string + "\n")
-
-
-def display_stories_as_rows(stories):
+def display_stories_as_rows(stories, printer):
     for story in stories:
         printer(u"{id} | {url} | {title}".format(
             id=story.story_id(),
