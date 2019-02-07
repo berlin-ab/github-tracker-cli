@@ -1,6 +1,10 @@
+from __future__ import print_function
+
+
 import requests
 import os
 import sys
+
 
 from dateutil import parser
 
@@ -11,7 +15,7 @@ from github_tracker_cli.github_tracker.domain import (
 )
 
 def printer(string):
-    sys.stdout.write(str(string) + "\n")
+    print_function(string)
 
 
 def log(message):

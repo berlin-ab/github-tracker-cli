@@ -1,3 +1,6 @@
+from __future__ import print_function
+
+
 from backports import csv
 import sys
 
@@ -7,7 +10,7 @@ def _format_issue_title(issue):
 
 
 def printer(string):
-    sys.stdout.write(str(string) + "\n")
+    print_function(string)
 
 
 def format_issue(issue):

@@ -1,3 +1,6 @@
+from __future__ import print_function
+
+
 import os
 import sys
 import argparse
@@ -26,7 +29,7 @@ github_label_help_text = "Return Github Issues matching the given label (case in
 
 
 def printer(string):
-    sys.stdout.write(str(string) + "\n")
+    print_function(string)
 
 
 def add_github_arguments(parser):
