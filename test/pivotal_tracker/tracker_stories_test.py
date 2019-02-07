@@ -34,9 +34,9 @@ class TrackerStoriesTest(unittest.TestCase):
             label='github-issue'
         )
 
-        self.assertEqual(
+        self.assertIn(
             '456',
-            stories[0].external_id()
+            [story.external_id() for story in stories]
         )
 
     def test_it_filters_out_stories_that_do_not_match_the_given_label_case_insensitive(self):
