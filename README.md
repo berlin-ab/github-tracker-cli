@@ -12,7 +12,10 @@ For some open source projects, Github Issues is a great way to interact with the
 
 Installs all necessary dependencies.
 
-Note: Assumes `pip` is installed.
+Notes: 
+
+- Assumes `pip` is installed.
+- Only Python 2.7 is supported so far
 
 ```bash
 $ git clone https://github.com/berlin-ab/github-tracker-cli.git
