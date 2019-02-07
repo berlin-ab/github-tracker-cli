@@ -25,10 +25,10 @@ class GithubIssuesIntegrationTest(unittest.TestCase):
     def test_it_returns_real_issues(self):
         real_github_api = GithubApi()
 
-        issues = GithubIssues(
+        issues = [issue for issue in GithubIssues(
             real_github_api,
             'berlin-ab/gpdb'
-        ).fetch()
+        ).fetch()]
         
         self.assertEqual(2, issues[0].number())
         self.assertIn('testing', issues[0].labels())
@@ -57,7 +57,7 @@ class PullRequestsTest(unittest.TestCase):
         )
 
 
-        pull_requests = pull_requests_service.fetch()
+        pull_requests = [pull_request for pull_request in pull_requests_service.fetch()]
         self.assertEqual(1, len(pull_requests))
         pull_request = pull_requests[0]
         self.assertEqual(18, pull_request.number())
