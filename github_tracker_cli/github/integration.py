@@ -61,7 +61,7 @@ class GithubApi():
                 if (len(values) == 0):
                     break;
             elif api_response.status_code == 403:
-                print "Unable to authenticate with Github: %s" % api_response.text
+                printer("Unable to authenticate with Github: %s" % api_response.text)
                 break
             else:
                 raise RuntimeError('unable to fetch from github: %s, %s' % (api_response.status_code, api_response.text))
