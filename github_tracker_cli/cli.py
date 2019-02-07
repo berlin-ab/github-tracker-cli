@@ -104,8 +104,11 @@ def missing_stories_runner(components):
         github_label=arguments.github_label,
     )
     
-    display_style = get_issues_display_style(arguments)
-    display_style(issues)
+    display_style = get_issues_display_style(
+        csv=arguments.csv
+    )
+    
+    display_style(issues, printer)
  
 
 def closed_issues_runner(components):
@@ -156,5 +159,4 @@ def main():
     components = Components(arguments)
     subcommand = discover_subcommand(arguments)
     subcommand(components)
-
 

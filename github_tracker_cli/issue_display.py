@@ -9,11 +9,7 @@ def _format_issue_title(issue):
     return u'[Github Issue #%s] %s' % (issue.number(), issue.title())
 
 
-def printer(string):
-    print(string)
-
-
-def format_issue(issue):
+def _format_issue(issue, printer):
     try:
         title = _format_issue_title(issue)
         labels = u"github-issue"
@@ -35,7 +31,7 @@ def format_issue(issue):
         raise error
 
 
-def _display_issues_as_csv(issues):
+def _display_issues_as_csv(issues, printer):
     writer = csv.DictWriter(
         sys.stdout,
         [u'Title', u'Labels', u'Description'],
@@ -43,12 +39,13 @@ def _display_issues_as_csv(issues):
     )
 
     writer.writeheader()
-    writer.writerows(map(format_issue,  issues))
+
+    writer.writerows([_format_issue(issue, printer) for issue in issues])
 
 
-def _display_issues_as_rows(issues):
+def _display_issues_as_rows(issues, printer):
     for issue in issues:
-        formatted_issue = format_issue(issue)
+        formatted_issue = _format_issue(issue, printer)
         
         printer(u'{id} | {url} | {created_at} | {updated_at} | {title}'.format(
             id=str(issue.number()).ljust(5),
@@ -59,8 +56,8 @@ def _display_issues_as_rows(issues):
         ))
 
 
-def get_issues_display_style(arguments):
-    if arguments.csv:
+def get_issues_display_style(csv):
+    if csv:
         return _display_issues_as_csv
 
     return _display_issues_as_rows
