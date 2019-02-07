@@ -1,4 +1,6 @@
 import unittest
+import datetime
+from dateutil import tz
 
 
 from github_tracker_cli.github.integration import GithubIssues, PullRequests
@@ -120,7 +122,7 @@ class PullRequestsTest(unittest.TestCase):
                 'html_url': 'http://example.com/abc',
                 'title': 'Some title abc',
                 'body': '',
-                'updated_at': '9999-99-99',                
+                'updated_at': '2010-01-01T10:10:10Z',
                 'pull_request': {
                     'url': 'http://example.com/some-pr-api-url',
                     'html_url': 'http://example.com/some-pr-url'
@@ -133,7 +135,7 @@ class PullRequestsTest(unittest.TestCase):
                 'number': 12345,
                 'html_url': 'http://example.com/def',
                 'title': 'Some title def',
-                'updated_at': '9999-99-99',
+                'updated_at': '9999-99-99T01:01:01Z',
                 'body': '',
             },
         ])
@@ -146,6 +148,9 @@ class PullRequestsTest(unittest.TestCase):
         self.assertEqual(45678, pull_request.number())
         self.assertEqual('http://example.com/some-pr-url', pull_request.url())
         self.assertEqual('Some title abc', pull_request.title())
-        self.assertEqual('9999-99-99', pull_request.last_updated_at())
+        self.assertEqual(
+            datetime.datetime(year=2010, month=1, day=1, hour=10, minute=10 ,second=10, tzinfo=tz.tzutc()),
+            pull_request.last_updated_at()
+        )
         self.assertEqual('some-github-author', pull_request.author())
 

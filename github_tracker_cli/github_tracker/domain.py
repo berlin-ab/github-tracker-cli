@@ -140,10 +140,18 @@ class ClosedIssues():
                 if open_issues_match(story)]
 
 
+def sort_by_last_updated_at(pull_request):
+    return pull_request.last_updated_at()
+
+    
 class OpenPullRequests():
     def __init__(self, pull_requests):
         self._pull_requests = pull_requests
 
     def fetch(self):
-        return self._pull_requests.fetch()
+        return sorted(
+            self._pull_requests.fetch(),
+            key=sort_by_last_updated_at,
+            reverse=True
+            )
 

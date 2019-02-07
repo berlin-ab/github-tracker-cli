@@ -1,5 +1,7 @@
 import requests
 import os
+from dateutil import parser
+
 
 from github_tracker_cli.github_tracker.domain import (
     Issue,
@@ -78,11 +80,18 @@ def json_to_issue(json):
 
 def json_to_pull_request(json):
     log(json)
+    updated_at_string = json.get('updated_at', None)
+
+    updated_at = None
+    
+    if updated_at_string:
+        updated_at = parser.parse(updated_at_string)
+
     return PullRequest(
         number = json['number'],
         url = json.get('pull_request', {}).get('html_url', None),
         title = json['title'],
-        last_updated_at = json.get('updated_at', None),
+        last_updated_at = updated_at,
         author = json.get('user', {}).get('login', None),
     )
 
