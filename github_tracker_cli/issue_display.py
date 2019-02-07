@@ -48,8 +48,8 @@ def _display_issues_as_rows(issues):
         formatted_issue = format_issue(issue)
         
         printer(u'{id} | {url} | {title}'.format(
-            id=unicode(issue.number()),
-            url=unicode(issue.url()),
+            id=issue.number(),
+            url=issue.url(),
             title=_format_issue_title(issue),
         ))
 
