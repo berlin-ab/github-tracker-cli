@@ -26,7 +26,7 @@ github_label_help_text = "Return Github Issues matching the given label (case in
 
 
 def printer(string):
-    sys.stdout.write(string + "\n"
+    sys.stdout.write(string + "\n")
 
 
 def add_github_arguments(parser):
