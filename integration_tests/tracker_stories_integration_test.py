@@ -17,10 +17,10 @@ class TrackerStoriesIntegrationTest(unittest.TestCase):
     def test_fetching_a_list_of_tracker_stories_by_label(self):
         tracker_api = PivotalTrackerApi(api_token=get_api_token())
         
-        stories = TrackerStories(tracker_api).fetch_by_label(
+        stories = [story for story in TrackerStories(tracker_api).fetch_by_label(
             project_id=2241335,
             label='example-label'
-            )
+            )]
 
         self.assertIn(163577442, [story.story_id() for story in stories])
         self.assertIn('Example backlog story', [story.title() for story in stories])
