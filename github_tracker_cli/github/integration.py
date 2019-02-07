@@ -1,5 +1,7 @@
 import requests
 import os
+import sys
+
 from dateutil import parser
 
 
@@ -8,10 +10,13 @@ from github_tracker_cli.github_tracker.domain import (
     PullRequest
 )
 
+def printer(string):
+    sys.stdout.write(string + "\n")
+
 
 def log(message):
     if os.environ.get('DEBUG'):
-        print message
+        printer(message)
         
 
 class GithubApi():

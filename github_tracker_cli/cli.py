@@ -26,7 +26,7 @@ github_label_help_text = "Return Github Issues matching the given label (case in
 
 
 def printer(string):
-    print string
+    sys.stdout.write(string + "\n"
 
 
 def add_github_arguments(parser):
@@ -127,7 +127,7 @@ def pull_requests_runner(components):
     
 
 def unknown_subcommand_runner(components):
-    print "Unknown command."
+    printer("Unknown command.")
 
         
 def discover_subcommand(arguments):

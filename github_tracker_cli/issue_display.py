@@ -6,6 +6,10 @@ def _format_issue_title(issue):
     return u'[Github Issue #%s] %s' % (issue.number(), issue.title())
 
 
+def printer(string):
+    sys.stdout.write(string + "\n")
+
+
 def format_issue(issue):
     try:
         title = _format_issue_title(issue)
@@ -21,10 +25,10 @@ def format_issue(issue):
             u'Description': description
         }
     except Exception as error:
-        print "Failed to format issue:"
-        print issue.number()
-        print issue.title()
-        print issue.url()
+        printer("Failed to format issue:")
+        printer(issue.number())
+        printer(issue.title())
+        printer(issue.url())
         raise error
 
 
@@ -43,11 +47,11 @@ def _display_issues_as_rows(issues):
     for issue in issues:
         formatted_issue = format_issue(issue)
         
-        print u'{id} | {url} | {title}'.format(
+        printer(u'{id} | {url} | {title}'.format(
             id=unicode(issue.number()),
             url=unicode(issue.url()),
             title=_format_issue_title(issue),
-        )
+        ))
 
 
 def get_issues_display_style(arguments):
