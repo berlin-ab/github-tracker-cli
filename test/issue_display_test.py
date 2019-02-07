@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*- 
 import unittest
+import datetime
 
 
 from github_tracker_cli.issue_display import (
@@ -11,13 +12,18 @@ from github_tracker_cli.github_tracker.domain import Issue
 def make_issue(number=123,
                title="Some title",
                description='Something',
-               url='http://example.com/some-url'):
+               url='http://example.com/some-url',
+               created_at=datetime.datetime.now(),
+               updated_at=datetime.datetime.now(),
+):
     return Issue(
         number=123,
         title=title,
         url=url,
         description=description,
-        labels=[]
+        labels=[],
+        created_at=created_at,
+        updated_at=updated_at,
     )
 
 

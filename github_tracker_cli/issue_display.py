@@ -50,10 +50,12 @@ def _display_issues_as_rows(issues):
     for issue in issues:
         formatted_issue = format_issue(issue)
         
-        printer(u'{id} | {url} | {title}'.format(
+        printer(u'{id} | {url} | {created_at} | {updated_at} | {title}'.format(
             id=str(issue.number()).ljust(5),
             url=issue.url(),
             title=_format_issue_title(issue),
+            created_at=issue.created_at(),
+            updated_at=issue.updated_at(),
         ))
 
 

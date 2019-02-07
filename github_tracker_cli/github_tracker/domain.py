@@ -23,12 +23,14 @@ class PullRequest():
 
 
 class Issue():
-    def __init__(self, number, url, title, description, labels):
+    def __init__(self, number, url, title, description, labels, created_at, updated_at):
         self._number = number
         self._url = url
         self._title = title
         self._labels = labels
         self._description = description
+        self._created_at = created_at
+        self._updated_at = updated_at
 
     def number(self):
         return self._number
@@ -44,6 +46,12 @@ class Issue():
 
     def description(self):
         return self._description
+
+    def created_at(self):
+        return self._created_at
+
+    def updated_at(self):
+        return self._updated_at
 
     def labels_contain_with_insensitive_match(self, other_label):
         lower_case_labels = [label.lower() for label in self.labels()]

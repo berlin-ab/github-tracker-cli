@@ -33,6 +33,8 @@ class GithubIssuesIntegrationTest(unittest.TestCase):
         self.assertEqual(2, issues[0].number())
         self.assertIn('testing', issues[0].labels())
         self.assertIn('stub', issues[0].labels())
+        self.assertIsNotNone(issues[0].created_at())
+        self.assertIsNotNone(issues[0].updated_at())        
         
     def test_it_returns_results_for_a_different_repo(self):
         real_github_api = GithubApi()
@@ -64,4 +66,5 @@ class PullRequestsTest(unittest.TestCase):
         self.assertEqual('https://github.com/berlin-ab/github-tracker-cli/pull/18', pull_request.url())
         self.assertEqual('Fake pull request', pull_request.title())
         self.assertEqual('berlin-ab', pull_request.author())
+        self.assertIsNotNone(pull_request.last_updated_at())
 

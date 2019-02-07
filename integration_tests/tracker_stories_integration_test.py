@@ -1,4 +1,5 @@
 import unittest
+import os
 
 
 from github_tracker_cli.pivotal_tracker.integration import (
@@ -9,7 +10,6 @@ from github_tracker_cli.pivotal_tracker.integration import (
 
 
 def get_api_token():
-    import os
     return  os.environ.get('PIVOTAL_TRACKER_TOKEN', None)
 
 

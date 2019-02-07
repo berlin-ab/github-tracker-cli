@@ -1,4 +1,5 @@
 import unittest
+import datetime
 
 from github_tracker_cli.github_tracker.domain import (
     Story,
@@ -45,7 +46,9 @@ def valid_issue(
         url=url,
         title=title,
         description=description,
-        labels=labels
+        labels=labels,
+        created_at=datetime.datetime.now(),
+        updated_at=datetime.datetime.now(),
     )
 
 class IssuesNotInTrackerTest(unittest.TestCase):

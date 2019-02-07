@@ -50,6 +50,8 @@ class BaseGithubIssuesTest():
                 'html_url': 'http://example.com',
                 'title': 'Some title',
                 'body': '',
+                'created_at': '2010-01-01T10:10:10Z',
+                'updated_at': '2010-02-02T10:10:10Z',
             },
             {
                 'number': 123,
@@ -64,6 +66,8 @@ class BaseGithubIssuesTest():
         self.assertEqual(1, len(issues))
         self.assertEqual(issues[0].number(), 45678)
         self.assertEqual(issues[0].url(), 'http://example.com')
+        self.assertEqual(issues[0].created_at(), datetime.datetime(2010, 1, 1, 10, 10, 10, tzinfo=tz.tzutc()))
+        self.assertEqual(issues[0].updated_at(), datetime.datetime(2010, 2, 2, 10, 10, 10, tzinfo=tz.tzutc()))
 
     def test_it_populates_the_issue_with_labels(self):
         github_api = StubGithubApi()

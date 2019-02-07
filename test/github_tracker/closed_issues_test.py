@@ -1,4 +1,5 @@
 import unittest
+import datetime
 
 
 from github_tracker_cli.github_tracker.domain import (
@@ -26,7 +27,9 @@ def make_issue(number=000,
         url=url,
         title=title,
         labels=labels,
-        description=description
+        description=description,
+        created_at=datetime.datetime.now(),
+        updated_at=datetime.datetime.now(),
     )
     pass
 

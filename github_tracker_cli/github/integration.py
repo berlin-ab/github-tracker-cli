@@ -74,6 +74,11 @@ class GithubApi():
         return results
 
     
+def parse_date(date_string):
+    if date_string:
+        return parser.parse(date_string)
+        
+        
 def json_to_issue(json):
     labels = [
         label_json['name']
@@ -81,29 +86,27 @@ def json_to_issue(json):
     ]
 
     return Issue(
-        number = json['number'],
-        url = json['html_url'],
-        title = json['title'],
-        description = json['body'],
-        labels = labels,
+        number=json['number'],
+        url=json['html_url'],
+        title=json['title'],
+        description=json['body'],
+        labels=labels,
+        created_at=parse_date(json.get('created_at')),
+        updated_at=parse_date(json.get('updated_at')),
     )
 
 
 def json_to_pull_request(json):
     log(json)
-    updated_at_string = json.get('updated_at', None)
-
-    updated_at = None
-    
-    if updated_at_string:
-        updated_at = parser.parse(updated_at_string)
+    updated_at_string = json.get('updated_at')
+    updated_at = parse_date(updated_at_string)
 
     return PullRequest(
         number = json['number'],
-        url = json.get('pull_request', {}).get('html_url', None),
+        url = json.get('pull_request', {}).get('html_url'),
         title = json['title'],
         last_updated_at = updated_at,
-        author = json.get('user', {}).get('login', None),
+        author = json.get('user', {}).get('login'),
     )
 
 
