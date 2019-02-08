@@ -41,7 +41,8 @@ def pull_requests_runner(components):
     
 
 def unknown_subcommand_runner(components):
-    components.printer("Unknown command.")
+    printer = components.printer()
+    printer("Unknown command")
 
 
 def discover_subcommand(arguments):
