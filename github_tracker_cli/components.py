@@ -6,6 +6,12 @@ from github_tracker_cli.github.integration import (
 
 from github_tracker_cli.pivotal_tracker.integration import (PivotalTrackerApi, TrackerStories)
 
+from github_tracker_cli.github_tracker.domain import (
+    MissingStories,
+    ClosedIssues,
+    OpenPullRequests,
+)
+
 
 class Components():
     def __init__(self, arguments):
@@ -35,5 +41,21 @@ class Components():
             github_api=self.github_api(),
             github_repo=self.arguments.github_repo,
         )
+    
+    def missing_stories(self):
+        return MissingStories(
+            tracker_stories=self.tracker_stories(),
+            github_issues=self.github_issues()
+        )
+    
+    def closed_issues(self):
+        return ClosedIssues(
+            tracker_stories=self.tracker_stories(),
+            github_issues=self.github_issues()
+        )
 
-
+    def open_pull_requests(self):
+        return OpenPullRequests(
+            pull_requests=self.pull_requests()
+        )
+        

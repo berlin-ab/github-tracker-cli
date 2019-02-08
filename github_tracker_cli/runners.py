@@ -1,12 +1,6 @@
 from __future__ import print_function
 
 
-from github_tracker_cli.github_tracker.domain import (
-    MissingStories,
-    ClosedIssues,
-    OpenPullRequests,
-)
-
 from github_tracker_cli.issue_display import get_issues_display_style
 from github_tracker_cli.story_display import display_stories_as_rows
 from github_tracker_cli.pull_request_display import print_pull_requests_as_rows
@@ -18,11 +12,7 @@ def printer(string):
 
 def missing_stories_runner(components):
     arguments = components.arguments
-    
-    missing_stories = MissingStories(
-        tracker_stories=components.tracker_stories(),
-        github_issues=components.github_issues()
-    )
+    missing_stories = components.missing_stories()
 
     issues = missing_stories.issues_not_in_tracker(
         project_id=arguments.pivotal_tracker_project_id,
@@ -40,10 +30,7 @@ def missing_stories_runner(components):
 def closed_issues_runner(components):
     arguments = components.arguments
     
-    closed_issues = ClosedIssues(
-        tracker_stories=components.tracker_stories(),
-        github_issues=components.github_issues()
-    )
+    closed_issues = components.closed_issues()
 
     display_stories_as_rows(
         closed_issues.fetch(
@@ -55,8 +42,8 @@ def closed_issues_runner(components):
 
 
 def pull_requests_runner(components):
-    command = OpenPullRequests(components.pull_requests())
-    print_pull_requests_as_rows(command.fetch(), printer)
+    pull_requests = components.open_pull_requests()
+    print_pull_requests_as_rows(pull_requests.fetch(), printer)
     
 
 def unknown_subcommand_runner(components):
