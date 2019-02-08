@@ -6,10 +6,6 @@ from github_tracker_cli.story_display import display_stories_as_rows
 from github_tracker_cli.pull_request_display import print_pull_requests_as_rows
 
 
-def printer(string):
-    print(string)
-
-
 def missing_stories_runner(components):
     arguments = components.arguments
     missing_stories = components.missing_stories()
@@ -24,7 +20,7 @@ def missing_stories_runner(components):
         csv=arguments.csv
     )
     
-    display_style(issues, printer)
+    display_style(issues, components.printer())
  
 
 def closed_issues_runner(components):
@@ -37,17 +33,17 @@ def closed_issues_runner(components):
             project_id=arguments.pivotal_tracker_project_id,
             tracker_label=arguments.pivotal_tracker_label,
         ),
-        printer
+        components.printer()
     )
 
 
 def pull_requests_runner(components):
     pull_requests = components.open_pull_requests()
-    print_pull_requests_as_rows(pull_requests.fetch(), printer)
+    print_pull_requests_as_rows(pull_requests.fetch(), components.printer())
     
 
 def unknown_subcommand_runner(components):
-    printer("Unknown command.")
+    components.printer("Unknown command.")
 
 
 def discover_subcommand(arguments):

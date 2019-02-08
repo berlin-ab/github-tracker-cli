@@ -4,7 +4,12 @@ from github_tracker_cli.github.integration import (
     PullRequests,
 )
 
-from github_tracker_cli.pivotal_tracker.integration import (PivotalTrackerApi, TrackerStories)
+
+from github_tracker_cli.pivotal_tracker.integration import (
+    PivotalTrackerApi,
+    TrackerStories
+)
+
 
 from github_tracker_cli.github_tracker.domain import (
     MissingStories,
@@ -16,6 +21,13 @@ from github_tracker_cli.github_tracker.domain import (
 class Components():
     def __init__(self, arguments):
         self.arguments = arguments
+
+    @staticmethod
+    def _printer(string):
+        print(string)
+
+    def printer(self):
+        return self._printer
 
     def tracker_api(self):
         return PivotalTrackerApi(
