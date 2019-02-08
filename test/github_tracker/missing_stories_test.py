@@ -51,7 +51,7 @@ def valid_issue(
         updated_at=datetime.datetime.now(),
     )
 
-class IssuesNotInTrackerTest(unittest.TestCase):
+class MissingStoriesTest(unittest.TestCase):
     def test_list_issues_that_are_not_in_tracker(self):
         tracker_stories = StubTrackerStories()
         github_issues = StubGithubIssues()
