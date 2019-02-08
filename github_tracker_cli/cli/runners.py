@@ -11,6 +11,7 @@ def missing_stories_runner(components):
         project_id=arguments.pivotal_tracker_project_id,
         label=arguments.pivotal_tracker_label,
         github_label=arguments.github_label,
+        exclude_github_label=arguments.exclude_github_label,
     )
     
     display_style = get_issues_display_style(

@@ -8,6 +8,7 @@ tracker_label_help_text = "Filter (case-insensitive) by a label used to categori
 github_repo_help_text = "The organization/username and repository name as a string. For example: https://github.com/berlin-ab/github-tracker-cli would use --github-repo='berlin-ab/github-tracker-cli'"
 csv_help_text = "Display output in Pivotal Tracker csv format. (default: false)"
 github_label_help_text = "Return Github Issues matching the given label (case insensitive). (optional)"
+exclude_github_label_help_text = "Filter out github issues that match the given label"
 
 
 def add_github_arguments(parser):
@@ -44,6 +45,10 @@ def add_missing_stories_parser(subparsers):
     parser.add_argument('--github-label',
                                        help=github_label_help_text,
                                        default=None)
+
+    parser.add_argument('--exclude-github-label',
+                        help=exclude_github_label_help_text,
+                        default=None)
 
     
 def add_closed_issues_parser(subparsers):

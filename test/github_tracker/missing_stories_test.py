@@ -130,3 +130,26 @@ class MissingStoriesTest(unittest.TestCase):
         
         self.assertEqual(
             [2], [issue.number() for issue in issues])
+
+    def test_it_filters_out_excluded_labels(self):
+        tracker_stories = StubTrackerStories()
+        github_issues = StubGithubIssues()
+        app = MissingStories(
+            tracker_stories,
+            github_issues
+        )
+
+        github_issues.stub([
+            valid_issue(number=2, labels=["some-label"]),
+            valid_issue(number=3, labels=["some-excluded-label"]),
+        ])
+
+        issues = app.issues_not_in_tracker(
+            project_id=123,
+            label='foobar',
+            exclude_github_label='some-excluded-label',
+        )
+        
+        self.assertEqual(
+            [2], [issue.number() for issue in issues])
+        

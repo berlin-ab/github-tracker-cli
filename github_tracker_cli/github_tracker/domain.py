@@ -98,12 +98,14 @@ class MissingStories():
     def issues_not_in_tracker(self,
                               project_id,
                               label,
-                              github_label=None):
+                              github_label=None,
+                              exclude_github_label=None,
+    ):
         tracker_titles = [
             story.title()
             for story in self._tracker_stories.fetch_by_label(
                   project_id=project_id,
-                  label=label
+                 label=label
               )
         ]
         
@@ -113,6 +115,12 @@ class MissingStories():
                     return False
 
             return True
+
+        def matches_excluded_github_label(issue):
+            return (
+                exclude_github_label and
+                  issue.labels_contain_with_insensitive_match(exclude_github_label)
+            )
 
         def matches_github_label(issue):
             return (
@@ -125,6 +133,7 @@ class MissingStories():
               for issue
               in self._github_issues.fetch()
               if matches_github_label(issue)
+              and not matches_excluded_github_label(issue)
               and not_in_tracker(issue)
         ]
 
