@@ -1,3 +1,7 @@
+from __future__ import print_function
+import os
+
+
 from github_tracker_cli.github.integration import (
     GithubApi,
     GithubIssues,
@@ -23,6 +27,11 @@ class Components():
         self.arguments = arguments
 
     @staticmethod
+    def log(message):
+        if os.environ.get('DEBUG'):
+            self.printer(message)
+        
+    @staticmethod
     def _printer(string):
         print(string)
 
@@ -35,7 +44,10 @@ class Components():
         )
 
     def github_api(self):
-        return GithubApi()
+        return GithubApi(
+            logger=self.log,
+            printer=self._printer,
+        )
 
     def github_issues(self):
         return  GithubIssues(

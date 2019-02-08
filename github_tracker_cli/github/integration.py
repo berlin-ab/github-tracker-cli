@@ -1,6 +1,3 @@
-from __future__ import print_function
-
-
 import requests
 import os
 import sys
@@ -14,16 +11,20 @@ from github_tracker_cli.github_tracker.domain import (
     PullRequest
 )
 
-def printer(string):
-    print(string)
+
+def default_logger(message):
+    pass
 
 
-def log(message):
-    if os.environ.get('DEBUG'):
-        printer(message)
-        
+def default_printer(message):
+    pass
+
 
 class GithubApi():
+    def __init__(self, logger=default_logger, printer=default_printer):
+        self.log = logger
+        self.printer = printer
+        
     @staticmethod
     def _make_url(path, current_page):
         base_url = "https://api.github.com"
@@ -50,14 +51,14 @@ class GithubApi():
         current_page = 1
 
         while True:
-            log("current page: %s" % current_page)
+            self.log("current page: %s" % current_page)
             url = self._make_url(path, current_page)
-            log("url: %s" % url)
+            self.log("url: %s" % url)
             api_response = requests.get(url, auth=self._auth())
             
             if api_response.status_code == 200:
-                log("api response status code: %s" % 200)
-                log("data: %s" % api_response.json())
+                self.log("api response status code: %s" % 200)
+                self.log("data: %s" % api_response.json())
                 values = api_response.json()
                 results.extend(values)
                 current_page += 1
@@ -65,7 +66,7 @@ class GithubApi():
                 if (len(values) == 0):
                     break;
             elif api_response.status_code == 403:
-                printer("Unable to authenticate with Github: %s" % api_response.text)
+                self.printer("Unable to authenticate with Github: %s" % api_response.text)
                 break
             else:
                 raise RuntimeError('unable to fetch from github: %s, %s' % (api_response.status_code, api_response.text))
@@ -97,7 +98,6 @@ def json_to_issue(json):
 
 
 def json_to_pull_request(json):
-    log(json)
     updated_at_string = json.get('updated_at')
     updated_at = parse_date(updated_at_string)
 
