@@ -1,3 +1,13 @@
+
+
+def formatted_issue_number(issue):
+    return "#{number}".format(number=issue.number())
+
+
+def sort_by_last_updated_at(pull_request):
+    return pull_request.last_updated_at()
+
+
 class PullRequest():
     def __init__(self, number, url, title, last_updated_at, author):
         self._number = number
@@ -79,10 +89,6 @@ class Story():
         return self._url
 
     
-def formatted_issue_number(issue):
-    return "#{number}".format(number=issue.number())
-        
-    
 class MissingStories():
     
     def __init__(self, tracker_stories, github_issues):
@@ -148,10 +154,6 @@ class ClosedIssues():
                 if open_issues_match(story)]
 
 
-def sort_by_last_updated_at(pull_request):
-    return pull_request.last_updated_at()
-
-    
 class OpenPullRequests():
     def __init__(self, pull_requests):
         self._pull_requests = pull_requests
