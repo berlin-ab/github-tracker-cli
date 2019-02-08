@@ -14,8 +14,10 @@ Installs all necessary dependencies.
 
 Notes: 
 
-- Assumes `pip` is installed.
-- Only Python 2.7 is supported so far
+- Assumes `pip` is installed
+- Supported python versions:
+  - 2.7.x
+  - 3.7.x
 
 ```bash
 $ git clone https://github.com/berlin-ab/github-tracker-cli.git
