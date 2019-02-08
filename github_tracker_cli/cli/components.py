@@ -29,9 +29,6 @@ from github_tracker_cli.github_tracker.domain import (
 class Components():
     def __init__(self, arguments):
         self.arguments = arguments
-
-        # Ensure that writing to standard out and to a pipe is via utf8
-        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
     
     @staticmethod
     def log(message):
