@@ -61,13 +61,15 @@ Look through all Pivotal Tracker stories and find ones marked with a 'github-iss
 
 
 ```bash
-usage: ./bin/github_tracker_cli missing-stories [-h] 
-    --pivotal-tracker-token PIVOTAL_TRACKER_TOKEN
-    --pivotal-tracker-project-id PIVOTAL_TRACKER_PROJECT_ID
-    --github-repo GITHUB_REPO
-    [--pivotal-tracker-label PIVOTAL_TRACKER_LABEL]
-    [--csv]
-    [--github-label GITHUB_LABEL]
+usage: ./bin/github_tracker_cli missing-stories [-h] --pivotal-tracker-token
+                                                PIVOTAL_TRACKER_TOKEN
+                                                --pivotal-tracker-project-id
+                                                PIVOTAL_TRACKER_PROJECT_ID
+                                                [--pivotal-tracker-label PIVOTAL_TRACKER_LABEL]
+                                                --github-repo GITHUB_REPO
+                                                [--csv]
+                                                [--github-label GITHUB_LABEL]
+                                                [--exclude-github-label EXCLUDE_GITHUB_LABEL]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -77,19 +79,22 @@ optional arguments:
   --pivotal-tracker-project-id PIVOTAL_TRACKER_PROJECT_ID
                         Pivotal Tracker project id.
                         https://www.pivotaltracker.com/n/projects/[PROJECTID]
+  --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
+                        Filter (case-insensitive) by a label used to
+                        categorize stories in Pivotal Tracker. Default:
+                        --pivotal-tracker-label=github-issue
   --github-repo GITHUB_REPO
                         The organization/username and repository name as a
-                        string. For example: https://github.com/berlin-ab
-                        /github-tracker-cli would use --github-repo='berlin-ab
-                        /github-tracker-cli'
-  --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
-                        A label used to categorize stories in Pivotal Tracker.
-                        Default: --pivotal-tracker-label=github-issue
+                        string. For example: https://github.com/berlin-
+                        ab/github-tracker-cli would use --github-repo='berlin-
+                        ab/github-tracker-cli'
   --csv                 Display output in Pivotal Tracker csv format.
                         (default: false)
   --github-label GITHUB_LABEL
-                        Return Github Issues matching the given label.
-                        (optional)
+                        Return Github Issues matching the given label (case
+                        insensitive). (optional)
+  --exclude-github-label EXCLUDE_GITHUB_LABEL
+                        Filter out github issues that match the given label
 ```
 
 `--csv` option:
