@@ -37,7 +37,10 @@ class Components():
         
     @staticmethod
     def _printer(string):
-        print(string)
+        try:
+            print(string)
+        except:
+            print(string.encode('utf-8'))
 
     def printer(self):
         return self._printer
