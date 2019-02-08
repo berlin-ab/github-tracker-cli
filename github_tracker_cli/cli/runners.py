@@ -1,6 +1,6 @@
-from github_tracker_cli.issue_display import get_issues_display_style
-from github_tracker_cli.story_display import display_stories_as_rows
-from github_tracker_cli.pull_request_display import print_pull_requests_as_rows
+from github_tracker_cli.cli.issue_display import get_issues_display_style
+from github_tracker_cli.cli.story_display import display_stories_as_rows
+from github_tracker_cli.cli.pull_request_display import print_pull_requests_as_rows
 
 
 def missing_stories_runner(components):

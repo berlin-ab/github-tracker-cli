@@ -2,7 +2,7 @@
 import unittest
 
 
-from github_tracker_cli.pull_request_display import (
+from github_tracker_cli.cli.pull_request_display import (
     print_pull_requests_as_rows,
 )
 

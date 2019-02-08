@@ -3,7 +3,7 @@ import unittest
 import datetime
 
 
-from github_tracker_cli.issue_display import (
+from github_tracker_cli.cli.issue_display import (
      get_issues_display_style
 )
 
