@@ -1,5 +1,9 @@
 from __future__ import print_function
+
+
 import os
+import sys
+import codecs
 
 
 from github_tracker_cli.github.integration import (
@@ -26,6 +30,9 @@ class Components():
     def __init__(self, arguments):
         self.arguments = arguments
 
+        # Ensure that writing to standard out and to a pipe is via utf8
+        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+    
     @staticmethod
     def log(message):
         if os.environ.get('DEBUG'):

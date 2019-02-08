@@ -1,6 +1,3 @@
-from __future__ import print_function
-
-
 from github_tracker_cli.issue_display import get_issues_display_style
 from github_tracker_cli.story_display import display_stories_as_rows
 from github_tracker_cli.pull_request_display import print_pull_requests_as_rows
