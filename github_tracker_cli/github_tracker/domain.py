@@ -94,14 +94,34 @@ class MissingStories():
     def __init__(self, tracker_stories, github_issues):
         self._tracker_stories = tracker_stories
         self._github_issues = github_issues
-    
+
+
     def issues_not_in_tracker(self,
                               project_id,
                               label,
                               github_label=None,
                               exclude_github_label=None,
     ):
-        tracker_titles = [
+        tracker_titles = self._tracker_titles(project_id, label)
+        
+        return [
+            issue
+              for issue
+              in self._github_issues.fetch()
+              if self._matches_github_label(github_label, issue)
+              and not self._matches_excluded_github_label(exclude_github_label, issue)
+              and self._not_in_tracker(issue, tracker_titles)
+        ]
+    
+    def _not_in_tracker(self, issue, tracker_titles):
+        for tracker_title in tracker_titles:
+            if formatted_issue_number(issue) in tracker_title:
+                return False
+            
+        return True
+
+    def _tracker_titles(self, project_id, label):
+        return [
             story.title()
             for story in self._tracker_stories.fetch_by_label(
                   project_id=project_id,
@@ -109,33 +129,18 @@ class MissingStories():
               )
         ]
         
-        def not_in_tracker(issue):
-            for tracker_title in tracker_titles:
-                if formatted_issue_number(issue) in tracker_title:
-                    return False
+    def _matches_excluded_github_label(self, exclude_github_label, issue):
+        return (
+            exclude_github_label and
+              issue.labels_contain_with_insensitive_match(exclude_github_label)
+        )
 
-            return True
+    def _matches_github_label(self, github_label, issue):
+        return (
+            github_label is None or
+              issue.labels_contain_with_insensitive_match(github_label)
+        )
 
-        def matches_excluded_github_label(issue):
-            return (
-                exclude_github_label and
-                  issue.labels_contain_with_insensitive_match(exclude_github_label)
-            )
-
-        def matches_github_label(issue):
-            return (
-                github_label is None or
-                issue.labels_contain_with_insensitive_match(github_label)
-            )
-
-        return [
-            issue
-              for issue
-              in self._github_issues.fetch()
-              if matches_github_label(issue)
-              and not matches_excluded_github_label(issue)
-              and not_in_tracker(issue)
-        ]
 
     
 class ClosedIssues():
