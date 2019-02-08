@@ -68,13 +68,17 @@ class GithubApi():
 def parse_date(date_string):
     if date_string:
         return parser.parse(date_string)
-        
-        
-def json_to_issue(json):
-    labels = [
+
+    
+def parse_labels(json):
+    return [
         label_json['name']
         for label_json in json.get('labels', [])
     ]
+    
+    
+def json_to_issue(json):
+    labels = parse_labels(json)
 
     return Issue(
         number=json['number'],
@@ -90,13 +94,15 @@ def json_to_issue(json):
 def json_to_pull_request(json):
     updated_at_string = json.get('updated_at')
     updated_at = parse_date(updated_at_string)
+    labels = parse_labels(json)
 
     return PullRequest(
-        number = json['number'],
-        url = json.get('pull_request', {}).get('html_url'),
-        title = json['title'],
-        last_updated_at = updated_at,
-        author = json.get('user', {}).get('login'),
+        number=json['number'],
+        url=json.get('pull_request', {}).get('html_url'),
+        title=json['title'],
+        last_updated_at=updated_at,
+        author=json.get('user', {}).get('login'),
+        labels=labels,
     )
 
 

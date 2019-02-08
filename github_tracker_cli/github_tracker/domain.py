@@ -9,12 +9,13 @@ def sort_by_last_updated_at(pull_request):
 
 
 class PullRequest():
-    def __init__(self, number, url, title, last_updated_at, author):
+    def __init__(self, number, url, title, last_updated_at, author, labels):
         self._number = number
         self._url = url
         self._title = title
         self._last_updated_at = last_updated_at
         self._author = author
+        self._labels = labels
 
     def number(self):
         return self._number
@@ -30,6 +31,9 @@ class PullRequest():
 
     def author(self):
         return self._author
+
+    def labels(self):
+        return self._labels
 
 
 class Issue():
@@ -172,10 +176,23 @@ class OpenPullRequests():
     def __init__(self, pull_requests):
         self._pull_requests = pull_requests
 
-    def fetch(self):
-        return sorted(
-            self._pull_requests.fetch(),
-            key=sort_by_last_updated_at,
-            reverse=True
-            )
+    def fetch(self, exclude_github_label=None):
+        def excludes_github_label(pull_request):
+            if not exclude_github_label:
+                return False
+            
+            if exclude_github_label and exclude_github_label in pull_request.labels():
+                return True
+
+        return [
+            pull_request
+                for pull_request
+                in sorted(
+                    self._pull_requests.fetch(),
+                    key=sort_by_last_updated_at,
+                    reverse=True
+                )
+            if not excludes_github_label(pull_request)
+
+        ]
 

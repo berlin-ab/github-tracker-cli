@@ -127,6 +127,14 @@ class PullRequestsTest(unittest.TestCase):
                 'title': 'Some title abc',
                 'body': '',
                 'updated_at': '2010-01-01T10:10:10Z',
+                'labels': [
+                    {
+                        'name': 'some-label',
+                    },
+                    {
+                        'name': 'some-other-label',
+                    },
+                ],
                 'pull_request': {
                     'url': 'http://example.com/some-pr-api-url',
                     'html_url': 'http://example.com/some-pr-url'
@@ -157,4 +165,8 @@ class PullRequestsTest(unittest.TestCase):
             pull_request.last_updated_at()
         )
         self.assertEqual('some-github-author', pull_request.author())
+        self.assertEqual(
+            ['some-label', 'some-other-label'],
+            pull_request.labels()
+        )
 

@@ -16,6 +16,7 @@ def add_github_arguments(parser):
                                         required=True,
                                         help=github_repo_help_text)
 
+    
 def add_pivotal_tracker_arguments(parser):
     parser.add_argument('--pivotal-tracker-token',
                                         required=True,
@@ -35,9 +36,17 @@ def add_shared_arguments(parser):
     add_github_arguments(parser)
 
 
+def add_exclude_github_labels(parser):
+    parser.add_argument('--exclude-github-label',
+                        help=exclude_github_label_help_text,
+                        default=None)
+
+    
 def add_missing_stories_parser(subparsers):
     parser = subparsers.add_parser('missing-stories')
     add_shared_arguments(parser)
+    add_exclude_github_labels(parser)
+    
     parser.add_argument('--csv',
                                         help=csv_help_text,
                                         action='store_true')
@@ -45,11 +54,7 @@ def add_missing_stories_parser(subparsers):
     parser.add_argument('--github-label',
                                        help=github_label_help_text,
                                        default=None)
-
-    parser.add_argument('--exclude-github-label',
-                        help=exclude_github_label_help_text,
-                        default=None)
-
+    
     
 def add_closed_issues_parser(subparsers):
     parser = subparsers.add_parser('closed-issues')
@@ -59,6 +64,7 @@ def add_closed_issues_parser(subparsers):
 def add_pull_requests_parser(subparsers):
     parser = subparsers.add_parser('pull-requests')
     add_github_arguments(parser)
+    add_exclude_github_labels(parser)
     
 
 def parse_arguments():

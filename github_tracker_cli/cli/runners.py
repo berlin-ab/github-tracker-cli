@@ -36,8 +36,15 @@ def closed_issues_runner(components):
 
 
 def pull_requests_runner(components):
+    arguments = components.arguments
     pull_requests = components.open_pull_requests()
-    print_pull_requests_as_rows(pull_requests.fetch(), components.printer())
+    
+    print_pull_requests_as_rows(
+        pull_requests.fetch(
+            exclude_github_label=arguments.exclude_github_label
+        ),
+        components.printer()
+    )
     
 
 def unknown_subcommand_runner(components):

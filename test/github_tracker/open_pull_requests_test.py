@@ -18,6 +18,7 @@ def make_pull_request(
                 title='Some title',
                 last_updated_at=parse_date('2010-01-01'),
                 author='some-github-username',
+                labels=[],
             ):
     return PullRequest(
         number=number,
@@ -25,6 +26,7 @@ def make_pull_request(
         title=title,
         last_updated_at=last_updated_at,
         author=author,
+        labels=labels,
     )
 
 
@@ -67,3 +69,21 @@ class OpenPullRequestsTest(unittest.TestCase):
         pull_requests = open_pull_requests.fetch()
 
         self.assertEqual([789, 456, 123], [pull_request.number() for pull_request in pull_requests])
+
+    def test_it_filters_out_pull_requests_matching_the_excluded_label(self):
+        stub_pull_requests = StubPullRequests()
+        stub_pull_requests.stub([
+            make_pull_request(number=456, labels=['abc']),
+            make_pull_request(number=789, labels=['def']),
+            make_pull_request(number=123, labels=['ghi']),
+        ])
+        
+        open_pull_requests = OpenPullRequests(stub_pull_requests)
+        pull_requests = open_pull_requests.fetch(
+            exclude_github_label='def'
+        )
+
+        self.assertEqual(
+            [456, 123],
+            [pull_request.number() for pull_request in pull_requests]
+        )

@@ -59,7 +59,11 @@ class PullRequestsTest(unittest.TestCase):
         )
 
 
-        pull_requests = [pull_request for pull_request in pull_requests_service.fetch()]
+        pull_requests = [
+            pull_request for pull_request
+            in pull_requests_service.fetch()
+        ]
+        
         self.assertEqual(1, len(pull_requests))
         pull_request = pull_requests[0]
         self.assertEqual(18, pull_request.number())
@@ -67,4 +71,5 @@ class PullRequestsTest(unittest.TestCase):
         self.assertEqual('Fake pull request', pull_request.title())
         self.assertEqual('berlin-ab', pull_request.author())
         self.assertIsNotNone(pull_request.last_updated_at())
+        self.assertIn('some-example-label', pull_request.labels())
 
