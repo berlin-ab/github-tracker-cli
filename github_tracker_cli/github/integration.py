@@ -1,6 +1,4 @@
 import requests
-import os
-import sys
 
 
 from dateutil import parser
@@ -21,9 +19,10 @@ def default_printer(message):
 
 
 class GithubApi():
-    def __init__(self, logger=default_logger, printer=default_printer):
+    def __init__(self, logger=default_logger, printer=default_printer, credentials=()):
         self.log = logger
         self.printer = printer
+        self._credentials = credentials
         
     @staticmethod
     def _make_url(path, current_page):
@@ -37,15 +36,6 @@ class GithubApi():
             per_page=per_page,
         )
 
-    def _auth(self):
-        github_username = os.environ.get('GITHUB_USERNAME', None)
-        github_password = os.environ.get('GITHUB_PASSWORD', None)
-        
-        if github_username and github_password:
-            return (github_username, github_password)
-
-        return ()
-                
     def get(self, path):
         results = []
         current_page = 1
@@ -54,7 +44,7 @@ class GithubApi():
             self.log("current page: %s" % current_page)
             url = self._make_url(path, current_page)
             self.log("url: %s" % url)
-            api_response = requests.get(url, auth=self._auth())
+            api_response = requests.get(url, auth=self._credentials)
             
             if api_response.status_code == 200:
                 self.log("api response status code: %s" % 200)

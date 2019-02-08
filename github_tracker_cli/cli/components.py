@@ -29,7 +29,7 @@ from github_tracker_cli.github_tracker.domain import (
 class Components():
     def __init__(self, arguments):
         self.arguments = arguments
-    
+
     @staticmethod
     def log(message):
         if os.environ.get('DEBUG'):
@@ -54,6 +54,7 @@ class Components():
         return GithubApi(
             logger=self.log,
             printer=self._printer,
+            credentials=self._github_credentials()
         )
 
     def github_issues(self):
@@ -90,3 +91,12 @@ class Components():
             pull_requests=self.pull_requests()
         )
         
+    def _github_credentials(self):
+        github_username = os.environ.get('GITHUB_USERNAME', None)
+        github_password = os.environ.get('GITHUB_PASSWORD', None)
+        
+        if github_username and github_password:
+            return (github_username, github_password)
+
+        return ()
+    
