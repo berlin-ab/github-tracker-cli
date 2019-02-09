@@ -2,14 +2,5 @@
 
 find . -name *.pyc | xargs rm
 
-nosetests --rednose -s test/**/*.py test/
-
-
-
-
-
-
-
-
-
+nosetests --rednose -s test/
 
