@@ -101,7 +101,7 @@ def json_to_pull_request(json):
         url=json.get('pull_request', {}).get('html_url'),
         title=json['title'],
         last_updated_at=updated_at,
-        author=json.get('user', {}).get('login'),
+        author_user_id=json.get('user', {}).get('login'),
         labels=labels,
     )
 

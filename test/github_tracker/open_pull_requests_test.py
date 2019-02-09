@@ -17,7 +17,7 @@ def make_pull_request(
                 url='http://example.com/some-pull-request-url',
                 title='Some title',
                 last_updated_at=parse_date('2010-01-01'),
-                author='some-github-username',
+                author_user_id='some-github-username',
                 labels=[],
             ):
     return PullRequest(
@@ -25,7 +25,7 @@ def make_pull_request(
         url=url,
         title=title,
         last_updated_at=last_updated_at,
-        author=author,
+        author_user_id=author_user_id,
         labels=labels,
     )
 
@@ -54,7 +54,7 @@ class OpenPullRequestsTest(unittest.TestCase):
         self.assertEqual('http://example.com/some-pull-request-url', pull_request.url())
         self.assertEqual('Some title', pull_request.title())
         self.assertEqual(parse_date('2010-01-01'), pull_request.last_updated_at())
-        self.assertEqual('some-github-username', pull_request.author())
+        self.assertEqual('some-github-username', pull_request.author_user_id())
         
     def test_it_orders_the_results_based_on_last_updated_descending(self):
         stub_pull_requests = StubPullRequests()

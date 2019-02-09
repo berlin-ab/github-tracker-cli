@@ -9,12 +9,12 @@ def sort_by_last_updated_at(pull_request):
 
 
 class PullRequest():
-    def __init__(self, number, url, title, last_updated_at, author, labels):
+    def __init__(self, number, url, title, last_updated_at, author_user_id, labels):
         self._number = number
         self._url = url
         self._title = title
         self._last_updated_at = last_updated_at
-        self._author = author
+        self._author_user_id = author_user_id
         self._labels = labels
 
     def number(self):
@@ -29,8 +29,8 @@ class PullRequest():
     def last_updated_at(self):
         return self._last_updated_at
 
-    def author(self):
-        return self._author
+    def author_user_id(self):
+        return self._author_user_id
 
     def labels(self):
         return self._labels

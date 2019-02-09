@@ -164,9 +164,14 @@ class PullRequestsTest(unittest.TestCase):
             datetime.datetime(year=2010, month=1, day=1, hour=10, minute=10 ,second=10, tzinfo=tz.tzutc()),
             pull_request.last_updated_at()
         )
-        self.assertEqual('some-github-author', pull_request.author())
+        self.assertEqual('some-github-author', pull_request.author_user_id())
         self.assertEqual(
             ['some-label', 'some-other-label'],
             pull_request.labels()
         )
+
+
+
+
+
 

@@ -37,7 +37,7 @@ class DisplayPullRequestsTest(unittest.TestCase):
                 number=1234,
                 title=u'Some cool title 错误',
                 url=u'http://example.com/some-printable-url',
-                author=u'me',
+                author_user_id=u'me',
                 last_updated_at=u'some-timestamp',
                 labels=[]
             )
