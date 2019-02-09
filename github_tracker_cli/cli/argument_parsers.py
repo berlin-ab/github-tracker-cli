@@ -11,13 +11,13 @@ github_label_help_text = "Return Github Issues matching the given label (case in
 exclude_github_label_help_text = "Filter out github issues that match the given label"
 
 
-def add_github_arguments(parser):
+def _add_github_arguments(parser):
     parser.add_argument('--github-repo',
                                         required=True,
                                         help=github_repo_help_text)
 
     
-def add_pivotal_tracker_arguments(parser):
+def _add_pivotal_tracker_arguments(parser):
     parser.add_argument('--pivotal-tracker-token',
                                         required=True,
                                         help=tracker_token_help_text)
@@ -31,21 +31,21 @@ def add_pivotal_tracker_arguments(parser):
                                         default=default_tracker_label)
 
     
-def add_shared_arguments(parser):
-    add_pivotal_tracker_arguments(parser)
-    add_github_arguments(parser)
+def _add_shared_arguments(parser):
+    _add_pivotal_tracker_arguments(parser)
+    _add_github_arguments(parser)
 
 
-def add_exclude_github_labels(parser):
+def _add_exclude_github_labels(parser):
     parser.add_argument('--exclude-github-label',
                         help=exclude_github_label_help_text,
                         default=None)
 
     
-def add_missing_stories_parser(subparsers):
+def _add_missing_stories_parser(subparsers):
     parser = subparsers.add_parser('missing-stories')
-    add_shared_arguments(parser)
-    add_exclude_github_labels(parser)
+    _add_shared_arguments(parser)
+    _add_exclude_github_labels(parser)
     
     parser.add_argument('--csv',
                                         help=csv_help_text,
@@ -56,15 +56,15 @@ def add_missing_stories_parser(subparsers):
                                        default=None)
     
     
-def add_closed_issues_parser(subparsers):
+def _add_closed_issues_parser(subparsers):
     parser = subparsers.add_parser('closed-issues')
-    add_shared_arguments(parser)
+    _add_shared_arguments(parser)
 
     
-def add_pull_requests_parser(subparsers):
+def _add_pull_requests_parser(subparsers):
     parser = subparsers.add_parser('pull-requests')
-    add_github_arguments(parser)
-    add_exclude_github_labels(parser)
+    _add_github_arguments(parser)
+    _add_exclude_github_labels(parser)
     
 
 def parse_arguments():
@@ -72,9 +72,8 @@ def parse_arguments():
         prog='./bin/github_tracker_cli',
     )
     subparsers = parser.add_subparsers(dest='chosen_command')
-        
-    add_missing_stories_parser(subparsers)
-    add_closed_issues_parser(subparsers)
-    add_pull_requests_parser(subparsers)
+    _add_missing_stories_parser(subparsers)
+    _add_closed_issues_parser(subparsers)
+    _add_pull_requests_parser(subparsers)
     return parser.parse_args()
 
