@@ -2,8 +2,6 @@ from __future__ import print_function
 
 
 import os
-import sys
-import codecs
 
 
 from github_tracker_cli.github.integration import (
@@ -23,15 +21,9 @@ from github_tracker_cli.github_tracker.domain import (
     MissingStories,
     ClosedIssues,
     OpenPullRequests,
+    GithubIssuesSearch,
 )
 
-class GithubIssuesSearch():
-    def __init__(self, github_issues):
-        self._github_issues = github_issues
-        
-    def fetch(self):
-        return self._github_issues.fetch()
-    
 
 class Components():
     def __init__(self, arguments):

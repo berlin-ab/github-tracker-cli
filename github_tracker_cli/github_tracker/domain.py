@@ -228,3 +228,11 @@ class OpenPullRequests():
                 )
         ]
 
+    
+class GithubIssuesSearch():
+    def __init__(self, github_issues):
+        self._github_issues = github_issues
+        
+    def fetch(self):
+        return self._github_issues.fetch()
+
