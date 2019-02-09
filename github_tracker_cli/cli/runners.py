@@ -1,6 +1,15 @@
-from github_tracker_cli.cli.issue_display import get_issues_display_style
-from github_tracker_cli.cli.story_display import display_stories_as_rows
-from github_tracker_cli.cli.pull_request_display import print_pull_requests_as_rows
+from github_tracker_cli.cli.issue_display import (
+    get_issues_display_style,
+    display_issues_as_rows,
+)
+
+from github_tracker_cli.cli.story_display import (
+    display_stories_as_rows,
+)
+
+from github_tracker_cli.cli.pull_request_display import (
+    print_pull_requests_as_rows,
+)
 
 
 def missing_stories_runner(components):
@@ -45,6 +54,15 @@ def pull_requests_runner(components):
         ),
         components.printer()
     )
+
+def github_issues_runner(components):
+    arguments = components.arguments
+    github_issues_search = components.github_issues_search()
+
+    display_issues_as_rows(
+        github_issues_search.fetch(),
+        components.printer()
+    )
     
 
 def unknown_subcommand_runner(components):
@@ -61,6 +79,9 @@ def discover_subcommand(arguments):
 
     elif arguments.chosen_command == 'pull-requests':
         return pull_requests_runner
+
+    elif arguments.chosen_command == 'github-issues':
+        return github_issues_runner
     
     else:
         return unknown_subcommand_runner

@@ -25,6 +25,13 @@ from github_tracker_cli.github_tracker.domain import (
     OpenPullRequests,
 )
 
+class GithubIssuesSearch():
+    def __init__(self, github_issues):
+        self._github_issues = github_issues
+        
+    def fetch(self):
+        return self._github_issues.fetch()
+    
 
 class Components():
     def __init__(self, arguments):
@@ -88,6 +95,11 @@ class Components():
     def open_pull_requests(self):
         return OpenPullRequests(
             pull_requests=self.pull_requests()
+        )
+
+    def github_issues_search(self):
+        return GithubIssuesSearch(
+            github_issues=self.github_issues()
         )
         
     def _github_credentials(self):

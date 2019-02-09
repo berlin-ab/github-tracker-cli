@@ -65,7 +65,12 @@ def _add_pull_requests_parser(subparsers):
     parser = subparsers.add_parser('pull-requests')
     _add_github_arguments(parser)
     _add_exclude_github_labels(parser)
-    
+
+
+def _add_github_issues_parser(subparsers):
+    parser = subparsers.add_parser('github-issues')
+    _add_github_arguments(parser)
+        
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -75,5 +80,7 @@ def parse_arguments():
     _add_missing_stories_parser(subparsers)
     _add_closed_issues_parser(subparsers)
     _add_pull_requests_parser(subparsers)
+    _add_github_issues_parser(subparsers)
+    
     return parser.parse_args()
 

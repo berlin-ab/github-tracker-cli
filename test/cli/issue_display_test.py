@@ -43,7 +43,7 @@ class IssueDisplayTest(unittest.TestCase):
 
         formatter([issue], dummy_printer)
 
-        self.assertIn("[Github Issue #123] Some title", formatted_issues[0])
+        self.assertIn("Some title", formatted_issues[0])
 
     def test_formatting_can_handle_unicode_characters(self):
         formatted_issues = []
