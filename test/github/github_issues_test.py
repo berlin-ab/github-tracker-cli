@@ -31,6 +31,9 @@ class BaseGithubIssuesTest():
                 'html_url': 'http://example.com',
                 'title': 'Some title',
                 'body': 'Some description',
+                'user': {
+                    'login': 'some-user-id'
+                }
             }
         ])
         
@@ -39,6 +42,7 @@ class BaseGithubIssuesTest():
         self.assertEqual(issues[0].number(), 45678)
         self.assertEqual(issues[0].url(), 'http://example.com')
         self.assertEqual(issues[0].description(), 'Some description')
+        self.assertEqual(issues[0].author_user_id(), 'some-user-id')
 
     def test_it_discards_issues_that_have_pull_requests(self):
         github_api = StubGithubApi()

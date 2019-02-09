@@ -88,6 +88,7 @@ def json_to_issue(json):
         labels=labels,
         created_at=parse_date(json.get('created_at')),
         updated_at=parse_date(json.get('updated_at')),
+        author_user_id=json.get('user', {}).get('login'),
     )
 
 

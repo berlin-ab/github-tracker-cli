@@ -1,6 +1,7 @@
 import unittest
 import datetime
 
+
 from github_tracker_cli.github_tracker.domain import (
     Story,
     Issue,
@@ -8,48 +9,13 @@ from github_tracker_cli.github_tracker.domain import (
 )
 
 
-class StubTrackerStories():
-    def __init__(self):
-        self._stories = []
-        self.used_project_id = None
-        self.used_label = None
-        
-    def stub(self, stories):
-        self._stories = stories
-
-    def fetch_by_label(self, project_id, label):
-        self.used_project_id = project_id
-        self.used_label = label
-        return self._stories
-
+from test_helpers import (
+    StubTrackerStories,
+    StubGithubIssues,
+    valid_issue,
+    make_story,
+)
     
-class StubGithubIssues():
-    def __init__(self):
-        self._issues = []
-
-    def stub(self, issues):
-        self._issues = issues
-
-    def fetch(self):
-        return self._issues
-
-
-def valid_issue(
-        number=123,
-        url='http://example.com/foo',
-        title="A title",
-        description='Some description',
-        labels=[]):
-
-    return Issue(
-        number=number,
-        url=url,
-        title=title,
-        description=description,
-        labels=labels,
-        created_at=datetime.datetime.now(),
-        updated_at=datetime.datetime.now(),
-    )
 
 class MissingStoriesTest(unittest.TestCase):
     def test_list_issues_that_are_not_in_tracker(self):
@@ -57,9 +23,9 @@ class MissingStoriesTest(unittest.TestCase):
         github_issues = StubGithubIssues()
 
         tracker_stories.stub([
-            Story(external_id='unimportant', title='[Github Issue #123] Some title.'),
-            Story(external_id='something', title='[Github Issue #789] Some other title.'),
-            Story(external_id=None, title='Non-github issue title')
+            make_story(title='[Github Issue #123] Some title.'),
+            make_story(title='[Github Issue #789] Some other title.'),
+            make_story(title='Non-github issue title')
         ])
         
         github_issues.stub([

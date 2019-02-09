@@ -34,7 +34,8 @@ class GithubIssuesIntegrationTest(unittest.TestCase):
         self.assertIn('testing', issues[0].labels())
         self.assertIn('stub', issues[0].labels())
         self.assertIsNotNone(issues[0].created_at())
-        self.assertIsNotNone(issues[0].updated_at())        
+        self.assertIsNotNone(issues[0].updated_at())
+        self.assertEqual('berlin-ab', issues[0].author_user_id())
         
     def test_it_returns_results_for_a_different_repo(self):
         real_github_api = GithubApi()

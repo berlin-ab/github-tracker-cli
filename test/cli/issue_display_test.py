@@ -16,6 +16,7 @@ def make_issue(number=123,
                url='http://example.com/some-url',
                created_at=datetime.datetime.now(),
                updated_at=datetime.datetime.now(),
+               author_user_id='some-author-user-id',
 ):
     return Issue(
         number=123,
@@ -25,6 +26,7 @@ def make_issue(number=123,
         labels=[],
         created_at=created_at,
         updated_at=updated_at,
+        author_user_id=author_user_id,
     )
 
 

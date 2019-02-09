@@ -4,42 +4,14 @@ import time
 
 from github_tracker_cli.github_tracker.domain import (
     OpenPullRequests,
-    PullRequest
 )
 
+from test_helpers import (
+    make_pull_request,
+    StubPullRequests,
+    parse_date,
+)
 
-def parse_date(date_string):
-    return time.strptime(date_string, "%Y-%m-%d")
-
-
-def make_pull_request(
-                number=123,
-                url='http://example.com/some-pull-request-url',
-                title='Some title',
-                last_updated_at=parse_date('2010-01-01'),
-                author_user_id='some-github-username',
-                labels=[],
-            ):
-    return PullRequest(
-        number=number,
-        url=url,
-        title=title,
-        last_updated_at=last_updated_at,
-        author_user_id=author_user_id,
-        labels=labels,
-    )
-
-
-class StubPullRequests():
-    def __init__(self):
-        self._stubbed_pull_requests = []
-        
-    def stub(self, pull_requests):
-        self._stubbed_pull_requests = pull_requests
-        
-    def fetch(self):
-        return self._stubbed_pull_requests
-        
 
 class OpenPullRequestsTest(unittest.TestCase):
     def test_it_returns_pull_requests(self):

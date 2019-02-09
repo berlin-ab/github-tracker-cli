@@ -1,63 +1,17 @@
 import unittest
-import datetime
 
 
 from github_tracker_cli.github_tracker.domain import (
     ClosedIssues,
-    Issue,
-    Story,
 )
 
 
-def make_story(title='', story_id=1):
-    return Story(
-        story_id=story_id,
-        title=title,
-        external_id=None
-    )
-
-
-def make_issue(number=000,
-               url='',
-               title='',
-               labels=[],
-               description=''):
-    return Issue(
-        number=number,
-        url=url,
-        title=title,
-        labels=labels,
-        description=description,
-        created_at=datetime.datetime.now(),
-        updated_at=datetime.datetime.now(),
-    )
-    pass
-
-
-class StubGithubIssues():
-    def __init__(self):
-        self._stubbed_issues = []
-
-    def stub(self, stubbed_issues):
-        self._stubbed_issues = stubbed_issues
-
-    def fetch(self):
-        return self._stubbed_issues
-    
-
-class StubTrackerStories():
-    def __init__(self):
-        self._stubbed_stories = []
-        self.used_label = None
-        self.used_project_id = None
-        
-    def fetch_by_label(self, project_id, label):
-        self.used_label = label
-        self.used_project_id = project_id
-        return self._stubbed_stories
-            
-    def stub(self, stubbed_stories):
-        self._stubbed_stories = stubbed_stories
+from test_helpers import (
+    make_story,
+    make_issue,
+    StubGithubIssues,
+    StubTrackerStories,
+)
 
 
 class ClosedIssuesTest(unittest.TestCase):
