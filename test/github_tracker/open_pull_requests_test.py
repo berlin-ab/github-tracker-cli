@@ -87,3 +87,21 @@ class OpenPullRequestsTest(unittest.TestCase):
             [456, 123],
             [pull_request.number() for pull_request in pull_requests]
         )
+
+    def test_it_filters_out_pull_requests_matching_the_excluded_label_with_case_insensitive_match(self):
+        stub_pull_requests = StubPullRequests()
+        stub_pull_requests.stub([
+            make_pull_request(number=456, labels=['Abc']),
+            make_pull_request(number=789, labels=['def']),
+            make_pull_request(number=123, labels=['ghi']),
+        ])
+        
+        open_pull_requests = OpenPullRequests(stub_pull_requests)
+        pull_requests = open_pull_requests.fetch(
+            exclude_github_label='abc'
+        )
+
+        self.assertEqual(
+            [789, 123],
+            [pull_request.number() for pull_request in pull_requests]
+        )

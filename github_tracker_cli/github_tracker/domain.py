@@ -67,14 +67,13 @@ class Issue():
     def updated_at(self):
         return self._updated_at
 
-    def labels_contain_with_insensitive_match(self, other_label):
-        lower_case_labels = [label.lower() for label in self.labels()]
-
-        return other_label.lower() in lower_case_labels
-
     
 class Story():
-    def __init__(self, story_id = None, external_id = None, title='', url=''):
+    def __init__(self,
+                 story_id = None,
+                 external_id = None,
+                 title='',
+                 url=''):
         self._story_id = story_id
         self._external_id = external_id
         self._title = title
@@ -92,6 +91,30 @@ class Story():
     def url(self):
         return self._url
 
+
+class LabelMatcher():
+    def __init__(self, labels):
+        self._labels = labels
+
+    def matches(self, label):
+        if not label:
+            return False
+
+        return label.lower() in self._lowered_labels()
+
+    def _lowered_labels(self):
+        return [
+            inner_label.lower()
+            for inner_label
+            in self._labels
+        ]
+
+    
+def matches_github_label(github_object, exclude_github_label):
+    return LabelMatcher(
+        github_object.labels()
+    ).matches(exclude_github_label)
+        
     
 class MissingStories():
     
@@ -112,10 +135,33 @@ class MissingStories():
             issue
               for issue
               in self._github_issues.fetch()
-              if self._matches_github_label(github_label, issue)
-              and not self._matches_excluded_github_label(exclude_github_label, issue)
-              and self._not_in_tracker(issue, tracker_titles)
+              if self._matches_filter_criteria(
+                      github_label,
+                      exclude_github_label,
+                      issue,
+                      tracker_titles
+              )
         ]
+
+    def _matches_filter_criteria(self,
+                                 github_label,
+                                 exclude_github_label,
+                                 issue,
+                                 tracker_titles):
+        passes_github_label_inclusion_check = (
+            github_label is None or
+            matches_github_label(issue, github_label)
+        )
+            
+        passes_filter_check = (
+            passes_github_label_inclusion_check and
+              not matches_github_label(issue, exclude_github_label)
+        )
+            
+        return (
+            passes_filter_check
+            and self._not_in_tracker(issue, tracker_titles)
+        )
     
     def _not_in_tracker(self, issue, tracker_titles):
         for tracker_title in tracker_titles:
@@ -128,24 +174,11 @@ class MissingStories():
         return [
             story.title()
             for story in self._tracker_stories.fetch_by_label(
-                  project_id=project_id,
-                 label=label
-              )
+                project_id=project_id,
+                label=label
+            )
         ]
         
-    def _matches_excluded_github_label(self, exclude_github_label, issue):
-        return (
-            exclude_github_label and
-              issue.labels_contain_with_insensitive_match(exclude_github_label)
-        )
-
-    def _matches_github_label(self, github_label, issue):
-        return (
-            github_label is None or
-              issue.labels_contain_with_insensitive_match(github_label)
-        )
-
-
     
 class ClosedIssues():
     def __init__(self, github_issues, tracker_stories):
@@ -171,19 +204,12 @@ class ClosedIssues():
                 in stories
                 if open_issues_match(story)]
 
-
+    
 class OpenPullRequests():
     def __init__(self, pull_requests):
         self._pull_requests = pull_requests
 
     def fetch(self, exclude_github_label=None):
-        def excludes_github_label(pull_request):
-            if not exclude_github_label:
-                return False
-            
-            if exclude_github_label and exclude_github_label in pull_request.labels():
-                return True
-
         return [
             pull_request
                 for pull_request
@@ -192,7 +218,9 @@ class OpenPullRequests():
                     key=sort_by_last_updated_at,
                     reverse=True
                 )
-            if not excludes_github_label(pull_request)
-
+                if not matches_github_label(
+                    pull_request,
+                    exclude_github_label
+                )
         ]
 
