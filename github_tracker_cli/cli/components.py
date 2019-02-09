@@ -30,10 +30,9 @@ class Components():
     def __init__(self, arguments):
         self.arguments = arguments
 
-    @staticmethod
-    def log(message):
+    def log(self, message):
         if os.environ.get('DEBUG'):
-            self.printer(message)
+            self._printer(message)
         
     @staticmethod
     def _printer(string):
