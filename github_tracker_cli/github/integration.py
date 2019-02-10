@@ -6,7 +6,8 @@ from dateutil import parser
 
 from github_tracker_cli.github_tracker.domain import (
     Issue,
-    PullRequest
+    PullRequest,
+    Member,
 )
 
 
@@ -107,14 +108,6 @@ def json_to_pull_request(json):
     )
 
 
-class Member():
-    def __init__(self, user_id):
-        self._user_id = user_id
-
-    def user_id(self):
-        return self._user_id
-    
-
 def json_to_member(json):
     return Member(
         json.get('login')
@@ -166,7 +159,6 @@ class PullRequests():
 class OrganizationMembers():
     def __init__(self, github_api):
         self._github_api = github_api
-
         
     def fetch(self, organization_label):
         members_path = '/orgs/{organization_label}/members?true=true'.format(

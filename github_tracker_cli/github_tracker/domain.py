@@ -8,6 +8,14 @@ def sort_by_last_updated_at(pull_request):
     return pull_request.last_updated_at()
 
 
+class Member():
+    def __init__(self, user_id):
+        self._user_id = user_id
+
+    def user_id(self):
+        return self._user_id
+    
+
 class PullRequest():
     def __init__(self, number, url, title, last_updated_at, author_user_id, labels):
         self._number = number
@@ -230,9 +238,26 @@ class OpenPullRequests():
 
     
 class GithubIssuesSearch():
-    def __init__(self, github_issues):
+    def __init__(self, github_issues, organization_members):
         self._github_issues = github_issues
+        self._organization_members = organization_members
         
-    def fetch(self):
-        return self._github_issues.fetch()
+    def fetch(self, exclude_organizations=[]):
+        members_to_filter = self._get_member_map(exclude_organizations)
+        
+        return [
+            issue for issue
+              in self._github_issues.fetch()
+              if issue.author_user_id() not in members_to_filter
+        ]
 
+    def _get_member_map(self, exclude_organizations):
+        members_to_filter = {}
+
+        for organization in exclude_organizations:
+            for member in self._organization_members.fetch(
+                    organization_label=organization
+                ):
+                members_to_filter[member.user_id()] = True
+
+        return members_to_filter

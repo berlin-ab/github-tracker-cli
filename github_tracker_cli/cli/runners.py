@@ -60,7 +60,9 @@ def github_issues_runner(components):
     github_issues_search = components.github_issues_search()
 
     display_issues_as_rows(
-        github_issues_search.fetch(),
+        github_issues_search.fetch(
+            exclude_organizations=components.arguments.exclude_organizations
+        ),
         components.printer()
     )
     

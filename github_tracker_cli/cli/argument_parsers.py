@@ -9,6 +9,7 @@ github_repo_help_text = "The organization/username and repository name as a stri
 csv_help_text = "Display output in Pivotal Tracker csv format. (default: false)"
 github_label_help_text = "Return Github Issues matching the given label (case insensitive). (optional)"
 exclude_github_label_help_text = "Filter out github issues that match the given label"
+exclude_organizations_help_text = "Filter out github issues that were created by someone that belongs to a given organization. "
 
 
 def _add_github_arguments(parser):
@@ -54,8 +55,15 @@ def _add_missing_stories_parser(subparsers):
     parser.add_argument('--github-label',
                                        help=github_label_help_text,
                                        default=None)
+
     
-    
+def _add_exclude_organizations_argument(parser):
+    parser.add_argument('--exclude-organizations',
+                        nargs="*",
+                        help=exclude_organizations_help_text,
+                        default=[])
+
+
 def _add_closed_issues_parser(subparsers):
     parser = subparsers.add_parser('closed-issues')
     _add_shared_arguments(parser)
@@ -70,6 +78,7 @@ def _add_pull_requests_parser(subparsers):
 def _add_github_issues_parser(subparsers):
     parser = subparsers.add_parser('github-issues')
     _add_github_arguments(parser)
+    _add_exclude_organizations_argument(parser)
         
 
 def parse_arguments():

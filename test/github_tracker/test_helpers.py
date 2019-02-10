@@ -6,6 +6,7 @@ from github_tracker_cli.github_tracker.domain import (
     Issue,
     Story,
     PullRequest,
+    Member,
 )
 
 
@@ -57,6 +58,10 @@ def make_issue(number=000,
         author_user_id=author_user_id,
     )
     pass
+
+
+def make_member(user_id):
+    return Member(user_id=user_id)
 
 
 def valid_issue(
