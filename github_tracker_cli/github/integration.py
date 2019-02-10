@@ -12,11 +12,11 @@ from github_tracker_cli.github_tracker.domain import (
 
 
 def default_logger(message):
-    print message
+    pass
 
 
 def default_printer(message):
-    print message
+    pass
 
 
 class GithubApi():
