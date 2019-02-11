@@ -4,7 +4,8 @@ import datetime
 
 
 from github_tracker_cli.cli.issue_display import (
-     get_issues_display_style
+    get_issues_display_style,
+    display_issues_as_rows
 )
 
 from github_tracker_cli.github_tracker.domain import Issue
@@ -14,6 +15,7 @@ def make_issue(number=123,
                title="Some title",
                description='Something',
                url='http://example.com/some-url',
+               labels=[],
                created_at=datetime.datetime.now(),
                updated_at=datetime.datetime.now(),
                author_user_id='some-author-user-id',
@@ -23,7 +25,7 @@ def make_issue(number=123,
         title=title,
         url=url,
         description=description,
-        labels=[],
+        labels=labels,
         created_at=created_at,
         updated_at=updated_at,
         author_user_id=author_user_id,
@@ -107,4 +109,15 @@ class IssueDisplayTest(unittest.TestCase):
         formatter([issue], dummy_printer)
 
         self.assertIn("1999-", formatted_issues[0])
+
+    def test_it_includes_labels(self):
+        formatted_issues = []
+
+        def dummy_printer(string):
+            formatted_issues.append(string)
+
+        issue = make_issue(labels=['foo', 'bar'])
+        formatter = display_issues_as_rows([issue], dummy_printer)
+
+        self.assertIn("| foo, bar", formatted_issues[0])
         
