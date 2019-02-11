@@ -1,10 +1,11 @@
 def _print_pull_request_row(pull_request, printer):
-    printer(u"{number} | {url} | {last_updated_at} | {author} | {title}".format(
+    printer(u"{number} | {url} | {last_updated_at} | {author} | {title} | {labels}".format(
         number=pull_request.number(),
         url=pull_request.url(),
         title=pull_request.title(),
         last_updated_at=pull_request.last_updated_at(),
         author=pull_request.author_user_id().ljust(20),
+        labels=", ".join(pull_request.labels()),
     ))
 
 

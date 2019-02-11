@@ -39,7 +39,7 @@ class DisplayPullRequestsTest(unittest.TestCase):
                 url=u'http://example.com/some-printable-url',
                 author_user_id=u'me',
                 last_updated_at=u'some-timestamp',
-                labels=[]
+                labels=['foo', 'bar']
             )
         ]
 
@@ -68,4 +68,8 @@ class DisplayPullRequestsTest(unittest.TestCase):
         
         self.assertIn("Some cool title", printed_values[0])
 
+    def test_it_shows_the_title(self):
+        print_pull_requests_as_rows(self.pull_requests, sample_printer)
+        
+        self.assertIn("| foo, bar", printed_values[0])
 
