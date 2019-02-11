@@ -172,7 +172,7 @@ export GITHUB_USERNAME=[YOUR USERNAME]
 export GITHUB_PASSWORD=[YOUR PERSONAL ACCESS TOKEN]
 ```
 
-Github will only return public members of an organization if you are not authenticated, which makes the results inaccurate if the issues are created by private members of the excluded organization.
+Github will only return public members of an organization if you are not authenticated, which makes the results inaccurate if the issues are created by private members of the excluded organization. Ensure that **public repo information** and **organization info** scopes are enabled for your personal access token.
 
 ### Example
 
