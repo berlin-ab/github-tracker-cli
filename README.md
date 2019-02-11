@@ -6,7 +6,7 @@ For some open source projects, Github Issues is a great way to interact with the
 
 `github-tracker-cli` is an attempt to make the management of an open source project that has external and internal priorities easier. 
 
-[![Build Status](https://travis-ci.org/berlin-ab/github-tracker-cli.svg?branch=master)](https://travis-ci.org/berlin-ab/github-tracker-cli)
+[![Build Status](https://travis-ci.com/berlin-ab/github-tracker-cli.svg?branch=master)](https://travis-ci.com/berlin-ab/github-tracker-cli)
 
 ## Installation
 
