@@ -1,15 +1,24 @@
 import unittest
 
+
+from github_tracker_cli.cli.components import (
+    Components
+)
+
+
 from github_tracker_cli.github.integration import (
     GithubIssues,
     GithubApi,
     PullRequests
 )
 
+
+components = Components({})
+
     
 class GithubIssuesIntegrationTest(unittest.TestCase):
     def test_it_does_not_return_pull_requests(self):
-        real_github_api = GithubApi()
+        real_github_api = components.github_api()
 
         issues = GithubIssues(
             real_github_api,
@@ -23,7 +32,7 @@ class GithubIssuesIntegrationTest(unittest.TestCase):
         self.assertNotIn('Fake pull request', titles)        
                         
     def test_it_returns_real_issues(self):
-        real_github_api = GithubApi()
+        real_github_api = components.github_api()
 
         issues = [issue for issue in GithubIssues(
             real_github_api,
@@ -38,7 +47,7 @@ class GithubIssuesIntegrationTest(unittest.TestCase):
         self.assertEqual('berlin-ab', issues[0].author_user_id())
         
     def test_it_returns_results_for_a_different_repo(self):
-        real_github_api = GithubApi()
+        real_github_api = components.github_api()
         
         issues = GithubIssues(
             real_github_api,
@@ -53,7 +62,8 @@ class GithubIssuesIntegrationTest(unittest.TestCase):
 class PullRequestsTest(unittest.TestCase):
     def test_it_returns_pull_requests(self):
         github_repo = 'berlin-ab/github-tracker-cli'
-        github_api = GithubApi()
+        github_api = components.github_api()
+        
         pull_requests_service = PullRequests(
             github_api=github_api,
             github_repo=github_repo,
@@ -73,11 +83,4 @@ class PullRequestsTest(unittest.TestCase):
         self.assertEqual('berlin-ab', pull_request.author_user_id())
         self.assertIsNotNone(pull_request.last_updated_at())
         self.assertIn('some-example-label', pull_request.labels())
-
-
-
-
-
-
-
 
