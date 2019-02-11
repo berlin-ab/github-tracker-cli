@@ -13,6 +13,9 @@ log() {
 log "clean before running suite"
 LOG_FILE=/tmp/github-tracker-cli-build.log
 rm -f $LOG_FILE # cleanup previous run
+find . -name *.pyc | xargs rm;
+find . -name __pycache__ | xargs rm -rf;
+
 
 
 log "install dependencies"
