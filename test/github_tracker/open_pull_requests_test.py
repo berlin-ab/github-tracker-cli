@@ -6,7 +6,7 @@ from github_tracker_cli.github_tracker.domain import (
     OpenPullRequests,
 )
 
-from test_helpers import (
+from .test_helpers import (
     make_pull_request,
     StubPullRequests,
     parse_date,

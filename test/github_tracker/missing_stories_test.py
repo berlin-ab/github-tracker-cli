@@ -9,7 +9,7 @@ from github_tracker_cli.github_tracker.domain import (
 )
 
 
-from test_helpers import (
+from .test_helpers import (
     StubTrackerStories,
     StubGithubIssues,
     valid_issue,
