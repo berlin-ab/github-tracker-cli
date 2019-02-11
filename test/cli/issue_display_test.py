@@ -61,7 +61,7 @@ class IssueDisplayTest(unittest.TestCase):
         formatter([issue], dummy_printer)
         
         self.assertIn(title, formatted_issues[0])
-
+        
     def test_formatted_description_includes_issue_url(self):
         formatted_issues = []
 

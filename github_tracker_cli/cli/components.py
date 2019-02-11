@@ -2,6 +2,8 @@ from __future__ import print_function
 
 
 import os
+import sys
+import codecs
 
 
 from github_tracker_cli.github.integration import (
@@ -39,7 +41,8 @@ class Components():
         try:
             print(string)
         except:
-            print(string.encode('utf-8'))
+            with codecs.getwriter('utf8')(sys.stdout) as new_stdout:
+                new_stdout.write(string + u"\n")
 
     def printer(self):
         return self._printer
