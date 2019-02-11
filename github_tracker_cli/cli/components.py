@@ -41,8 +41,9 @@ class Components():
         try:
             print(string)
         except:
-            with codecs.getwriter('utf8')(sys.stdout) as new_stdout:
-                new_stdout.write(string + u"\n")
+            sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+            sys.stdout.write(string + u"\n")
+
 
     def printer(self):
         return self._printer

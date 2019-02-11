@@ -29,15 +29,23 @@ def _format_issue(issue, printer):
 
 
 def _display_issues_as_csv(issues, printer):
-    writer = csv.DictWriter(
-        sys.stdout,
-        [u'Title', u'Labels', u'Description'],
-        quoting=csv.QUOTE_ALL
-    )
+    try:
+        writer = csv.DictWriter(
+            sys.stdout,
+            [u'Title', u'Labels', u'Description'],
+            quoting=csv.QUOTE_ALL
+        )
 
-    writer.writeheader()
+        writer.writeheader()
 
-    writer.writerows([_format_issue(issue, printer) for issue in issues])
+        while issues:
+            writer.writerow(_format_issue(issues.pop(), printer))
+    except UnicodeEncodeError:
+        import codecs
+        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+        _display_issues_as_csv(issues, printer)
+
+        
 
 
 def display_issues_as_rows(issues, printer):
