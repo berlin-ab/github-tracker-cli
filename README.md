@@ -163,7 +163,17 @@ Show all github issues for a repository.
 
     `--github-repo [github repo]` (required) specify which github repository's issues you want to view
     `--exclude-organizations [organization 1] [organization 2]` lets you filter Issues created by people that are not in a specified organization, for example people external to your company.
-    
+
+
+Note: for best results with `--exclude-organizations` authenticate with Github using a personal access token by setting these environment variables: 
+
+```
+export GITHUB_USERNAME=[YOUR USERNAME]
+export GITHUB_PASSWORD=[YOUR PERSONAL ACCESS TOKEN]
+```
+
+Github will only return public members of an organization if you are not authenticated, which makes the results inaccurate if the issues are created by private members of the excluded organization.
+
 ### Example
 
 Shows all Github issues matching a Github label that do not have a corresponding Pivotal Tracker story output in Pivotal Tracker CSV format.
