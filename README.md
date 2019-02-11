@@ -156,6 +156,14 @@ optional arguments:
                         /github-tracker-cli'
 ```
 
+
+#### `github-issues`:
+
+Show all github issues for a repository.
+
+    `--github-repo [github repo]` (required) specify which github repository's issues you want to view
+    `--exclude-organizations [organization 1] [organization 2]` lets you filter Issues created by people that are not in a specified organization, for example people external to your company.
+    
 ### Example
 
 Shows all Github issues matching a Github label that do not have a corresponding Pivotal Tracker story output in Pivotal Tracker CSV format.
