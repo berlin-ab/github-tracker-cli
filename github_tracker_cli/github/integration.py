@@ -37,9 +37,8 @@ class GithubApi():
             per_page=per_page,
         )
 
-    def get(self, path):
+    def get(self, path, current_page=1):
         results = []
-        current_page = 1
 
         while True:
             self.log("current page: %s" % current_page)
@@ -168,7 +167,7 @@ class OrganizationMembers():
         return [
             json_to_member(member_json)
               for member_json
-              in self._github_api.get(members_path)
+              in self._github_api.get(members_path, current_page=0)
         ]
 
     

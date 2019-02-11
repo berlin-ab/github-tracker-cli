@@ -8,6 +8,7 @@ from github_tracker_cli.github.integration import (
     GithubApi,
     GithubIssues,
     PullRequests,
+    OrganizationMembers,
 )
 
 
@@ -91,7 +92,13 @@ class Components():
 
     def github_issues_search(self):
         return GithubIssuesSearch(
-            github_issues=self.github_issues()
+            github_issues=self.github_issues(),
+            organization_members=self.organization_members(),
+        )
+
+    def organization_members(self):
+        return OrganizationMembers(
+            github_api=self.github_api()
         )
         
     def _github_credentials(self):

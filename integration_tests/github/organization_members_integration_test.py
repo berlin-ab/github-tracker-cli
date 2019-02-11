@@ -18,6 +18,7 @@ class OrganizationMembersTest(unittest.TestCase):
         members = organization_members_service.fetch(
             organization_label=organization_label
         )
-        
+
+        self.assertGreater(len(members), 100)
         self.assertIn('berlin-ab', [member.user_id() for member in members])
         
