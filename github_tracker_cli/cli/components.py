@@ -42,13 +42,15 @@ class CsvWriter():
         )
         self.internal_writer.writeheader()
 
-    def write_row(self, row_columns):
+    def write_row(self, row_columns, here_again=False):
         try:
             self.internal_writer.writerow(row_columns)
         except UnicodeEncodeError:
+            if here_again:
+                raise RuntimeError("Unable to print row due to encoding issue. Failing rather than returning wrong results.")
             import codecs
             sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-            self.write_row(row_columns)
+            self.write_row(row_columns, here_again=True)
 
     
 class Components():
