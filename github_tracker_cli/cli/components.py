@@ -48,7 +48,7 @@ class CsvWriter():
         except UnicodeEncodeError:
             import codecs
             sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-            self.writerow(row_columns)
+            self.write_row(row_columns)
 
     
 class Components():
@@ -66,7 +66,6 @@ class Components():
         except:
             sys.stdout = codecs.getwriter('utf8')(sys.stdout)
             sys.stdout.write(string + u"\n")
-
 
     def printer(self):
         return self._printer
