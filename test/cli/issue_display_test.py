@@ -4,7 +4,6 @@ import datetime
 
 
 from github_tracker_cli.cli.issue_display import (
-    get_issues_display_style,
     display_issues_as_rows
 )
 
@@ -39,11 +38,9 @@ class IssueDisplayTest(unittest.TestCase):
         def dummy_printer(string):
             formatted_issues.append(string)
         
-        formatter = get_issues_display_style(csv=False)
-        
         issue = make_issue(number=123, title="Some title")
 
-        formatter([issue], dummy_printer)
+        display_issues_as_rows([issue], dummy_printer)
 
         self.assertIn("Some title", formatted_issues[0])
 
@@ -53,12 +50,10 @@ class IssueDisplayTest(unittest.TestCase):
         def dummy_printer(string):
             formatted_issues.append(string)
         
-        formatter = get_issues_display_style(csv=False)
-
         title = u"-错误的版本"
         issue = make_issue(title=title)
 
-        formatter([issue], dummy_printer)
+        display_issues_as_rows([issue], dummy_printer)
         
         self.assertIn(title, formatted_issues[0])
         
@@ -68,13 +63,11 @@ class IssueDisplayTest(unittest.TestCase):
         def dummy_printer(string):
             formatted_issues.append(string)
         
-        formatter = get_issues_display_style(csv=False)
-
         issue = make_issue(
             url="http://example.com/foobar",
         )
 
-        formatter([issue], dummy_printer)
+        display_issues_as_rows([issue], dummy_printer)
 
         self.assertIn("http://example.com/foobar", formatted_issues[0])
 
@@ -84,13 +77,11 @@ class IssueDisplayTest(unittest.TestCase):
         def dummy_printer(string):
             formatted_issues.append(string)
         
-        formatter = get_issues_display_style(csv=False)
-
         issue = make_issue(
             updated_at=datetime.datetime(year=2000, month=1, day=1)
             )
 
-        formatter([issue], dummy_printer)
+        display_issues_as_rows([issue], dummy_printer)
 
         self.assertIn("2000-", formatted_issues[0])
 
@@ -100,13 +91,11 @@ class IssueDisplayTest(unittest.TestCase):
         def dummy_printer(string):
             formatted_issues.append(string)
         
-        formatter = get_issues_display_style(csv=False)
-
         issue = make_issue(
             updated_at=datetime.datetime(year=1999, month=1, day=1)
         )
 
-        formatter([issue], dummy_printer)
+        display_issues_as_rows([issue], dummy_printer)
 
         self.assertIn("1999-", formatted_issues[0])
 
@@ -117,7 +106,7 @@ class IssueDisplayTest(unittest.TestCase):
             formatted_issues.append(string)
 
         issue = make_issue(labels=['foo', 'bar'])
-        formatter = display_issues_as_rows([issue], dummy_printer)
+        display_issues_as_rows([issue], dummy_printer)
 
         self.assertIn("| foo, bar", formatted_issues[0])
         

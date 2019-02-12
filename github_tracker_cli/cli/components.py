@@ -1,4 +1,5 @@
 from __future__ import print_function
+from backports import csv
 
 
 import os
@@ -27,7 +28,29 @@ from github_tracker_cli.github_tracker.domain import (
     GithubIssuesSearch,
 )
 
+class CsvWriter():
+    def __init__(self):
+        self.header_columns = []
+        self.row_columns = []
+        
+    
+    def write_header(self, header_columns):
+        self.internal_writer = csv.DictWriter(
+            sys.stdout,
+            fieldnames=header_columns,
+            quoting=csv.QUOTE_ALL
+        )
+        self.internal_writer.writeheader()
 
+    def write_row(self, row_columns):
+        try:
+            self.internal_writer.writerow(row_columns)
+        except UnicodeEncodeError:
+            import codecs
+            sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+            self.writerow(row_columns)
+
+    
 class Components():
     def __init__(self, arguments):
         self.arguments = arguments
@@ -61,7 +84,7 @@ class Components():
         )
 
     def github_issues(self):
-        return  GithubIssues(
+        return GithubIssues(
             github_api=self.github_api(),
             github_repo=self.arguments.github_repo
         )
@@ -104,6 +127,9 @@ class Components():
         return OrganizationMembers(
             github_api=self.github_api()
         )
+
+    def csv_writer(self):
+        return CsvWriter()
         
     def _github_credentials(self):
         github_username = os.environ.get('GITHUB_USERNAME', None)

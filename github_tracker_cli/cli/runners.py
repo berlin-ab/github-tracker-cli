@@ -1,6 +1,6 @@
 from github_tracker_cli.cli.issue_display import (
-    get_issues_display_style,
     display_issues_as_rows,
+    display_issues_as_csv,
 )
 
 from github_tracker_cli.cli.story_display import (
@@ -22,13 +22,12 @@ def missing_stories_runner(components):
         github_label=arguments.github_label,
         exclude_github_label=arguments.exclude_github_label,
     )
-    
-    display_style = get_issues_display_style(
-        csv=arguments.csv
-    )
-    
-    display_style(issues, components.printer())
- 
+
+    if arguments.csv:
+        display_issues_as_csv(issues, components.csv_writer(), components.printer())
+    else:
+        display_issues_as_rows(issues, components.printer())
+     
 
 def closed_issues_runner(components):
     arguments = components.arguments

@@ -1,7 +1,3 @@
-from backports import csv
-import sys
-
-
 def _format_issue_title(issue):
     return u'[Github Issue #%s] %s' % (issue.number(), issue.title())
 
@@ -28,24 +24,13 @@ def _format_issue(issue, printer):
         raise error
 
 
-def _display_issues_as_csv(issues, printer):
-    try:
-        writer = csv.DictWriter(
-            sys.stdout,
-            [u'Title', u'Labels', u'Description'],
-            quoting=csv.QUOTE_ALL
+def display_issues_as_csv(issues, csv_writer, printer):
+    csv_writer.write_header([u'Title', u'Labels', u'Description'])
+
+    for issue in issues:
+        csv_writer.write_row(
+            _format_issue(issue, printer)
         )
-
-        writer.writeheader()
-
-        while issues:
-            writer.writerow(_format_issue(issues.pop(), printer))
-    except UnicodeEncodeError:
-        import codecs
-        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-        _display_issues_as_csv(issues, printer)
-
-        
 
 
 def display_issues_as_rows(issues, printer):
@@ -58,12 +43,3 @@ def display_issues_as_rows(issues, printer):
             updated_at=issue.updated_at(),
             labels=", ".join(issue.labels()),
         ))
-
-
-def get_issues_display_style(csv):
-    if csv:
-        return _display_issues_as_csv
-
-    return display_issues_as_rows
-        
-
