@@ -35,11 +35,18 @@ def display_issues_as_csv(issues, csv_writer, printer):
 
 def display_issues_as_rows(issues, printer):
     for issue in issues:
-        printer(u'{id} | {url} | {created_at} | {updated_at} | {title} | {labels}'.format(
+        printer(u'{id} | {url} | {created_at} | {updated_at} | {author} | {title} | {labels}'.format(
             id=str(issue.number()).ljust(5),
             url=issue.url().ljust(50),
             title=issue.title(),
+            author=issue.author_user_id().ljust(20),
             created_at=issue.created_at(),
             updated_at=issue.updated_at(),
             labels=", ".join(issue.labels()),
         ))
+
+
+
+
+
+

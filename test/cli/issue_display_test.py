@@ -110,3 +110,14 @@ class IssueDisplayTest(unittest.TestCase):
 
         self.assertIn("| foo, bar", formatted_issues[0])
         
+    def test_it_includes_labels(self):
+        formatted_issues = []
+
+        def dummy_printer(string):
+            formatted_issues.append(string)
+
+        issue = make_issue(author_user_id='berlin-ab')
+        display_issues_as_rows([issue], dummy_printer)
+
+        self.assertIn("| berlin-ab", formatted_issues[0])
+        
