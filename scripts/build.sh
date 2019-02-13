@@ -10,6 +10,9 @@ log() {
 }
 
 
+export PYTHONIOENCODING=utf_8
+
+
 log "clean before running suite"
 LOG_FILE=/tmp/github-tracker-cli-build.log
 rm -f $LOG_FILE # cleanup previous run

@@ -29,28 +29,21 @@ from github_tracker_cli.github_tracker.domain import (
 )
 
 class CsvWriter():
-    def __init__(self):
+    def __init__(self, stdout):
         self.header_columns = []
         self.row_columns = []
+        self.stdout = stdout
         
-    
     def write_header(self, header_columns):
         self.internal_writer = csv.DictWriter(
-            sys.stdout,
+            self.stdout,
             fieldnames=header_columns,
             quoting=csv.QUOTE_ALL
         )
         self.internal_writer.writeheader()
 
-    def write_row(self, row_columns, here_again=False):
-        try:
-            self.internal_writer.writerow(row_columns)
-        except UnicodeEncodeError:
-            if here_again:
-                raise RuntimeError("Unable to print row due to encoding issue. Failing rather than returning wrong results.")
-            import codecs
-            sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-            self.write_row(row_columns, here_again=True)
+    def write_row(self, row_columns):
+        self.internal_writer.writerow(row_columns)
 
     
 class Components():
@@ -61,16 +54,8 @@ class Components():
         if os.environ.get('DEBUG'):
             self._printer(message)
         
-    @staticmethod
-    def _printer(string):
-        try:
-            print(string)
-        except:
-            sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-            sys.stdout.write(string + u"\n")
-
     def printer(self):
-        return self._printer
+        return lambda message: self.stdout().write(message + "\n")
 
     def tracker_api(self):
         return PivotalTrackerApi(
@@ -80,7 +65,7 @@ class Components():
     def github_api(self):
         return GithubApi(
             logger=self.log,
-            printer=self._printer,
+            printer=(lambda message: self.stdout().write(message + "\n")),
             credentials=self._github_credentials()
         )
 
@@ -129,8 +114,14 @@ class Components():
             github_api=self.github_api()
         )
 
+    def stdout(self):
+        if not sys.stdout.encoding:
+            raise RuntimeError("System requires ability to write utf-8 to standard out. Please set the environment variable: PYTHONIOENCODING=utf_8")
+        
+        return sys.stdout
+    
     def csv_writer(self):
-        return CsvWriter()
+        return CsvWriter(self.stdout())
         
     def _github_credentials(self):
         github_username = os.environ.get('GITHUB_USERNAME', None)
