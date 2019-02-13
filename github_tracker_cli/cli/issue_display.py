@@ -3,25 +3,18 @@ def _format_issue_title(issue):
 
 
 def _format_issue(issue, printer):
-    try:
-        title = _format_issue_title(issue)
-        labels = u"github-issue"
+    title = _format_issue_title(issue)
+    labels = u"github-issue"
 
-        description = u'{url}'.format(
-            url=issue.url(),
-        )
+    description = u'{url}'.format(
+        url=issue.url(),
+    )
 
-        return {
-            u'Title': title,
-            u'Labels': labels,
-            u'Description': description
-        }
-    except Exception as error:
-        printer("Failed to format issue:")
-        printer(issue.number())
-        printer(issue.title())
-        printer(issue.url())
-        raise error
+    return {
+        u'Title': title,
+        u'Labels': labels,
+        u'Description': description
+    }
 
 
 def display_issues_as_csv(issues, csv_writer, printer):
