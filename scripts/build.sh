@@ -3,6 +3,10 @@
 
 set -e
 
+
+python --version
+
+
 log() {
     echo
     echo $1
