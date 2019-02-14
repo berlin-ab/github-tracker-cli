@@ -5,6 +5,7 @@ from github_tracker_cli.cli.issue_display import (
 
 from github_tracker_cli.cli.story_display import (
     display_stories_as_rows,
+    display_history_as_rows,
 )
 
 from github_tracker_cli.cli.pull_request_display import (
@@ -66,6 +67,15 @@ def github_issues_runner(components):
     )
     
 
+def tracker_story_history_runner(components):
+    search = components.tracker_story_history_search()
+    story_histories = search.all_history(
+        project_id=components.arguments.pivotal_tracker_project_id
+    )
+
+    display_history_as_rows(story_histories, components.printer())
+
+
 def unknown_subcommand_runner(components):
     printer = components.printer()
     printer("Unknown command")
@@ -83,6 +93,9 @@ def discover_subcommand(arguments):
 
     elif arguments.chosen_command == 'github-issues':
         return github_issues_runner
+
+    elif arguments.chosen_command == 'tracker-story-history':
+        return tracker_story_history_runner
     
     else:
         return unknown_subcommand_runner

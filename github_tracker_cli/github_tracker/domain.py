@@ -281,3 +281,21 @@ class GithubIssuesSearch():
                 members_to_filter[member.user_id()] = True
 
         return members_to_filter
+
+
+class TrackerStoryHistorySearch():
+    def __init__(self, get_tracker_story_history):
+        self._get_tracker_story_history = get_tracker_story_history
+        
+    def all_history(self, project_id):
+        return self._get_tracker_story_history.fetch(project_id)
+
+
+
+
+
+
+
+
+
+

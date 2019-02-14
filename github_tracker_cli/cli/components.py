@@ -17,7 +17,8 @@ from github_tracker_cli.github.integration import (
 
 from github_tracker_cli.pivotal_tracker.integration import (
     PivotalTrackerApi,
-    TrackerStories
+    TrackerStories,
+    GetTrackerStoryHistory,
 )
 
 
@@ -26,6 +27,7 @@ from github_tracker_cli.github_tracker.domain import (
     ClosedIssues,
     OpenPullRequests,
     GithubIssuesSearch,
+    TrackerStoryHistorySearch,
 )
 
 class CsvWriter():
@@ -113,6 +115,16 @@ class Components():
         return OrganizationMembers(
             github_api=self.github_api()
         )
+
+    def get_tracker_story_history(self):
+        return GetTrackerStoryHistory(
+            tracker_api=self.tracker_api()
+            )
+    
+    def tracker_story_history_search(self):
+        return TrackerStoryHistorySearch(
+            get_tracker_story_history=self.get_tracker_story_history()
+            )
 
     def stdout(self):
         if not sys.stdout.encoding:

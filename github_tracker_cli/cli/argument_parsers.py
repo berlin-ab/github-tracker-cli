@@ -17,16 +17,21 @@ def _add_github_arguments(parser):
                                         required=True,
                                         help=github_repo_help_text)
 
-    
-def _add_pivotal_tracker_arguments(parser):
+def _add_pivotal_tracker_authentication_arguments(parser):
     parser.add_argument('--pivotal-tracker-token',
                                         required=True,
                                         help=tracker_token_help_text)
-    
+
+
+def _add_pivotal_tracker_project_arguments(parser):
     parser.add_argument('--pivotal-tracker-project-id',
                                         required=True,
                                         help=tracker_project_id_help_text)
-
+    
+    
+def _add_pivotal_tracker_arguments(parser):
+    _add_pivotal_tracker_authentication_arguments(parser)
+    _add_pivotal_tracker_project_arguments(parser)
     parser.add_argument('--pivotal-tracker-label',
                                         help=tracker_label_help_text,
                                         default=default_tracker_label)
@@ -79,6 +84,12 @@ def _add_github_issues_parser(subparsers):
     parser = subparsers.add_parser('github-issues')
     _add_github_arguments(parser)
     _add_exclude_organizations_argument(parser)
+
+
+def _add_tracker_story_history_parser(subparsers):
+    parser = subparsers.add_parser('tracker-story-history')
+    _add_pivotal_tracker_authentication_arguments(parser)
+    _add_pivotal_tracker_project_arguments(parser)
         
 
 def parse_arguments():
@@ -90,6 +101,7 @@ def parse_arguments():
     _add_closed_issues_parser(subparsers)
     _add_pull_requests_parser(subparsers)
     _add_github_issues_parser(subparsers)
+    _add_tracker_story_history_parser(subparsers)
     
     return parser.parse_args()
 
