@@ -80,7 +80,7 @@ def transform_json_to_history(json):
 class GetTrackerStoryHistory():
     def __init__(self, tracker_api):
         self._tracker_api = tracker_api
-        self._states = ['finished', 'started', 'planned', 'rejected', 'unstarted']
+        self._states = ['finished', 'started', 'planned', 'rejected', 'unstarted', 'delivered']
         
     def fetch(self, project_id):
         return [

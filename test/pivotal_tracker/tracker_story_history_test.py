@@ -88,26 +88,36 @@ class TrackerStoryHistoryTest(unittest.TestCase):
             )
 
         self.assertIn(
-            '/projects/123/stories?with_state=finished&limit=500&fields=id,url,name,cycle_time_details',
+            self._url_with_state("finished"),
             stub_tracker_api.used_urls()
         )
         
         self.assertIn(
-            '/projects/123/stories?with_state=started&limit=500&fields=id,url,name,cycle_time_details',
+            self._url_with_state('started'),
             stub_tracker_api.used_urls()
         )
 
         self.assertIn(
-            '/projects/123/stories?with_state=planned&limit=500&fields=id,url,name,cycle_time_details',
+            self._url_with_state('planned'),
             stub_tracker_api.used_urls()
         )
         
         self.assertIn(
-            '/projects/123/stories?with_state=rejected&limit=500&fields=id,url,name,cycle_time_details',
+            self._url_with_state('rejected'),
             stub_tracker_api.used_urls()
         )
 
         self.assertIn(
-            '/projects/123/stories?with_state=unstarted&limit=500&fields=id,url,name,cycle_time_details',
+            self._url_with_state('unstarted'),
             stub_tracker_api.used_urls()
         )
+        
+        self.assertIn(
+            self._url_with_state('delivered'),
+            stub_tracker_api.used_urls()
+        )
+
+    def _url_with_state(self, state):
+        return '/projects/123/stories?with_state={state}&limit=500&fields=id,url,name,cycle_time_details'.format(
+            state=state
+            )
