@@ -30,7 +30,7 @@ class TrackerStoryCycleTimeIntegrationTest(unittest.TestCase):
         ])
 
         self.assertIn(1299402000, [
-            history.started_at()
+            history.started_duration()
             for history
             in histories
         ])

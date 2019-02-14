@@ -24,7 +24,7 @@ class StubTrackerApi():
 
     def used_urls(self):
         return self._used_urls
-    
+
 
 class TrackerStoryHistoryTest(unittest.TestCase):
     def test_it_returns_a_list_of_history(self):
@@ -45,9 +45,9 @@ class TrackerStoryHistoryTest(unittest.TestCase):
             )
         
         self.assertEqual(history[0].story().title(), 'My fake title')
-        self.assertEqual(history[0].started_at(), 123)
-        self.assertEqual(history[0].finished_at(), 456)
-        self.assertEqual(history[0].delivered_at(), 789)
+        self.assertEqual(history[0].started_duration(), 123)
+        self.assertEqual(history[0].finished_duration(), 456)
+        self.assertEqual(history[0].delivered_duration(), 789)
 
     def test_it_combines_responses(self):
         stub_tracker_api = StubTrackerApi()
