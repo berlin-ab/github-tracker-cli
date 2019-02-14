@@ -37,9 +37,9 @@ log "run test suites"
 
 
 log "run examples"
-./scripts/example-missing-stories.bash >> $LOG_FILE && echo "Passed." || (echo 'Failed.' && false)
-./scripts/example-missing-stories-csv.bash >> $LOG_FILE && echo "Passed." || (echo 'Failed.' && false)
-./scripts/example-closed-issues.bash >> $LOG_FILE && echo "Passed." || (echo 'Failed' && false)
-./scripts/example-pull-requests.bash >> $LOG_FILE && echo "Passed." || (echo 'Failed' && false)
-./scripts/example-tracker-story-history.bash >> $LOG_FILE && echo "Passed." || (echo 'Failed' && false)
+./examples/example-missing-stories.bash >> $LOG_FILE && echo "Passed." || (echo 'Failed.' && false)
+./examples/example-missing-stories-csv.bash >> $LOG_FILE && echo "Passed." || (echo 'Failed.' && false)
+./examples/example-closed-issues.bash >> $LOG_FILE && echo "Passed." || (echo 'Failed' && false)
+./examples/example-pull-requests.bash >> $LOG_FILE && echo "Passed." || (echo 'Failed' && false)
+./examples/example-tracker-story-history.bash >> $LOG_FILE && echo "Passed." || (echo 'Failed' && false)
 
