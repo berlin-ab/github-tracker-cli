@@ -9,16 +9,19 @@ def display_stories_as_rows(stories, printer):
             url=story.url(),
         ))
 
+
+def duration_in_days(time_in_milliseconds):
+    return (time_in_milliseconds / 1000) / 60 / 60 / 24
+
         
 def display_history_as_rows(story_histories, printer):
-    now = int(time.time())
     printer("story id   | duration since started | title")
 
     for story_history in story_histories:
         started_duration_in_days = u""
 
         if story_history.started_at():
-            started_duration_in_days = "%d days" % (((((now - story_history.started_at()) / 60) / 60) / 24) / 100)
+            started_duration_in_days = "%d days" % duration_in_days(story_history.started_at())
             
         printer(
             u"{story_id} | {started_duration} | {title}".format(
