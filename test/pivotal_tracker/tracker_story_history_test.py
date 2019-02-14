@@ -77,7 +77,7 @@ class TrackerStoryHistoryTest(unittest.TestCase):
             )
 
         self.assertIn(
-            '/projects/456/stories?with_state=finished&limit=500&fields=id,name,cycle_time_details',
+            '/projects/456/stories?with_state=finished&limit=500&fields=id,url,name,cycle_time_details',
             stub_tracker_api.used_urls()
         )
         
@@ -88,26 +88,26 @@ class TrackerStoryHistoryTest(unittest.TestCase):
             )
 
         self.assertIn(
-            '/projects/123/stories?with_state=finished&limit=500&fields=id,name,cycle_time_details',
+            '/projects/123/stories?with_state=finished&limit=500&fields=id,url,name,cycle_time_details',
             stub_tracker_api.used_urls()
         )
         
         self.assertIn(
-            '/projects/123/stories?with_state=started&limit=500&fields=id,name,cycle_time_details',
+            '/projects/123/stories?with_state=started&limit=500&fields=id,url,name,cycle_time_details',
             stub_tracker_api.used_urls()
         )
 
         self.assertIn(
-            '/projects/123/stories?with_state=planned&limit=500&fields=id,name,cycle_time_details',
+            '/projects/123/stories?with_state=planned&limit=500&fields=id,url,name,cycle_time_details',
             stub_tracker_api.used_urls()
         )
         
         self.assertIn(
-            '/projects/123/stories?with_state=rejected&limit=500&fields=id,name,cycle_time_details',
+            '/projects/123/stories?with_state=rejected&limit=500&fields=id,url,name,cycle_time_details',
             stub_tracker_api.used_urls()
         )
 
         self.assertIn(
-            '/projects/123/stories?with_state=unstarted&limit=500&fields=id,name,cycle_time_details',
+            '/projects/123/stories?with_state=unstarted&limit=500&fields=id,url,name,cycle_time_details',
             stub_tracker_api.used_urls()
         )

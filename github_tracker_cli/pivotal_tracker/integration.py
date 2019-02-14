@@ -89,7 +89,7 @@ class GetTrackerStoryHistory():
             results.extend([
                 transform_json_to_history(json)
                 for json
-                in self._tracker_api.get('/projects/{project_id}/stories?with_state={state}&limit=500&fields=id,name,cycle_time_details'.format(
+                in self._tracker_api.get('/projects/{project_id}/stories?with_state={state}&limit=500&fields=id,url,name,cycle_time_details'.format(
                     state=state,
                     project_id=project_id,
                 ))
