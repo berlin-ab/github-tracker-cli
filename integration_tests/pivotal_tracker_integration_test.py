@@ -39,8 +39,3 @@ class TrackerStoriesIntegrationTest(unittest.TestCase):
 
         self.assertIn('Example icebox story', [story.title() for story in stories])
 
-
-
-
-
-

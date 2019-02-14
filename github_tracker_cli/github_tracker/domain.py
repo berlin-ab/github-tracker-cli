@@ -8,6 +8,26 @@ def sort_by_last_updated_at(pull_request):
     return pull_request.last_updated_at()
 
 
+class TrackerStoryHistory():
+    def __init__(self, started_at, finished_at, delivered_at, story):
+        self._story = story
+        self._started_at = started_at
+        self._finished_at = finished_at
+        self._delivered_at = delivered_at
+        
+    def story(self):
+        return self._story
+
+    def started_at(self):
+        return self._started_at
+
+    def finished_at(self):
+        return self._finished_at
+
+    def delivered_at(self):
+        return self._delivered_at
+    
+
 class Member():
     def __init__(self, user_id):
         self._user_id = user_id

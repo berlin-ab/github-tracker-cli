@@ -1,6 +1,10 @@
 import requests
 
-from github_tracker_cli.github_tracker.domain import Story
+from github_tracker_cli.github_tracker.domain import (
+    Story,
+    TrackerStoryHistory,
+    )
+
 
 class MissingPivotalTrackerApiTokenError(RuntimeError):
     pass
@@ -57,3 +61,44 @@ class TrackerStories():
                 transform_json_to_story,
                 filter(remove_not_matching_label, stories_as_json)
             )
+
+    
+def transform_json_to_history(json):
+    cycle_time_details = json.get('cycle_time_details', {})
+    started_at = cycle_time_details.get('started_time')
+    finished_at = cycle_time_details.get('finished_time')
+    delivered_at = cycle_time_details.get('delivered_time')
+    
+    return TrackerStoryHistory(
+        started_at=started_at,
+        finished_at=finished_at,
+        delivered_at=delivered_at,
+        story=transform_json_to_story(json),
+    )
+
+
+class GetTrackerStoryHistory():
+    def __init__(self, tracker_api):
+        self._tracker_api = tracker_api
+        self._states = ['finished', 'started', 'planned', 'rejected', 'unstarted']
+        
+    def fetch(self, project_id):
+        results = []
+
+        for state in self._states:
+            results.extend([
+                transform_json_to_history(json)
+                for json
+                in self._tracker_api.get('/projects/{project_id}/stories?with_state={state}&limit=500&fields=id,name,cycle_time_details'.format(
+                    state=state,
+                    project_id=project_id,
+                ))
+            ])
+
+        return results
+
+
+
+
+
+
