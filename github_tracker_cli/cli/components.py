@@ -1,10 +1,14 @@
 from __future__ import print_function
-from backports import csv
 
 
 import os
 import sys
 import codecs
+
+
+from github_tracker_cli.csv.csv_writer import (
+    CsvWriter,
+)
 
 
 from github_tracker_cli.github.integration import (
@@ -30,24 +34,7 @@ from github_tracker_cli.github_tracker.domain import (
     TrackerStoryHistorySearch,
 )
 
-class CsvWriter():
-    def __init__(self, stdout):
-        self.header_columns = []
-        self.row_columns = []
-        self.stdout = stdout
-        
-    def write_header(self, header_columns):
-        self.internal_writer = csv.DictWriter(
-            self.stdout,
-            fieldnames=header_columns,
-            quoting=csv.QUOTE_ALL
-        )
-        self.internal_writer.writeheader()
 
-    def write_row(self, row_columns):
-        self.internal_writer.writerow(row_columns)
-
-    
 class Components():
     def __init__(self, arguments):
         self.arguments = arguments
