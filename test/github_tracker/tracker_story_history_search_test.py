@@ -8,8 +8,6 @@ class TrackerStoryHistorySearchTest(unittest.TestCase):
     def test_history_can_calculate_started_duration_in_days(self):
         history = TrackerStoryHistory(
             started_duration=(2 * 24 * 60 * 60 * 1000),
-            finished_duration=None,
-            delivered_duration=None,
             story=None,
         )
 

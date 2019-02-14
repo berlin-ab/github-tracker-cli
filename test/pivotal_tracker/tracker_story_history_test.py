@@ -33,9 +33,7 @@ class TrackerStoryHistoryTest(unittest.TestCase):
             {
                 'name': 'My fake title',
                 'cycle_time_details': {
-                    'started_time': 123,
-                    'finished_time': 456,
-                    'delivered_time': 789,
+                    'total_cycle_time': 123,
                 }
             }
         ])
@@ -46,8 +44,6 @@ class TrackerStoryHistoryTest(unittest.TestCase):
         
         self.assertEqual(history[0].story().title(), 'My fake title')
         self.assertEqual(history[0].started_duration(), 123)
-        self.assertEqual(history[0].finished_duration(), 456)
-        self.assertEqual(history[0].delivered_duration(), 789)
 
     def test_it_combines_responses(self):
         stub_tracker_api = StubTrackerApi()

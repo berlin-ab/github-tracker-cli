@@ -9,23 +9,15 @@ def sort_by_last_updated_at(pull_request):
 
 
 class TrackerStoryHistory():
-    def __init__(self, started_duration, finished_duration, delivered_duration, story):
+    def __init__(self, started_duration, story):
         self._story = story
         self._started_duration = started_duration
-        self._finished_duration = finished_duration
-        self._delivered_duration = delivered_duration
         
     def story(self):
         return self._story
 
     def started_duration(self):
         return self._started_duration
-
-    def finished_duration(self):
-        return self._finished_duration
-
-    def delivered_duration(self):
-        return self._delivered_duration
 
     def started_duration_in_days(self):
         time_in_milliseconds = self.started_duration()

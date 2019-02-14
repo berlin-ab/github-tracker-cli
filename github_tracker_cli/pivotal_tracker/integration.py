@@ -65,14 +65,10 @@ class TrackerStories():
     
 def transform_json_to_history(json):
     cycle_time_details = json.get('cycle_time_details', {})
-    started_duration = cycle_time_details.get('started_time')
-    finished_duration = cycle_time_details.get('finished_time')
-    delivered_duration = cycle_time_details.get('delivered_time')
+    started_duration = cycle_time_details.get('total_cycle_time')
     
     return TrackerStoryHistory(
         started_duration=started_duration,
-        finished_duration=finished_duration,
-        delivered_duration=delivered_duration,
         story=transform_json_to_story(json),
     )
 

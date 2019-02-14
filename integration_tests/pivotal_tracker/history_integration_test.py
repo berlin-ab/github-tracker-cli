@@ -34,3 +34,20 @@ class TrackerStoryCycleTimeIntegrationTest(unittest.TestCase):
             for history
             in histories
         ])
+
+    def test_it_returns_story_churn_info(self):
+        tracker_api = PivotalTrackerApi(api_token=get_api_token())
+        
+        histories = GetTrackerStoryHistory(tracker_api).fetch(project_id=989808)
+
+        self.assertIn('Example backlog story', [
+            history.story().title()
+            for history
+            in histories
+        ])
+
+        self.assertIn(1299402000, [
+            history.started_duration()
+            for history
+            in histories
+        ])

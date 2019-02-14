@@ -20,11 +20,8 @@ class StoryDisplayTest(unittest.TestCase):
         def dummy_printer(message):
             lines.append(message)
 
-
         history = TrackerStoryHistory(
             started_duration=None,
-            finished_duration=None,
-            delivered_duration=None,
             story=Story(
                 story_id=123,
                 url="http://example.com/some-story-url",
