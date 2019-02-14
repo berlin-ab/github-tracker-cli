@@ -83,22 +83,22 @@ class GetTrackerStoryHistory():
         self._states = ['finished', 'started', 'planned', 'rejected', 'unstarted']
         
     def fetch(self, project_id):
-        results = []
+        return [
+            history
+            for state in self._states
+            for history in self._fetch_state(project_id, state)
+        ]
 
-        for state in self._states:
-            results.extend([
+    def _fetch_state(self, project_id, state):
+        return [
                 transform_json_to_history(json)
                 for json
-                in self._tracker_api.get('/projects/{project_id}/stories?with_state={state}&limit=500&fields=id,url,name,cycle_time_details'.format(
-                    state=state,
-                    project_id=project_id,
-                ))
-            ])
+                in self._tracker_api.get(self._build_url(project_id, state))
+            ]
 
-        return results
-
-
-
-
-
+    def _build_url(self, project_id, state):
+        return '/projects/{project_id}/stories?with_state={state}&limit=500&fields=id,url,name,cycle_time_details'.format(
+            state=state,
+            project_id=project_id,
+        )
 
