@@ -82,20 +82,15 @@ def unknown_subcommand_runner(components):
 
 
 def discover_subcommand(arguments):
-    if arguments.chosen_command == 'missing-stories':
-        return missing_stories_runner
-
-    elif arguments.chosen_command == 'closed-issues':
-        return closed_issues_runner
-
-    elif arguments.chosen_command == 'pull-requests':
-        return pull_requests_runner
-
-    elif arguments.chosen_command == 'github-issues':
-        return github_issues_runner
-
-    elif arguments.chosen_command == 'tracker-story-history':
-        return tracker_story_history_runner
+    commands = {
+        'missing-stories': missing_stories_runner,
+        'closed-issues': closed_issues_runner,
+        'pull-requests': pull_requests_runner,
+        'github-issues': github_issues_runner,
+        'tracker-story-history': tracker_story_history_runner,
+    }
     
-    else:
-        return unknown_subcommand_runner
+    return commands.get(
+        arguments.chosen_command,
+        unknown_subcommand_runner
+    )
