@@ -89,7 +89,8 @@ class Components():
 
     def open_pull_requests(self):
         return OpenPullRequests(
-            pull_requests=self.pull_requests()
+            pull_requests=self.pull_requests(),
+            organization_members=self.organization_members()
         )
 
     def github_issues_search(self):

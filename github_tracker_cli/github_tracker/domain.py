@@ -237,23 +237,63 @@ class ClosedIssues():
 
     
 class OpenPullRequests():
-    def __init__(self, pull_requests):
+    def __init__(self, pull_requests, organization_members):
         self._pull_requests = pull_requests
+        self._organization_members = organization_members
 
-    def fetch(self, exclude_github_label=None):
+    def fetch(self, exclude_github_label=None, exclude_organizations=[]):
+        matching_pull_requests = self._matching_pull_requests(
+                exclude_github_label,
+                exclude_organizations
+            )
+        
+        return sorted(matching_pull_requests,
+                      key=sort_by_last_updated_at,
+                      reverse=True)
+
+    def _matching_pull_requests(self,
+                                excluded_github_label,
+                                excluded_organizations):
+        
+        excluded_members = ExcludedMembers(
+            self._organization_members,
+            excluded_organizations
+        )
+
         return [
             pull_request
                 for pull_request
-                in sorted(
-                    self._pull_requests.fetch(),
-                    key=sort_by_last_updated_at,
-                    reverse=True
-                )
+                in self._pull_requests.fetch()
                 if not matches_github_label(
                     pull_request,
-                    exclude_github_label
+                    excluded_github_label
+                )
+                if not excluded_members.includes(
+                        pull_request.author_user_id()
                 )
         ]
+
+
+class ExcludedMembers():
+    def __init__(self, organization_members, excluded_organizations):
+        self._organization_members = organization_members
+        self._excluded_organizations = excluded_organizations
+        self._members_to_filter = None
+
+    def includes(self, user_id):
+        if self._members_to_filter == None:
+            self._populate_members_to_filter()
+
+        return user_id in self._members_to_filter
+        
+    def _populate_members_to_filter(self):
+        self._members_to_filter = {}
+
+        for organization in self._excluded_organizations:
+            for member in self._organization_members.fetch(
+                    organization_label=organization
+                ):
+                self._members_to_filter[member.user_id()] = True
 
     
 class GithubIssuesSearch():
@@ -262,24 +302,16 @@ class GithubIssuesSearch():
         self._organization_members = organization_members
         
     def fetch(self, exclude_organizations=[]):
-        members_to_filter = self._get_member_map(exclude_organizations)
+        excluded_members = ExcludedMembers(
+            self._organization_members,
+            exclude_organizations
+        )
         
         return [
             issue for issue
               in self._github_issues.fetch()
-              if issue.author_user_id() not in members_to_filter
+              if not excluded_members.includes(issue.author_user_id())
         ]
-
-    def _get_member_map(self, exclude_organizations):
-        members_to_filter = {}
-
-        for organization in exclude_organizations:
-            for member in self._organization_members.fetch(
-                    organization_label=organization
-                ):
-                members_to_filter[member.user_id()] = True
-
-        return members_to_filter
 
 
 class TrackerStoryHistorySearch():

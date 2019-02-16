@@ -121,3 +121,12 @@ class StubPullRequests():
         return self._stubbed_pull_requests
         
 
+class StubOrganizationMembers():
+    def __init__(self):
+        self.stubs = {}
+        
+    def stub(self, organization_name, stubbed_members):
+        self.stubs[organization_name] = stubbed_members
+
+    def fetch(self, organization_label):
+        return self.stubs[organization_label]

@@ -50,7 +50,8 @@ def pull_requests_runner(components):
     
     print_pull_requests_as_rows(
         pull_requests.fetch(
-            exclude_github_label=arguments.exclude_github_label
+            exclude_github_label=arguments.exclude_github_label,
+            exclude_organizations=arguments.exclude_organizations,
         ),
         components.printer()
     )

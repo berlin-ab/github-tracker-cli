@@ -8,8 +8,9 @@ from github_tracker_cli.github_tracker.domain import (
 
 from .test_helpers import (
     make_issue,
-    StubGithubIssues,
     make_member,
+    StubGithubIssues,
+    StubOrganizationMembers,
     )
 
 
@@ -76,13 +77,3 @@ class GithubIssueSearchTest(unittest.TestCase):
             [111, 222, 333],
             get_issue_numbers(search.fetch(exclude_organizations=[])))
         
-
-class StubOrganizationMembers():
-    def __init__(self):
-        self.stubs = {}
-        
-    def stub(self, organization_name, stubbed_members):
-        self.stubs[organization_name] = stubbed_members
-
-    def fetch(self, organization_label):
-        return self.stubs[organization_label]

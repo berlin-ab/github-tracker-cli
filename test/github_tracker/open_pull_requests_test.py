@@ -6,11 +6,17 @@ from github_tracker_cli.github_tracker.domain import (
     OpenPullRequests,
 )
 
+
 from .test_helpers import (
-    make_pull_request,
-    StubPullRequests,
     parse_date,
+    make_pull_request,
+    make_member,
+    StubPullRequests,
+    StubOrganizationMembers,
 )
+
+
+stub_organization_members = StubOrganizationMembers()
 
 
 class OpenPullRequestsTest(unittest.TestCase):
@@ -18,7 +24,7 @@ class OpenPullRequestsTest(unittest.TestCase):
         stub_pull_requests = StubPullRequests()
         stub_pull_requests.stub([make_pull_request()])
         
-        open_pull_requests = OpenPullRequests(stub_pull_requests)
+        open_pull_requests = OpenPullRequests(stub_pull_requests, stub_organization_members)
         pull_requests = open_pull_requests.fetch()
         pull_request = pull_requests[0]
         
@@ -37,7 +43,7 @@ class OpenPullRequestsTest(unittest.TestCase):
         ])
 
         
-        open_pull_requests = OpenPullRequests(stub_pull_requests)
+        open_pull_requests = OpenPullRequests(stub_pull_requests, stub_organization_members)
         pull_requests = open_pull_requests.fetch()
 
         self.assertEqual([789, 456, 123], [pull_request.number() for pull_request in pull_requests])
@@ -50,7 +56,7 @@ class OpenPullRequestsTest(unittest.TestCase):
             make_pull_request(number=123, labels=['ghi']),
         ])
         
-        open_pull_requests = OpenPullRequests(stub_pull_requests)
+        open_pull_requests = OpenPullRequests(stub_pull_requests, stub_organization_members)
         pull_requests = open_pull_requests.fetch(
             exclude_github_label='def'
         )
@@ -68,7 +74,7 @@ class OpenPullRequestsTest(unittest.TestCase):
             make_pull_request(number=123, labels=['ghi']),
         ])
         
-        open_pull_requests = OpenPullRequests(stub_pull_requests)
+        open_pull_requests = OpenPullRequests(stub_pull_requests, stub_organization_members)
         pull_requests = open_pull_requests.fetch(
             exclude_github_label='abc'
         )
@@ -77,3 +83,26 @@ class OpenPullRequestsTest(unittest.TestCase):
             [789, 123],
             [pull_request.number() for pull_request in pull_requests]
         )
+
+    def test_it_filters_out_pull_requests_of_users_in_excluded_organizations(self):
+        stub_pull_requests = StubPullRequests()
+        stub_organization_members = StubOrganizationMembers()
+
+        stub_organization_members.stub('some-excluded-org', [make_member('ghi')])
+        stub_organization_members.stub('some-other-org', [make_member('abc')])        
+
+        stub_pull_requests.stub([
+            make_pull_request(number=456, author_user_id='abc'),
+            make_pull_request(number=789, author_user_id='def'),
+            make_pull_request(number=123, author_user_id='ghi'),
+        ])
+
+        open_pull_requests = OpenPullRequests(
+            pull_requests=stub_pull_requests,
+            organization_members=stub_organization_members,
+        )
+        pull_requests = open_pull_requests.fetch(
+            exclude_organizations=['some-excluded-org']
+            )
+
+        self.assertEqual([456, 789], [pull_request.number() for pull_request in pull_requests])

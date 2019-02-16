@@ -78,6 +78,7 @@ def _add_pull_requests_parser(subparsers):
     parser = subparsers.add_parser('pull-requests')
     _add_github_arguments(parser)
     _add_exclude_github_labels(parser)
+    _add_exclude_organizations_argument(parser)
 
 
 def _add_github_issues_parser(subparsers):
