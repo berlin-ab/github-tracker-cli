@@ -55,115 +55,36 @@ Collecting requests (from -r requirements.txt (line 1))
 
 ### Commands:
 
-#### `missing-stories`: 
+
+```
+± |master ✓| → ./bin/github_tracker_cli --help
+usage: ./bin/github_tracker_cli [-h]
+                                {missing-stories,closed-issues,pull-requests,github-issues,tracker-story-history}
+                                ...
+
+positional arguments:
+  {missing-stories,closed-issues,pull-requests,github-issues,tracker-story-history}
+
+optional arguments:
+  -h, --help            show this help message and exit
+```
+
+
+#### missing-stories: 
 
 Look through all Pivotal Tracker stories and find ones marked with a 'github-issue' label (by default) and with a title starting with "[Github Issue #123] Some title".  If there are open issues that do not have a corresponding story, display a url to the issue so that a story can be created for the issue.
 
-
-```bash
-usage: ./bin/github_tracker_cli missing-stories [-h] --pivotal-tracker-token
-                                                PIVOTAL_TRACKER_TOKEN
-                                                --pivotal-tracker-project-id
-                                                PIVOTAL_TRACKER_PROJECT_ID
-                                                [--pivotal-tracker-label PIVOTAL_TRACKER_LABEL]
-                                                --github-repo GITHUB_REPO
-                                                [--csv]
-                                                [--github-label GITHUB_LABEL]
-                                                [--exclude-github-label EXCLUDE_GITHUB_LABEL]
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --pivotal-tracker-token PIVOTAL_TRACKER_TOKEN
-                        Your personal pivotal tracker api token. See https://w
-                        ww.pivotaltracker.com/help/articles/api_token/
-  --pivotal-tracker-project-id PIVOTAL_TRACKER_PROJECT_ID
-                        Pivotal Tracker project id.
-                        https://www.pivotaltracker.com/n/projects/[PROJECTID]
-  --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
-                        Filter (case-insensitive) by a label used to
-                        categorize stories in Pivotal Tracker. Default:
-                        --pivotal-tracker-label=github-issue
-  --github-repo GITHUB_REPO
-                        The organization/username and repository name as a
-                        string. For example: https://github.com/berlin-
-                        ab/github-tracker-cli would use --github-repo='berlin-
-                        ab/github-tracker-cli'
-  --csv                 Display output in Pivotal Tracker csv format.
-                        (default: false)
-  --github-label GITHUB_LABEL
-                        Return Github Issues matching the given label (case
-                        insensitive). (optional)
-  --exclude-github-label EXCLUDE_GITHUB_LABEL
-                        Filter out github issues that match the given label
-```
-
-`--csv` option:
-
-The output format is the CSV import format of Pivotal Tracker. 
-
-* output the stories into a csv file using output redirection:
-
-	`$ ./bin/github_tracker_cli [OPTIONS] > github-issues.csv`
-
-* Transform `github-issues.csv` into stories by visiting `https://www.pivotaltracker.com/projects/[PROJECT_ID]/settings` and navigating to 'Import CSV' from the left sidebar.
-
-(note: you might need to remove a trailing newline from the csv file)
-
-#### `closed-issues`: 
+#### closed-issues: 
 
 Display Tracker stories whose Github Issues have been closed.
 
-```
-usage: ./bin/github_tracker_cli closed-issues [-h] --pivotal-tracker-token
-                                              PIVOTAL_TRACKER_TOKEN
-                                              --pivotal-tracker-project-id
-                                              PIVOTAL_TRACKER_PROJECT_ID
-                                              [--pivotal-tracker-label PIVOTAL_TRACKER_LABEL]
-                                              --github-repo GITHUB_REPO
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --pivotal-tracker-token PIVOTAL_TRACKER_TOKEN
-                        Your personal pivotal tracker api token. See https://w
-                        ww.pivotaltracker.com/help/articles/api_token/
-  --pivotal-tracker-project-id PIVOTAL_TRACKER_PROJECT_ID
-                        Pivotal Tracker project id.
-                        https://www.pivotaltracker.com/n/projects/[PROJECTID]
-  --pivotal-tracker-label PIVOTAL_TRACKER_LABEL
-                        Filter (case-insensitive) by a label used to
-                        categorize stories in Pivotal Tracker. Default:
-                        --pivotal-tracker-label=github-issue
-  --github-repo GITHUB_REPO
-                        The organization/username and repository name as a
-                        string. For example: https://github.com/berlin-ab
-                        /github-tracker-cli would use --github-repo='berlin-ab
-                        /github-tracker-cli'
-```
-
-#### `pull-requests`:
+#### pull-requests:
 
 List pull requests from a Github Repository
 
-```
-usage: ./bin/github_tracker_cli pull-requests [-h] --github-repo GITHUB_REPO
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --github-repo GITHUB_REPO
-                        The organization/username and repository name as a
-                        string. For example: https://github.com/berlin-ab
-                        /github-tracker-cli would use --github-repo='berlin-ab
-                        /github-tracker-cli'
-```
-
-
-#### `github-issues`:
+#### github-issues:
 
 Show all github issues for a repository.
-
-    `--github-repo [github repo]` (required) specify which github repository's issues you want to view
-    `--exclude-organizations [organization 1] [organization 2]` lets you filter Issues created by people that are not in a specified organization, for example people external to your company.
-
 
 Note: for best results with `--exclude-organizations` authenticate with Github using a personal access token by setting these environment variables: 
 
@@ -173,6 +94,7 @@ export GITHUB_PASSWORD=[YOUR PERSONAL ACCESS TOKEN]
 ```
 
 Github will only return public members of an organization if you are not authenticated, which makes the results inaccurate if the issues are created by private members of the excluded organization. Ensure that **public repo information** and **organization info** scopes are enabled for your personal access token.
+
 
 ### Example
 
