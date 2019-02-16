@@ -74,6 +74,8 @@ optional arguments:
 
 Look through all Pivotal Tracker stories and find ones marked with a 'github-issue' label (by default) and with a title starting with "[Github Issue #123] Some title".  If there are open issues that do not have a corresponding story, display a url to the issue so that a story can be created for the issue.
 
+Note: optionally output stories as a csv file that can be imported into Pivotal Tracker with the `--csv` flag
+
 #### closed-issues: 
 
 Display Tracker stories whose Github Issues have been closed.
