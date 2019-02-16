@@ -26,9 +26,7 @@ run_example() {
 
 
 setup_log_file() {
-    log "clean before running suite"
-    LOG_FILE=/tmp/github-tracker-cli-build.log
-    rm -f $LOG_FILE # cleanup previous run
+    rm -f $1 # cleanup previous run
     find . -name *.pyc | xargs --no-run-if-empty rm;
     find . -name __pycache__ | xargs --no-run-if-empty rm -rf;
 }
@@ -81,7 +79,11 @@ run_examples() {
 
 main() {
     export PYTHONIOENCODING=utf_8
-    setup_log_file
+    LOG_FILE=/tmp/github-tracker-cli-build.log
+    
+    log "cleanup log file before running suite: $LOG_FILE"
+    
+    setup_log_file $LOG_FILE
     print_python_version
 
     log "install dependencies"
