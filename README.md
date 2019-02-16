@@ -157,9 +157,9 @@ export PIVOTAL_TRACKER_TOKEN='SOME_TOKEN'
 
 `github_tracker_cli`: core namespace
 
-`github_tracker_cli/cli.py`: argument parsing and output formatting
+`github_tracker_cli/cli`: argument parsing and output formatting
 
-`github_tracker_cli/github_tracker`: dependency-free logic and domain definition
+`github_tracker_cli/github_tracker`: core logic for finding and filtering github issues and tracker stories
 
 `github_tracker_cli/pivotal_tracker`: adapting layer between Pivotal Tracker API and `github_tracker`
 
