@@ -33,7 +33,8 @@ def transform_json_to_story(json):
         story_id=json.get('id', None),
         external_id=json.get('external_id', None),
         title=json.get('name', None),
-        url=json.get('url', None)
+        url=json.get('url', None),
+        story_type=json.get('story_type', None)
     )
 
 
@@ -66,7 +67,7 @@ class TrackerStories():
 def transform_json_to_history(json):
     cycle_time_details = json.get('cycle_time_details', {})
     started_duration = cycle_time_details.get('total_cycle_time')
-    
+
     return TrackerStoryHistory(
         started_duration=started_duration,
         story=transform_json_to_story(json),
@@ -93,7 +94,7 @@ class GetTrackerStoryHistory():
             ]
 
     def _build_url(self, project_id, state):
-        return '/projects/{project_id}/stories?with_state={state}&limit=500&fields=id,url,name,cycle_time_details'.format(
+        return '/projects/{project_id}/stories?with_state={state}&limit=500&fields=id,url,name,story_type,cycle_time_details'.format(
             state=state,
             project_id=project_id,
         )

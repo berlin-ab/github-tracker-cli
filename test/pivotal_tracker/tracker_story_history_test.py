@@ -73,7 +73,7 @@ class TrackerStoryHistoryTest(unittest.TestCase):
             )
 
         self.assertIn(
-            '/projects/456/stories?with_state=finished&limit=500&fields=id,url,name,cycle_time_details',
+            '/projects/456/stories?with_state=finished&limit=500&fields=id,url,name,story_type,cycle_time_details',
             stub_tracker_api.used_urls()
         )
         
@@ -114,6 +114,6 @@ class TrackerStoryHistoryTest(unittest.TestCase):
         )
 
     def _url_with_state(self, state):
-        return '/projects/123/stories?with_state={state}&limit=500&fields=id,url,name,cycle_time_details'.format(
+        return '/projects/123/stories?with_state={state}&limit=500&fields=id,url,name,story_type,cycle_time_details'.format(
             state=state
             )

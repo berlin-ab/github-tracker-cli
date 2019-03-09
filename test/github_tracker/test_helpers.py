@@ -32,11 +32,12 @@ def make_pull_request(
     )
 
 
-def make_story(title='', story_id=1):
+def make_story(title='', story_id=1, story_type='feature'):
     return Story(
         story_id=story_id,
         title=title,
-        external_id=None
+        external_id=None,
+        story_type=story_type
     )
 
 

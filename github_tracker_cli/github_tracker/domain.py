@@ -104,11 +104,14 @@ class Story():
                  story_id = None,
                  external_id = None,
                  title='',
-                 url=''):
+                 url='',
+                 story_type=None,
+    ):
         self._story_id = story_id
         self._external_id = external_id
         self._title = title
         self._url = url
+        self._story_type = story_type
 
     def external_id(self):
         return self._external_id
@@ -121,6 +124,9 @@ class Story():
 
     def url(self):
         return self._url
+
+    def story_type(self):
+        return self._story_type
 
 
 class LabelMatcher():
@@ -319,14 +325,13 @@ class TrackerStoryHistorySearch():
         self._get_tracker_story_history = get_tracker_story_history
         
     def all_history(self, project_id):
-        return self._get_tracker_story_history.fetch(project_id)
+        return [
+            history
+            for history
+            in self._get_tracker_story_history.fetch(project_id)
+            if history.story().story_type() not in self._excluded_story_types()
+        ]
 
-
-
-
-
-
-
-
-
+    def _excluded_story_types(self):
+        return ['release']
 
